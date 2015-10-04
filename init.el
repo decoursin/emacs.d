@@ -27,7 +27,8 @@
 (require 'init-elpa)      ;; Machinery for installing required packages
 (require 'init-exec-path) ;; Set up $PATH
 ;TODO: evil-commentary learn it and add it
-(require 'init-evil) ;; Set up evil, evil-leader, evil-jumper
+(require 'init-evil)
+(require 'init-tab-page)
 ;(require 'init-leader) ;TODO wnated?
 
 ;;----------------------------------------------------------------------------
@@ -55,7 +56,7 @@
 
 (require 'init-helm)
 (require 'init-hippie-expand)
-(require 'init-auto-complete)
+;(require 'init-auto-complete); this seems to be causing more harm than it's worth
 ;(require 'init-sessions.el) ;save desktop? ;testing
 (require 'init-mmm)
 
@@ -134,19 +135,6 @@
 ;(setq disabled-command-hook nil)
 
 
-;; TODO: test this
-;; Copied from jcf
-;; TODO: put this in separate file
-(evil-add-hjkl-bindings magit-log-mode-map 'emacs)
-(evil-add-hjkl-bindings magit-commit-mode-map 'emacs)
-(evil-add-hjkl-bindings magit-branch-manager-mode-map 'emacs
-  "K" 'magit-discard-item
-  "L" 'magit-key-mode-popup-logging)
-(evil-add-hjkl-bindings magit-status-mode-map 'emacs
-  "K" 'magit-discard-item
-  "l" 'magit-key-mode-popup-logging
-  "h" 'magit-toggle-diff-refine-hunk)
-
 ;;;Scroll when searching
 ;; Copied from jcf
 (defadvice evil-search-next
@@ -170,8 +158,13 @@
 
 (global-set-key (kbd "C-S-<escape>") 'delete-other-windows)
 
+
+; maybe someday when tab indents properly
+;(define-key evil-normal-state-map [tab] 'other-window)
+(setq tab-always-indent nil) ;; allow indenting
+
 ; evil-leader
-(evil-leader/set-key "rename" 'rename-file-and-buffer); ,rename
+(evil-leader/set-key "rename" 'rename-this-file-and-buffer); ,rename
 (evil-leader/set-key "cl" 'delete-window); ,cl close buffer
 (evil-leader/set-key "cc" 'evilnc-comment-or-uncomment-lines)
 (evil-leader/set-key "cp" 'evilnc-copy-and-comment-lines); comment & paste
@@ -223,6 +216,9 @@
 (evil-leader/set-key "ce" 'cider-visit-error-buffer)
 (evil-leader/set-key "cr" 'cider-switch-to-relevant-repl-buffer)
 (evil-leader/set-key "cb" 'cider-switch-to-last-clojure-buffer)
+; doesn't work
+;(evil-leader/set-key 'cider-repl-mode "k" 'cider-repl-previous-input)
+;(evil-leader/set-key 'cider-repl-mode "j" 'cider-repl-next-input)
 
 (evil-leader/set-key-for-mode 'clojure-mode
   "v" 'cider-test-run-test
@@ -231,6 +227,7 @@
   "cJ" 'cider-jack-in
   "cq" 'cider-quit
   "cR" 'cider-restart
+  "cF" 'cider-format-buffer
   "ct" 'typed-clojure-check-ns
   "eb" 'cider-eval-buffer
   "ed" 'cider-eval-defun-at-point
@@ -253,6 +250,25 @@
 ;; sends that to evil-tabs-tabedit
 
 (global-set-key (kbd "C-S-x") 'elscreen-kill); ,clt tabclose
+
+(defun evil-emacs-key-binding (key)
+  (evil-execute-in-emacs-state)
+  (key-binding key))
+
+(defmacro evil-revert-key-binding (state-map key)
+  `(define-key ,state-map ,key (lambda ()
+                                 (interactive)
+                                 (call-interactively
+                                  (evil-emacs-key-binding ,key)))))
+
+(eval-after-load "evil-autoloads"
+  '(add-hook 'evil-after-load-hook
+        (lambda ()
+          (evil-revert-key-binding evil-normal-state-map (kbd "M-."))
+          ;; and so on
+        )))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;; END OF EVIL ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;;;Found here: http://stackoverflow.com/questions/8483182/evil-mode-best-practice
 ;;;; esc quits!!! instead of (or along with) C-g
@@ -291,8 +307,6 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 
 ;(global-set-key (kbd ", s h") 'shell)
 
-(show-paren-mode 1); Options-> "Highlight matchinn parens"
-
 ;http://www.unexpected-vortices.com/clojure/10-minute-emacs-for-clojure.html
 ;(setq-default inhibit-startup-screen t); hide welcome screen in emacs
 
@@ -322,6 +336,12 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 
 ;; no blinking cursor
 (blink-cursor-mode 0)
+
+; Maybe add this later
+;(tool-bar-mode -1)
+;(setq inhibit-splash-screen t
+;      inhibit-startup-echo-area-message t
+;      inhibit-startup-message t)
 
 ;; Plugins to thinkabout
 ;https://www.reddit.com/r/emacs/comments/1q99wi/moving_from_paredit_to_smartparens/

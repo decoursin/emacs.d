@@ -45,24 +45,63 @@
 ; Copied from jcf 
 ;;else I could do this: (setq evil-leader/in-all-states t); Untested.
 (setq evil-leader/in-all-states t); this could pose problems, then resort to this:
-;(loop for (mode . state)
-;      in '((bc-menu-mode . emacs)
-;           (dired-mode . emacs)
-;           (cider-repl-mode . emacs) ;;added. emacs? or normal? or insert?
-;           (eshell-mode . insert)
-;           (git-rebase-mode . emacs)
-;           (grep-mode . emacs)
-;           (helm-grep-mode . emacs)
-;           (help-mode . emacs)
-;           (ielm-mode . insert)
-;           (magit-branch-manager-mode . emacs)
-;           (nrepl-mode . insert)
-;           (prodigy-mode . normal)
-;           (rdictcc-buffer-mode . emacs)
-;           (shell-mode . insert)
-;           (term-mode . emacs)
-;           (wdired-mode . normal))
-;      do (evil-set-initial-state mode state))
+
+;;In insert mode, Evil uses linear undo. If you want fine grain undo:
+(setq evil-want-fine-undo t)
+
+;; sets initial states
+;; like: (evil-set-initial-state 'ibuffer-mode 'normal)
+(loop for (mode . state)
+      in '((bc-menu-mode . emacs)
+           (bookmark-bmenu-mode . normal) ;; what mode is this?
+           (sunrise-mode . normal) ;; what mode is this?
+           (dired-mode . normal)
+           (ibuffer-mode . normal)
+           (cider-repl-mode . insert) ;;added. emacs? or normal? or insert?
+           (eshell-mode . insert)
+           (git-rebase-mode . emacs)
+           (grep-mode . emacs)
+           (helm-grep-mode . emacs)
+           (help-mode . emacs)
+           (ielm-mode . insert)
+           (magit-branch-manager-mode . emacs)
+           (nrepl-mode . insert)
+           (prodigy-mode . normal)
+           (rdictcc-buffer-mode . emacs)
+           (shell-mode . insert)
+           (term-mode . emacs)
+           (wdired-mode . normal))
+      do (evil-set-initial-state mode state))
+
+;; Other modes to think about:
+;; I probably don't want this because the stuff above does this but better.
+;(mapcar 'set-mode-to-default-emacs
+;        '(dired
+;          cider-classpath-mode
+;          cider-doc-mode
+;          cider-docview-mode
+;          cider-popup-buffer-mode
+;          cider-stacktrace-mode
+;          cider-test-report-mode
+;          deft-mode
+;          occur-mode
+;          term-mode
+;          eshell
+;          magit-branch-manager-mode
+;          magit-commit-mode
+;          magit-log-mode
+;          magit-popup-mode
+;          magit-popup-sequence-mode
+;          git-rebase-mode
+;          log-view-mode
+;          project-explorer-mode
+;          paradox-menu-mode
+;          neotree-mode
+;          diff-mode))
+
+;; manual-entry. Nick move this where appropriate
+(evil-set-initial-state 'man-mode 'motion) ;; motion or emacs or normal??
+
 (evil-leader/set-leader ",")
 (evil-mode nil) ;; no idea
 (global-evil-leader-mode) ;; must be before (evil-mode 1)
@@ -92,68 +131,37 @@
 (setq evil-insert-state-cursor '("green" bar)); ⎸
 (setq evil-emacs-state-cursor '("blue" hbar)); _
 
+;; deprecated
+;(defun copy-to-clipboard ()
+;  (interactive)
+;  (if (display-graphic-p)
+;      (progn
+;        (message "Yanked region to x-clipboard!")
+;        (call-interactively 'clipboard-kill-ring-save)
+;        )
+;    (if (region-active-p)
+;        (progn
+;          (shell-command-on-region (region-beginning) (region-end) "xsel -i -b")
+;          (message "Yanked region to clipboard!")
+;          (deactivate-mark))
+;      (message "No region active; can't yank to clipboard!")))
+;  )
+;
+;(evil-define-command paste-from-clipboard()
+;  (if (display-graphic-p)
+;      (progn
+;        (clipboard-yank)
+;        (message "graphics active")
+;        )
+;    (insert (shell-command-to-string "xsel -o -b"))
+;    )
+;  )
 
-
-(defun copy-to-clipboard ()
-  (interactive)
-  (if (display-graphic-p)
-      (progn
-        (message "Yanked region to x-clipboard!")
-        (call-interactively 'clipboard-kill-ring-save)
-        )
-    (if (region-active-p)
-        (progn
-          (shell-command-on-region (region-beginning) (region-end) "xsel -i -b")
-          (message "Yanked region to clipboard!")
-          (deactivate-mark))
-      (message "No region active; can't yank to clipboard!")))
-  )
-
-(evil-define-command paste-from-clipboard()
-  (if (display-graphic-p)
-      (progn
-        (clipboard-yank)
-        (message "graphics active")
-        )
-    (insert (shell-command-to-string "xsel -o -b"))
-    )
-  )
-
-(global-set-key [f8] 'copy-to-clipboard)
-(global-set-key [f9] 'paste-from-clipboard)
-
-
+;; I probably don't want this because the stuff above does this but better
 ;; Copied from expez
-(defun set-mode-to-default-emacs (mode)
-  (evil-set-initial-state mode 'emacs))
+;(defun set-mode-to-default-emacs (mode)
+;  (evil-set-initial-state mode 'emacs))
 
-;; Most of these seem to work great - nick
-(mapcar 'set-mode-to-default-emacs
-        '(dired
-          cider-classpath-mode
-          cider-doc-mode
-          cider-docview-mode
-          cider-popup-buffer-mode
-          cider-stacktrace-mode
-          cider-test-report-mode
-          deft-mode
-          occur-mode
-          term-mode
-          eshell
-          magit-branch-manager-mode
-          magit-commit-mode
-          magit-log-mode
-          magit-popup-mode
-          magit-popup-sequence-mode
-          git-rebase-mode
-          log-view-mode
-          project-explorer-mode
-          paradox-menu-mode
-          neotree-mode
-          diff-mode))
-
-;; untested. What is this?
-(evil-set-initial-state 'man-mode 'motion)
 
 ; Nick: IDK.
 ;;; https://bitbucket.org/lyro/evil/issue/432/edebug-mode-map-cant-take-effect-for-the

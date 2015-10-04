@@ -12,9 +12,9 @@
 ; change from TAB to C-SPC
 (global-unset-key (kbd "C-SPC")); Remove 
 (ac-set-trigger-key "C-SPC") ; NOTE: this doesn't remove TAB
-(define-key ac-mode-map (kbd "TAB") nil)
-(define-key ac-completing-map (kbd "TAB") nil)
-(define-key ac-completing-map [tab] nil)
+;(define-key ac-mode-map (kbd "TAB") nil)
+;(define-key ac-completing-map (kbd "TAB") nil)
+;(define-key ac-completing-map [tab] nil)
 
 (setq-default ac-expand-on-auto-complete nil)
 (setq-default ac-auto-start nil)
@@ -23,13 +23,14 @@
 ;;----------------------------------------------------------------------------
 ;; Use Emacs' built-in TAB completion hooks to trigger AC (Emacs >= 23.2)
 ;;----------------------------------------------------------------------------
-(setq tab-always-indent 'complete)  ;; use 't when auto-complete is disabled
+(setq tab-always-indent nil) ;; allow indenting
 (add-to-list 'completion-styles 'initials t)
 ;; Stop completion-at-point from popping up completion buffers so eagerly
 (setq completion-cycle-threshold 5)
 
 ;; TODO: find solution for php, haskell and other modes where TAB always does something
 
+;; Nick, what does this do exactly?
 (setq c-tab-always-indent nil
       c-insert-tab-function 'indent-for-tab-command)
 
@@ -40,8 +41,9 @@
 	     auto-complete-mode)
     #'auto-complete))
 
-(defun sanityinc/never-indent ()
-  (set (make-local-variable 'indent-line-function) (lambda () 'noindent)))
+;; Nick, looks like this is not being used and don't want it anyways?
+;(defun sanityinc/never-indent ()
+;  (set (make-local-variable 'indent-line-function) (lambda () 'noindent)))
 
 (defun set-auto-complete-as-completion-at-point-function ()
   (setq completion-at-point-functions

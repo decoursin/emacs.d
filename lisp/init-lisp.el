@@ -3,6 +3,7 @@
 
 ;; This doesn't work well with evil when escaping.
 ;; I think this sucks anyways, and probably delete it.
+;; Second thought, you might want to rethink this I don't know.
 ;(require-package 'elisp-slime-nav)
 ;(dolist (hook '(emacs-lisp-mode-hook ielm-mode-hook))
 ;  (add-hook hook 'turn-on-elisp-slime-nav-mode))
@@ -176,7 +177,7 @@
 (defun sanityinc/emacs-lisp-setup ()
   "Enable features useful when working with elisp."
   (set-up-hippie-expand-for-elisp)
-  (ac-emacs-lisp-mode-setup))
+  );(ac-emacs-lisp-mode-setup))
 
 (defconst sanityinc/elispy-modes
   '(emacs-lisp-mode ielm-mode)

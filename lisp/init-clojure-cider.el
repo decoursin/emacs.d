@@ -11,7 +11,7 @@
 
 (require-package 'cider)
 (require-package 'ac-cider)
-(require-package 'cider-eval-sexp-fu); Nick added
+;(require-package 'cider-eval-sexp-fu); Nick added
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; nrepl with Clojure
@@ -31,12 +31,15 @@
   (add-hook 'cider-mode-hook 'set-auto-complete-as-completion-at-point-function)
   (add-hook 'cider-mode-hook 'cider-turn-on-eldoc-mode)
   (add-hook 'cider-interaction-mode-hook 'cider-turn-on-eldoc-mode);; Nick added this. Untested though. What is cider-interaction-mode-hook lol?
-;  (add-hook 'cider-repl-mode-hook 'subword-mode); I'm not use to this. Treats words when separated by - dashes.
-;  (add-hook 'cider-repl-mode-hook 'paredit-mode); Eee I don't like this.
+  ;(add-hook 'cider-repl-mode-hook 'subword-mode); I'm not use to this. Treats words when separated by - dashes.
+  ;(add-hook 'cider-repl-mode-hook 'paredit-mode); Eee I don't like this.
   (define-key cider-mode-map (kbd "C-c C-d") 'ac-cider-popup-doc)
-  (define-key cider-repl-mode-hook (kbd "<up>") 'cider-repl-previous-input);untested
-  (define-key cider-repl-mode-hook (kbd "C-p") 'cider-repl-previous-input);untested
-  (define-key cider-repl-mode-hook (kbd "<down>") 'cider-repl-next-input);untested
+
+  ;; none of these work. Error is: wrong type argument: keymapp ...
+  ;(define-key cider-repl-mode-hook (kbd "<up>") 'cider-repl-previous-input);untested
+  ; what does no-prefix-mode-rx do?
+  ;(define-key cider-repl-mode-hook (kbd "C-p") 'cider-repl-previous-input);untested
+ ;(define-key cider-repl-mode-hook (kbd "<down>") 'cider-repl-next-input);untested
 
   ;; nrepl isn't based on comint
   (add-hook 'cider-repl-mode-hook
