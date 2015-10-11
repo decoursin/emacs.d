@@ -45,6 +45,10 @@
   (add-hook 'cider-repl-mode-hook
             (lambda () (setq show-trailing-whitespace nil))))
 
+;; Specify history file
+;; is this working?
+(setq cider-history-file "~/.emacs.d/nrepl-history")
+
 (require-package 'flycheck-clojure)
 (after-load 'flycheck
   (flycheck-clojure-setup))

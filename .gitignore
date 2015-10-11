@@ -3,8 +3,13 @@ elpa/
 junk/
 undo-tree/
 \#*#
+\.#*
 recentf
 eshell/history
 eshell/lastdir
+eshell/alias
 *elc
 url/
+request/
+srecode-map.el
+projectile-bookmarks.eld

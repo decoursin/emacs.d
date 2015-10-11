@@ -1,6 +1,7 @@
 ;; Copied from purcell
 ;; Havne't learned this yet.
 ;; Read this about dired (with evil): http://nathantypanski.com/blog/2014-08-03-a-vim-like-emacs-config.html
+;; more dired learning material: http://sachachua.com/blog/2014/04/emacs-drawings-dired-moving-around/
 
 (require-package 'dired+)
 (require-package 'dired-sort)

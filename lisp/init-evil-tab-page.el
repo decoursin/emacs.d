@@ -91,4 +91,4 @@
     )
   )
 
-(provide 'init-tab-page)
+(provide 'init-evil-tab-page)

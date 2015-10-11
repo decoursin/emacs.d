@@ -1,5 +1,10 @@
 ;; copied from Purcell
 
+;; load site-lisp-dir
+(setq site-lisp-dir
+      (expand-file-name "site-lisp" user-emacs-directory))
+(add-to-list 'load-path site-lisp-dir)
+
 ;;; Set load path
 
 (eval-when-compile (require 'cl))

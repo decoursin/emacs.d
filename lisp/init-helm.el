@@ -1,7 +1,6 @@
 (require-package 'helm)
 (require 'helm)
 (require 'helm-config)
-;(require 'helm-projectile)
 
 ;; The default "C-x c" is quite close to "C-x C-c", which quits Emacs.
 ;; Changed to "C-c h". Note: We must set "C-c h" globally, because we
@@ -18,11 +17,31 @@
 (when (executable-find "curl")
   (setq helm-google-suggest-use-curl-p t))
 
-(setq helm-split-window-in-side-p           t ; open helm buffer inside current window, not occupy whole other window
-      helm-move-to-line-cycle-in-source     t ; move to end or beginning of source when reaching top or bottom of source.
-      helm-ff-search-library-in-sexp        t ; search for library in `require' and `declare-function' sexp.
-      helm-scroll-amount                    8 ; scroll 8 lines other window using M-<next>/M-<prior>
-      helm-ff-file-name-history-use-recentf t)
+(setq
+ helm-scroll-amount 4			; scroll 8 lines other window using M-<next>/M-<prior>
+ helm-quick-update t
+ helm-idle-delay 0.01
+ helm-input-idle-delay 0.01
+ helm-ff-search-library-in-sexp t	; search for library in `require' and `declare-function' sexp.
+ helm-split-window-default-side 'other
+ helm-split-window-in-side-p t 		; open helm buffer inside current window, not occupy whole other window
+; what is this?
+; helm-buffers-favorite-modes (append helm-buffers-favorite-modes
+;                                     '(picture-mode artist-mode))
+ helm-candidate-number-limit 200
+ helm-M-x-requires-pattern 0
+; I don't like this, gets in the way
+; helm-ff-file-name-history-use-recentf t
+ helm-move-to-line-cycle-in-source t 	; move to end or beginning of source when reaching top or bottom of source.
+ ido-use-virtual-buffers t
+ helm-buffers-fuzzy-matching t
+
+ helm-pdfgrep-default-read-command          "evince --page-label=%p '%f'"
+ helm-ff-auto-update-initial-value          t
+ helm-always-two-windows                    t
+ helm-reuse-last-window-split-state         t
+ helm-ls-git-status-command                 'magit-status-internal
+ helm-dabbrev-cycle-threshold               5)
 
 (helm-mode 1)
 

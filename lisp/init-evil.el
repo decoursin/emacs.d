@@ -53,6 +53,8 @@
 ;; like: (evil-set-initial-state 'ibuffer-mode 'normal)
 (loop for (mode . state)
       in '((bc-menu-mode . emacs)
+	   (ag-mode . normal) ;; doesn't seem to have an effect
+	   (ag . normal) ;; doesn't seem to have an effect
            (bookmark-bmenu-mode . normal) ;; what mode is this?
            (sunrise-mode . normal) ;; what mode is this?
            (dired-mode . normal)
@@ -62,9 +64,11 @@
            (git-rebase-mode . emacs)
            (grep-mode . emacs)
            (helm-grep-mode . emacs)
-           (help-mode . emacs)
+           (help-mode . normal)
            (ielm-mode . insert)
            (magit-branch-manager-mode . emacs)
+	   (matlab-mode . normal)
+	   (mag-menu-mode . emacs) ; ack-menu
            (nrepl-mode . insert)
            (prodigy-mode . normal)
            (rdictcc-buffer-mode . emacs)
@@ -106,6 +110,7 @@
 (evil-mode nil) ;; no idea
 (global-evil-leader-mode) ;; must be before (evil-mode 1)
 ; enable <leader> in Dired, GNUs, Magit, and Notmuch.
+; doesn't seem to work
 (setq evil-leader/no-prefix-mode-rx '("dired-mode"
                                       "gnus-.*-mode"
                                       "magit-.*-mode"
@@ -161,7 +166,6 @@
 ;; Copied from expez
 ;(defun set-mode-to-default-emacs (mode)
 ;  (evil-set-initial-state mode 'emacs))
-
 
 ; Nick: IDK.
 ;;; https://bitbucket.org/lyro/evil/issue/432/edebug-mode-map-cant-take-effect-for-the

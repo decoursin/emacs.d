@@ -1,7 +1,11 @@
+;; Mostly, by Nick DeCoursin :)
 
-;;; This file bootstraps the configuration, which is divided into
-;;; a number of other files.
 
+;; Added by Package.el.  This must come before configurations of
+;; installed packages.  Don't delete this line.  If you don't want it,
+;; just comment it out by adding a semicolon to the start of the line.
+;; You may delete these explanatory comments.
+(package-initialize)
 
 (let ((minver "23.3"))
   (when (version<= emacs-version "23.1")
@@ -19,16 +23,17 @@
 ;;----------------------------------------------------------------------------
 ;; Bootstrap config
 ;;----------------------------------------------------------------------------
-(setq custom-file (expand-file-name "custom.el" user-emacs-directory)) ; nick - not being used
+(setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 (require 'init-compat)
 (require 'init-utils)
 (require 'init-site-lisp) ;; Must come before elpa, as it may provide package.el
-;; Calls (package-initialize)
 (require 'init-elpa)      ;; Machinery for installing required packages
 (require 'init-exec-path) ;; Set up $PATH
-;TODO: evil-commentary learn it and add it
+
+; evil
 (require 'init-evil)
-(require 'init-tab-page)
+(require 'init-evil-tab-page)
+(require 'init-evil-integration)
 ;(require 'init-leader) ;TODO wnated?
 
 ;;----------------------------------------------------------------------------
@@ -44,7 +49,6 @@
 (require-package 'diminish)
 ;; logs keyboard commands to a buffer named 'command-log'.
 (require-package 'mwe-log-commands) ;is this working?
-(require-package 'ack)
 
 (require 'init-frame-hooks)
 (require 'init-themes)
@@ -56,45 +60,90 @@
 
 (require 'init-helm)
 (require 'init-hippie-expand)
-;(require 'init-auto-complete); this seems to be causing more harm than it's worth
+(require 'init-auto-complete)
 ;(require 'init-sessions.el) ;save desktop? ;testing
 (require 'init-mmm)
 
 (require 'init-editing-utils);; haven't learned this yet
 
 ;; homemade
+(require 'init-ag)
 (require 'init-eval-sexp)
 (require 'init-eshell)
+(require 'init-matlab)
+(require 'init-projectile)
+(require 'init-yasnippet) ;learn
 
+;; elisp helper libraries
+(require-package 'dash) ; a modern list api for Emacs
+(require-package 'dash-functional)
+(require-package 's)
+
+;; VCS
 (require 'init-vc)
 (require 'init-git)
 (require 'init-github)
 
+;; Languages, etc
+;(require 'init-compile)
+;(require 'init-markdown)
+;(require 'init-erlang)
+(require 'init-javascript)
+;(require 'init-php)
+;(require 'init-org)
+(require 'init-nxml)
+(require 'init-html)
+(require 'init-css)
+(require 'init-haml)
+(require 'init-python-mode)
+;(require 'init-haskell)
+;(require 'init-elm)
+;(require 'init-ruby-mode)
+;(require 'init-rails)
+(require 'init-sql)
+
+
+;; Lisp
 ;(require 'init-paredit);gross
 (require 'init-lisp);untested
 ;(require 'init-slime);untested
 (when (>= emacs-major-version 24)
   (require 'init-clojure)
   (require 'init-clojure-cider))
+(require 'init-4clojure)
 
-;;	  package-archives )
-;;(push '("melpa" . "http://melpa.milkbox.net/packages/")
-;;	  package-archives)
-;;
-;;;; activate all the packages (in particular autoloads)
-;;(package-initialize)
-;;
-;;;; prevent warning
-;;(require 'cl)
+(when *is-a-mac*
+  (require-package 'osx-location)
+  (require 'init-dash-documentation))
+(when *is-linux*
+  (require 'init-zeal))
+(require-package 'regex-tool); what is this?
 
-;;(setq pkgs-to-install
-;;      (let ((uninstalled-pkgs (remove-if 'package-installed-p required-pkgs)))
-;;        (remove-if-not '(lambda (pkg) (y-or-n-p (format "Package %s is missing. Install it? " pkg))) uninstalled-pkgs)))
-;;
-;;(when (> (length pkgs-to-install) 0)
-;;  (package-refresh-contents)
-;;  (dolist (pkg pkgs-to-install)
-;;    (package-install pkg)))
+;; untested
+;;----------------------------------------------------------------------------
+;; Allow access from emacsclient
+;;----------------------------------------------------------------------------
+;(require 'server)
+;(unless (server-running-p)
+;  (server-start))
+
+
+;;----------------------------------------------------------------------------
+;; Variables configured via the interactive 'customize' interface
+;;----------------------------------------------------------------------------
+(when (file-exists-p custom-file)
+  (load custom-file))
+
+;; Temporary hold elisp stuff "init-temporary"
+;; Created by Nick
+;; Needed?
+(require 'init-temporary nil t); what is the extra 'nil' and 't'?
+
+;;----------------------------------------------------------------------------
+;; Locales (setting them earlier in this file doesn't work in X)
+;;----------------------------------------------------------------------------
+(require 'init-locales)
+
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;nick
@@ -117,22 +166,38 @@
 ; M-: ; eval-expression
 ;determine emacs version > http://ergoemacs.org/emacs/elisp_determine_OS_version.html
 
+;;;; Functions
+;; For some reason, evil-tabs-tabedit doesn't work out-of-the-box, so
+;; I implement this wrapper function.
+(defun find-file-new-window (filename)
+  "Edit a file in a new window."
+  (interactive "Fpath: ")
+  ;; Set buffer first, to avoid a bug when
+  ;; using find-file from eshell after elscreen-create.
+    (let ((buffer (find-file-noselect filename)))
+	(elscreen-create)
+	(switch-to-buffer buffer)))
+
+;; This doesn't work for some reason
+;; open eshell in a new tab window
+;(defun open-eshell-new-tab
+;  (elscreen-create)
+;  (eshell))
+
+;; untested yet.
+;; For find-files to accept multiply arguments
+;(defadvice find-file (around find-files activate)
+;  "Also find all files within a list of files. This even works recursively."
+;  (if (listp filename)
+;      (loop for f in filename do (find-file f wildcards))
+;    ad-do-it))
+
+;; what are these xxx-map?
+;(substitute-key-definition 'find-file 'find-file-new-window global-map)
+;(substitute-key-definition 'find-file 'find-file-new-window esc-map)
+;(substitute-key-definition 'find-file 'find-file-new-window ctl-x-map)
 
 
-
-;; change yes or no prompt to y or n prompts:
-(fset 'yes-or-no-p 'y-or-n-p)
-
-
-;; inhibit annoying minibuffer messages 
-;;http://superuser.com/questions/669701/emacs-disable-some-minibuffer-messages
-(when (eval-when-compile (> emacs-major-version 24))
-  (let ((inhibit-message t))
-     (message "Listen to me, you!")))
-
-;; Stop disabling commands
-;;http://trey-jackson.blogspot.com/2007/12/emacs-tip-3-disabling-commands.html
-;(setq disabled-command-hook nil)
 
 
 ;;;Scroll when searching
@@ -145,31 +210,43 @@
     (after advice-for-evil-search-previous activate)
   (evil-scroll-line-to-center (line-number-at-pos)))
 
-;;TODO: Add this to dired??
+;; Add this to dired? Doesn't seem to work.
 ;; Copied from jcf
-(evil-add-hjkl-bindings dired-mode-map 'emacs)
-(evil-add-hjkl-bindings dired-mode-map 'emacs
-  "J" 'dired-goto-file
-  "K" 'dired-do-kill-lines
-  "L" 'dired-do-redisplay)
+;(evil-add-hjkl-bindings dired-mode-map 'emacs)
+;(evil-add-hjkl-bindings dired-mode-map 'emacs
+;  "J" 'dired-goto-file
+;  "K" 'dired-do-kill-lines
+;  "L" 'dired-do-redisplay)
 
 ;; Copied from jcf
 (define-key evil-normal-state-map "Y" (kbd "y$")); Untested
 
 (global-set-key (kbd "C-S-<escape>") 'delete-other-windows)
-
+(global-set-key (kbd "C-S-x") 'elscreen-kill); ,clt tabclose
+; Map C-x C-b to buffer-menu rather than list-buffers
+; so that it's easy to get rid of no-evil buffer
+(global-set-key (kbd "C-x C-b") 'buffer-menu)
 
 ; maybe someday when tab indents properly
 ;(define-key evil-normal-state-map [tab] 'other-window)
 (setq tab-always-indent nil) ;; allow indenting
 
+;; What does this do?
+(setq evil-leader/in-all-states 1)
+
 ; evil-leader
-(evil-leader/set-key "rename" 'rename-this-file-and-buffer); ,rename
+;; TODO: ag prefixes
+(evil-leader/set-key "ag" 'ag); ,cl close buffer
+(evil-leader/set-key "af" 'ag-files); ag pattern
+(evil-leader/set-key "ap" 'ag-project); ag pattern
+(evil-leader/set-key "ap" 'ag-files); ag pattern
+
 (evil-leader/set-key "cl" 'delete-window); ,cl close buffer
 (evil-leader/set-key "cc" 'evilnc-comment-or-uncomment-lines)
+(evil-leader/set-key "SPC" 'evilnc-comment-or-uncomment-lines)
 (evil-leader/set-key "cp" 'evilnc-copy-and-comment-lines); comment & paste
 (evil-leader/set-key "w" 'save-buffer); ,w write
-(evil-leader/set-key "f" 'helm-find-files); ,f
+(evil-leader/set-key "f" 'find-file-new-window); ,f
 (evil-leader/set-key ",fo" 'helm-occur); ,f
 (evil-leader/set-key ",fy" 'helm-show-kill-ring); ,f
 (evil-leader/set-key "dd" 'dired); ,d dired
@@ -178,10 +255,8 @@
 (evil-leader/set-key "eb" 'eval-buffer)
 (evil-leader/set-key "ed" 'eval-defun)
 (evil-leader/set-key "ee" 'eval-expression)
-
 (evil-leader/set-key "er" 'eval-region)
 (evil-leader/set-key "es" 'eval-last-sexp)
-
 (evil-leader/set-key "ga" 'git-messenger:popup-message); what is this?
 ; magit. Read this: https://github.com/magit/magit/issues/1968
 (evil-leader/set-key "gc" 'magit-commit)
@@ -189,17 +264,23 @@
 (evil-leader/set-key "gs" 'magit-status)
 (evil-leader/set-key "hf" 'describe-function)
 (evil-leader/set-key "hF" 'find-function)
+(evil-leader/set-key "hs" 'find-function) ; as in source it
 (evil-leader/set-key "hk" 'describe-key)
 (evil-leader/set-key "hK" 'find-function-on-key); quickly find source by keymap
 (evil-leader/set-key "hm" 'describe-mode)
 (evil-leader/set-key "hp" 'describe-package)
 (evil-leader/set-key "hv" 'describe-variable)
 ;(evil-leader/set-key "i" 'ielm)
-(evil-leader/set-key "pi" 'package-install)
-(evil-leader/set-key "pl" 'package-list-packages)
+;(evil-leader/set-key "pi" 'package-install)
+;(evil-leader/set-key "pl" 'package-list-packages)
+(evil-leader/set-key "pf" 'projectile-find-file)
+(evil-leader/set-key "pte" 'projectile-find-file)
+(evil-leader/set-key "pd" 'projectile-dired)
+(evil-leader/set-key "rename" 'rename-this-file-and-buffer); ,rename
 (evil-leader/set-key "sh" 'eshell);
 ;(evil-leader/set-key "Sh" 'jcf-eshell-here); what is this?
 (evil-leader/set-key "x" 'execute-extended-command)
+(evil-leader/set-key "zp" 'zeal-at-point)
 
 
 ;;; buffers and tabs
@@ -207,6 +288,7 @@
 (evil-leader/set-key "b" 'helm-buffers-list);
 (evil-leader/set-key ",fb" 'helm-buffers-list); is this too much??
 (evil-leader/set-key "tn" 'elscreen-create); ,tn tabnew
+(evil-leader/set-key "te" 'find-file-new-window); ,tn tabnew
 (global-set-key (kbd "<f9>") 'elscreen-previous); F9 tabprevious
 (global-set-key (kbd "<f10>") 'elscreen-next)	; F10 tabnext
 (global-set-key (kbd "<f12>") 'evil-window-split)	; F10 tabnext
@@ -239,36 +321,32 @@
   "cr" 'cider-refresh
   "cR" 'cider-restart)
 
-(defun nick-tab-edit (n) 
-    (interactive "nPath:") ;   which is read with the Minibuffer.
-    (evil-tabs-tabedit path))
-
-(evil-leader/set-key "te" 'nick-tab-edit); ,te tabedit
 ;;(evil-leader/set-key "te" 'evil-tabs-tabedit); ,te tabedit
 ;; this ^ doesn't work because evil-tabs-tabedit takes a filename as
 ;; an argument. Instead, write a function that takes a path and
 ;; sends that to evil-tabs-tabedit
 
-(global-set-key (kbd "C-S-x") 'elscreen-kill); ,clt tabclose
 
-(defun evil-emacs-key-binding (key)
-  (evil-execute-in-emacs-state)
-  (key-binding key))
+;; Where did this come from?
+;; And what does it do?
+;(defun evil-emacs-key-binding (key)
+;  (evil-execute-in-emacs-state)
+;  (key-binding key))
+;
+;(defmacro evil-revert-key-binding (state-map key)
+;  `(define-key ,state-map ,key (lambda ()
+;                                 (interactive)
+;                                 (call-interactively
+;                                  (evil-emacs-key-binding ,key)))))
+;
+;(eval-after-load "evil-autoloads"
+;  '(add-hook 'evil-after-load-hook
+;        (lambda ()
+;          (evil-revert-key-binding evil-normal-state-map (kbd "M-."))
+;          ;; and so on
+;        )))
 
-(defmacro evil-revert-key-binding (state-map key)
-  `(define-key ,state-map ,key (lambda ()
-                                 (interactive)
-                                 (call-interactively
-                                  (evil-emacs-key-binding ,key)))))
-
-(eval-after-load "evil-autoloads"
-  '(add-hook 'evil-after-load-hook
-        (lambda ()
-          (evil-revert-key-binding evil-normal-state-map (kbd "M-."))
-          ;; and so on
-        )))
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;; END OF EVIL ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;; defuns ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;;;Found here: http://stackoverflow.com/questions/8483182/evil-mode-best-practice
 ;;;; esc quits!!! instead of (or along with) C-g
@@ -288,13 +366,23 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 (define-key minibuffer-local-completion-map [escape] 'minibuffer-keyboard-quit)
 (define-key minibuffer-local-must-match-map [escape] 'minibuffer-keyboard-quit)
 (define-key minibuffer-local-isearch-map [escape] 'minibuffer-keyboard-quit)
-;; I might want this at a later time, but right now it breaks things.
-;(define-key helm-map (kbd "ESC") 'helm-keyboard-quit)
+;; IDK if this is having an affect
+(add-hook 'after-init-hook
+          (lambda ()
+		(define-key helm-map [escape] 'helm-keyboard-quit)))
 
 ;;; evil-escape ; I dont' know if this is doing anything
 ;(evil-escape-mode t)
 ;(setq-default evil-escape-key-sequence (kbd "<escape>"))
 ;(setq-default evil-escape-delay 0.01)
+
+(defun switch-to-minibuffer-window ()
+  "switch to minibuffer window (if active)"
+  (interactive)
+  (when (active-minibuffer-window)
+    (select-window (active-minibuffer-window))))
+(global-set-key (kbd "<f7>") 'switch-to-minibuffer-window)
+
 
 ;;; emacs-bash-completion
 ;;; try doing this again read the directions first
@@ -305,31 +393,73 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 ;(add-hook 'shell-dynamic-complete-functions
 ;  'bash-completion-dynamic-complete)
 
-;(global-set-key (kbd ", s h") 'shell)
 
-;http://www.unexpected-vortices.com/clojure/10-minute-emacs-for-clojure.html
+
+
+
+
+
+
+
+;; remove this
+;;; https://gist.github.com/sebasmagri/9727631
+;;; PATH used by default in emacs is not that used in interactive shells. Thus, it would miss
+;;; paths set in the shell's rc file.
+
+;;; The login shell could print warnings or errors on initialization, so we isolate the PATH and
+;;; use a simple regexp to get the real value
+;;(let ((interactive-shell-path (shell-command-to-string "$SHELL -l -i -c 'echo \"***\n$PATH\n***\"'")))
+;;  (string-match ".*\\*\\*\\*\\\n\\(.*\\)\n\\*\\*\\*.*" interactive-shell-path)
+;;  (let ((clean-shell-path (match-string 1 interactive-shell-path)))
+;;    (setenv "PATH" clean-shell-path) ;;; normal PATH
+;;    (setq eshell-path-env clean-shell-path) ;;; PATH in eshell
+;;    (setq exec-path (split-string clean-shell-path path-separator)) ;;; exec-path
+;;    )
+;;  )
+
+
+;; TODO:
+;set eshell to be starting point
+;push to git
+;map ,a or something to ag
+;try again to get emacs keybindings in ag search
+;learn ag-xxxx commands
+;map ,p to projectile or something
+;remove full-ack, ack, helm-ag
+;recentf learn
+; git-timemachine and for evil keymaps read this: https://bitbucket.org/lyro/evil/issues/511/let-certain-minor-modes-key-bindings
+
+
+; performance
+;(add-hook 'after-init-hook
+;          (lambda ()
+;            (message "init completed in %.2fms"
+;                     (sanityinc/time-subtract-millis after-init-time before-init-time))))
+
+;;;;;;;;;;;;;;;;;;;;;;;; small changes ;;;;;;;;;;;;;;;;;;;
+;; change yes or no prompt to y or n prompts:
+(fset 'yes-or-no-p 'y-or-n-p)
+
+;; inhibit annoying minibuffer messages 
+;;http://superuser.com/questions/669701/emacs-disable-some-minibuffer-messages
+(when (eval-when-compile (> emacs-major-version 24))
+  (let ((inhibit-message t))
+     (message "Listen to me, you!")))
+
+;; Stop disabling commands
+;;http://trey-jackson.blogspot.com/2007/12/emacs-tip-3-disabling-commands.html
+;(setq disabled-command-hook nil)
 ;(setq-default inhibit-startup-screen t); hide welcome screen in emacs
+
+;; Display full pathname for files.
+(add-hook 'find-file-hooks
+          '(lambda ()
+             (setq mode-line-buffer-identification 'buffer-file-truename)))
 
 (setq make-backup-files nil); stop making backup files
 
 ;; Always show column numbers
 (setq-default column-number-mode t)
-
-;; Display full pathname for files.
-;(add-hook 'find-file-hooks
-;          '(lambda ()
-;             (setq mode-line-buffer-identification 'buffer-file-truename)))
-
-;; For easy window scrolling up and down.
-(global-set-key "\M-n" 'scroll-up-line)
-(global-set-key "\M-p" 'scroll-down-line)
-
-; Map C-x C-b to buffer-menu rather than list-buffers
-; so that it's easy to get rid of no-evil buffer
-(global-set-key (kbd "C-x C-b") 'buffer-menu)
-
-; not working
-;(global-set-key (kbd "C-P") 'package-list-packages)
 
 ; always follow symbolic links
 (setq vc-follow-symlinks t)
@@ -359,6 +489,7 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 ; evil-lisp-state
 ; evil-iedit-state
 ; evil-nerd-commenter
+; evil-commentary learn it and add it
 ; evil-escape ??
 ; eldoc
 ; expand-region
@@ -366,30 +497,18 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 ; adaptive-wrap maybe?
 ; more (I've looked until expand-region): https://github.com/syl20bnr/spacemacs/blob/master/spacemacs/packages.el
 
+;; Test and see if you like this
+;; (setq evil-cross-lines t
+;;       evil-move-cursor-back nil
+;;       evil-want-fine-undo t
+;;       evil-symbol-word-search t)
+;;;;;;;;;;;;;;;;;;;;;;;; provide
 
+(add-hook 'help-mode-hook #'evil-visual-state)
 
+(provide 'init)
 
-
-(defun switch-to-minibuffer-window ()
-  "switch to minibuffer window (if active)"
-  (interactive)
-  (when (active-minibuffer-window)
-    (select-window (active-minibuffer-window))))
-(global-set-key (kbd "<f7>") 'switch-to-minibuffer-window)
-
-
-;; remove this
-;;; https://gist.github.com/sebasmagri/9727631
-;;; PATH used by default in emacs is not that used in interactive shells. Thus, it would miss
-;;; paths set in the shell's rc file.
-
-;;; The login shell could print warnings or errors on initialization, so we isolate the PATH and
-;;; use a simple regexp to get the real value
-;;(let ((interactive-shell-path (shell-command-to-string "$SHELL -l -i -c 'echo \"***\n$PATH\n***\"'")))
-;;  (string-match ".*\\*\\*\\*\\\n\\(.*\\)\n\\*\\*\\*.*" interactive-shell-path)
-;;  (let ((clean-shell-path (match-string 1 interactive-shell-path)))
-;;    (setenv "PATH" clean-shell-path) ;;; normal PATH
-;;    (setq eshell-path-env clean-shell-path) ;;; PATH in eshell
-;;    (setq exec-path (split-string clean-shell-path path-separator)) ;;; exec-path
-;;    )
-;;  )
+;; Local Variables:
+;; coding: utf-8
+;; no-byte-compile: t
+;; End:

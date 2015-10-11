@@ -47,4 +47,12 @@
               (setq pcomplete-cycle-completions nil);tab complete like bash
               (eshell/export "NODE_NO_READLINE=1")))
 
+;; eshell alias
+(defun eshell/emacs (file)
+    (find-file-new-window file))
+(defun eshell/e (file)
+    (find-file-new-window file))
+(defun eshell/f (file)
+    (find-file-new-window file))
+
 (provide 'init-eshell)
