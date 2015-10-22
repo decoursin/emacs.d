@@ -1,6 +1,22 @@
 (require-package 'helm)
 (require 'helm)
 (require 'helm-config)
+(require 'helm-regexp)
+
+;; What does this do?
+(eval-after-load "helm-regexp"
+  '(setq helm-source-moccur
+    (helm-make-source "Moccur" 'helm-source-multi-occur :follow 1)))
+
+;; (source: http://stackoverflow.com/q/14726601)
+(defun helm-multi-occur-all-buffers ()
+  "multi-occur in all buffers backed by files."
+  (interactive)
+  (helm-multi-occur
+   (delq nil
+     (mapcar (lambda (b)
+           (when (buffer-file-name b) (buffer-name b)))
+         (buffer-list)))))
 
 ;; The default "C-x c" is quite close to "C-x C-c", which quits Emacs.
 ;; Changed to "C-c h". Note: We must set "C-c h" globally, because we

@@ -108,6 +108,15 @@
      (defadvice wdired-change-to-dired-mode (after evil activate)
        (evil-change-to-initial-state nil t))))
 
+;; magit
+
+;; doesn't work
+;; (eval-after-load 'magit
+;;   '(progn
+;;      (evil-make-overriding-map magit-mode-map 'normal t)
+;;      (evil-add-hjkl-bindings magit-mode-map 'normal)
+;;      (add-hook 'magit-mode-hook #'evil-normalize-keymaps)))
+
 ;;; ELP
 
 (eval-after-load 'elp
@@ -264,8 +273,11 @@
 
 (add-hook 'help-mode-hook #'evil-visual-state)
 (add-hook 'dired-mode-hook #'evil-visual-state)
+;; (add-hook 'magit-mode-hook #'evil-visual-state)
 
 (add-hook 'dired-mode-hook (lambda () (run-at-time ".1 sec" 1 (lambda () (execute-kbd-macro (kbd "<escape>"))))))
+(add-hook 'help-mode-hook (lambda () (run-at-time ".1 sec" 1 (lambda () (execute-kbd-macro (kbd "<escape>"))))))
+;; (add-hook 'magit-mode-hook (lambda () (run-at-time ".1 sec" 1 (lambda () (execute-kbd-macro (kbd "<escape>"))))))
 
 (defun foo () (interactive) (execute-kbd-macro (kbd "<escape>")))
 

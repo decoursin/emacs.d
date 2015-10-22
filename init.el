@@ -61,6 +61,7 @@
 (require 'init-helm)
 (require 'init-hippie-expand)
 (require 'init-auto-complete)
+;(require 'init-spelling)
 ;(require 'init-sessions.el) ;save desktop? ;testing
 (require 'init-mmm)
 
@@ -72,7 +73,7 @@
 (require 'init-eshell)
 (require 'init-matlab)
 (require 'init-projectile)
-(require 'init-yasnippet) ;learn
+;(require 'init-yasnippet) ;learn
 
 ;; elisp helper libraries
 (require-package 'dash) ; a modern list api for Emacs
@@ -246,10 +247,10 @@
 (evil-leader/set-key "SPC" 'evilnc-comment-or-uncomment-lines)
 (evil-leader/set-key "cp" 'evilnc-copy-and-comment-lines); comment & paste
 (evil-leader/set-key "w" 'save-buffer); ,w write
-(evil-leader/set-key "f" 'find-file-new-window); ,f
-(evil-leader/set-key ",fo" 'helm-occur); ,f
-(evil-leader/set-key ",fy" 'helm-show-kill-ring); ,f
-(evil-leader/set-key "dd" 'dired); ,d dired
+(evil-leader/set-key "ff" 'find-file); ,f
+(evil-leader/set-key "fo" 'helm-multi-occur-all-buffers);
+(evil-leader/set-key "fy" 'helm-show-kill-ring); ,f
+(evil-leader/set-key "dd" 'dired-jump); ,d dired
 (evil-leader/set-key "db" 'kill-buffer)
 (evil-leader/set-key "df" 'delete-this-file)
 (evil-leader/set-key "eb" 'eval-buffer)
@@ -270,6 +271,7 @@
 (evil-leader/set-key "hm" 'describe-mode)
 (evil-leader/set-key "hp" 'describe-package)
 (evil-leader/set-key "hv" 'describe-variable)
+(evil-leader/set-key "hz" 'zeal-at-point)
 ;(evil-leader/set-key "i" 'ielm)
 ;(evil-leader/set-key "pi" 'package-install)
 ;(evil-leader/set-key "pl" 'package-list-packages)

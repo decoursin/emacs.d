@@ -66,6 +66,7 @@
            (helm-grep-mode . emacs)
            (help-mode . normal)
            (ielm-mode . insert)
+	   (magit-mode . normal)
            (magit-branch-manager-mode . emacs)
 	   (matlab-mode . normal)
 	   (mag-menu-mode . emacs) ; ack-menu
