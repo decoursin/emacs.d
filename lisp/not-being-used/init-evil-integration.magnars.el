@@ -206,6 +206,6 @@
         ad-do-it)
     ad-do-it))
 
-(provide 'evil-integration)
+;(provide 'evil-integration)
 
 ;;; evil-integration.el ends here

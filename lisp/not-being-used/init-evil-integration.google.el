@@ -251,6 +251,6 @@
   "Temporarily go to Emacs state"
   (evil-with-state emacs ad-do-it))
 
-(provide 'evil-integration)
+;(provide 'evil-integration)
 
 ;;; evil-integration.el ends here

@@ -267,17 +267,15 @@
   "Temporarily go to Emacs state"
   (evil-with-state emacs ad-do-it))
 
-(add-hook 'change-major-mode-after-
-          (lambda ()
-		(define-key helm-map [escape] 'helm-keyboard-quit)))
-
 (add-hook 'help-mode-hook #'evil-visual-state)
 (add-hook 'dired-mode-hook #'evil-visual-state)
-;(add-hook 'cider-repl-mode-hook #'evil-visual-state)
+(add-hook 'cider-repl-mode-hook #'evil-visual-state)
 ;; (add-hook 'magit-mode-hook #'evil-visual-state)
 
 (add-hook 'dired-mode-hook (lambda () (run-at-time ".1 sec" 1 (lambda () (execute-kbd-macro (kbd "<escape>"))))))
-(add-hook 'help-mode-hook (lambda () (run-at-time ".1 sec" 1 (lambda () (execute-kbd-macro (kbd "<escape>"))))))
+
+;;; The kbd macro actually breaks things. Find alternative or remove entirely.
+;(add-hook 'help-mode-hook (lambda () (run-at-time ".1 sec" 1 (lambda () (execute-kbd-macro (kbd "<escape>"))))))
 ;; The problem with these hooks is that they're being run when
 ;; cider-repl, for example, is booting up which run <escape> that
 ;; quits it.
