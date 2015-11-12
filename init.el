@@ -111,6 +111,7 @@
 (when (>= emacs-major-version 24)
   (require 'init-clojure)
   (require 'init-clojure-cider))
+;; (require 'init-clojurescript)
 (require 'init-4clojure)
 
 (when *is-a-mac*
@@ -254,8 +255,8 @@
 (evil-leader/set-key "db" 'kill-buffer)
 (evil-leader/set-key "df" 'delete-this-file)
 (evil-leader/set-key "eb" 'eval-buffer)
-(evil-leader/set-key "ed" 'eval-defun)
-(evil-leader/set-key "ee" 'eval-expression)
+(evil-leader/set-key "ep" 'eval-defun); ep eval-defun-at-point
+(evil-leader/set-key "ee" 'eval-epression)
 (evil-leader/set-key "er" 'eval-region)
 (evil-leader/set-key "es" 'eval-last-sexp)
 (evil-leader/set-key "ga" 'git-messenger:popup-message); what is this?
@@ -308,13 +309,15 @@
   "v" 'cider-test-run-test
   "V" 'jcf-cider-test-run-tests
   "cC" 'cider-connect
+  "cd" 'cider-debug-defun-at-point
+  "cD" 'cider-format-defn
   "cJ" 'cider-jack-in
   "cq" 'cider-quit
   "cR" 'cider-restart
   "cF" 'cider-format-buffer
   "ct" 'typed-clojure-check-ns
   "eb" 'cider-eval-buffer
-  "ed" 'cider-eval-defun-at-point
+  "ep" 'cider-eval-defun-at-point
   "es" 'cider-eval-last-sexp
   "er" 'cider-eval-region)
 
@@ -477,7 +480,7 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 
 ;; Plugins to thinkabout
 ;https://www.reddit.com/r/emacs/comments/1q99wi/moving_from_paredit_to_smartparens/
-; paredit vs evil-paredit vs smartparens vs paxedit vs lispy??
+; paredit vs evil-paredit vs smartparens vs paxedit vs lispy vs parinfer (new)??
 ; jcf likes smartparens
 ; evil cursor colors (to know when I'm in evil mode or not): https://github.com/syl20bnr/spacemacs/blob/master/spacemacs/packages.el#L544
 ; bind-key (yes this looks great.) (why in attic?)

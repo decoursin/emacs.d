@@ -273,12 +273,15 @@
 
 (add-hook 'help-mode-hook #'evil-visual-state)
 (add-hook 'dired-mode-hook #'evil-visual-state)
+;(add-hook 'cider-repl-mode-hook #'evil-visual-state)
 ;; (add-hook 'magit-mode-hook #'evil-visual-state)
 
 (add-hook 'dired-mode-hook (lambda () (run-at-time ".1 sec" 1 (lambda () (execute-kbd-macro (kbd "<escape>"))))))
 (add-hook 'help-mode-hook (lambda () (run-at-time ".1 sec" 1 (lambda () (execute-kbd-macro (kbd "<escape>"))))))
+;; The problem with these hooks is that they're being run when
+;; cider-repl, for example, is booting up which run <escape> that
+;; quits it.
+;(add-hook 'cider-repl-mode-hook (lambda () (run-at-time ".1 sec" 1 (lambda () (execute-kbd-macro (kbd "<escape>"))))))
 ;; (add-hook 'magit-mode-hook (lambda () (run-at-time ".1 sec" 1 (lambda () (execute-kbd-macro (kbd "<escape>"))))))
-
-(defun foo () (interactive) (execute-kbd-macro (kbd "<escape>")))
 
 (provide 'init-evil-integration)

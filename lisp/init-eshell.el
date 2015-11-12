@@ -13,7 +13,14 @@
 ; Make globs case-insensitive.
 ; NODE_NO_READLINE=1 tells Node.js, and hence npm to avoid use of escape codes because they don’t print well.
 
+;; Also copied some from here: http://writequit.org/org/settings.html#sec-1-3-6
+
+(require 'em-cmpl)
+(require 'em-prompt)
+(require 'em-term)
+
   (setq
+   ;; buffer shorthand -> echo foo > #'buffer
    eshell-buffer-shorthand t ; what is this?
    eshell-cmpl-ignore-case t ; what is this?
    eshell-cmpl-cycle-completions nil ;; don't jump to conclusion
@@ -22,10 +29,16 @@
    
    eshell-error-if-no-glob t ; what is this?
    eshell-glob-case-insensitive t ; what is this?
-   eshell-scroll-to-bottom-on-input 'all)
-  (defun jcf-eshell-here ()
-    (interactive)
-    (eshell "here"))
+   eshell-scroll-to-bottom-on-input 'all
+   ;; treat 'echo' like shell echo
+   eshell-plain-echo-behavior t)
+
+   ;; Visual commands
+   (setq eshell-visual-commands '("vi" "screen" "top" "less" "more" "lynx"
+   							      "ncftp" "pine" "tin" "trn" "elm" "vim"
+   							      "nmtui" "alsamixer" "htop" "el" "elinks"
+   							      ))
+   (setq eshell-visual-subcommands '(("git" "log" "diff" "show")))
 
   ; what does this do?
   (defun pcomplete/sudo ()
@@ -35,11 +48,11 @@
                      (funcall pcomplete-command-completion-function)
                      (pcomplete-arg 'last) t))))))
 
-  ; what does the first (define ...) do?
   (add-hook 'eshell-mode-hook
             (lambda ()
               (define-key eshell-mode-map ;; autocomplete emacs functions
                 (kbd "C-SPC")
+                ;(kbd "<tab>")
                 'helm-esh-pcomplete)
               (define-key eshell-mode-map
                 (kbd "M-p")
