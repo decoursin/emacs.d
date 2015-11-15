@@ -34,10 +34,13 @@
 
 
 ;;;visual-star
-(global-evil-visualstar-mode)
-(setq-default evil-symbol-word-search t);# search for symbol not word ; idk exactly
-;;; jump
-(global-evil-jumper-mode)
+
+(when (> emacs-major-version 24)
+	(global-evil-visualstar-mode)
+	(setq-default evil-symbol-word-search t);# search for symbol not word ; idk exactly
+	;;; jump
+	(global-evil-jumper-mode)
+)
 ;;; leader
 ; Must enable global-evil-leader-mode before evil-mode
 (require 'evil-leader) ;; shouldn't need this but do.
@@ -171,6 +174,22 @@
 ; Nick: IDK.
 ;;; https://bitbucket.org/lyro/evil/issue/432/edebug-mode-map-cant-take-effect-for-the
 (add-hook 'edebug-mode-hook 'evil-normalize-keymaps)
+
+;; Total hack
+(add-hook 'help-mode-hook #'evil-visual-state)
+(add-hook 'dired-mode-hook #'evil-visual-state)
+(add-hook 'cider-repl-mode-hook #'evil-visual-state)
+;; (add-hook 'magit-mode-hook #'evil-visual-state)
+
+(add-hook 'dired-mode-hook (lambda () (run-at-time ".1 sec" 1 (lambda () (execute-kbd-macro (kbd "<escape>"))))))
+
+;;; The kbd macro actually breaks things. Find alternative or remove entirely.
+;(add-hook 'help-mode-hook (lambda () (run-at-time ".1 sec" 1 (lambda () (execute-kbd-macro (kbd "<escape>"))))))
+;; The problem with these hooks is that they're being run when
+;; cider-repl, for example, is booting up which run <escape> that
+;; quits it.
+;(add-hook 'cider-repl-mode-hook (lambda () (run-at-time ".1 sec" 1 (lambda () (execute-kbd-macro (kbd "<escape>"))))))
+;; (add-hook 'magit-mode-hook (lambda () (run-at-time ".1 sec" 1 (lambda () (execute-kbd-macro (kbd "<escape>"))))))
 
 ;; What does provide do??
 (provide 'init-evil)

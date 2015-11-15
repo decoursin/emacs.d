@@ -85,4 +85,4 @@
   (remove-hook 'after-save-hook 'clja--run-tests-hook)
   (kill-buffer clja--buffer))
 
-(provide 'clj-autotest)
+;(provide 'clj-autotest)

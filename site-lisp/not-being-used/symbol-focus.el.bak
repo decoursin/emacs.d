@@ -71,4 +71,4 @@
       (sf/focus (car sf/history))
     (sf/reset)))
 
-(provide 'symbol-focus)
+;(provide 'symbol-focus)

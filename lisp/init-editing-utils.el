@@ -94,9 +94,11 @@
   (global-prettify-symbols-mode))
 
 
+(when (> emacs-major-version 24)
 (require-package 'undo-tree)
 (global-undo-tree-mode)
 (diminish 'undo-tree-mode)
+)
 
 
 ;; Am I using this? I think so but IDK.

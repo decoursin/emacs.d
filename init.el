@@ -33,7 +33,6 @@
 ; evil
 (require 'init-evil)
 (require 'init-evil-tab-page)
-(require 'init-evil-integration)
 ;(require 'init-leader) ;TODO wnated?
 
 ;;----------------------------------------------------------------------------
