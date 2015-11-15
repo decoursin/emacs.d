@@ -34,6 +34,10 @@
 
 
 ;;;visual-star
+(global-evil-visualstar-mode)
+(setq-default evil-symbol-word-search t);# search for symbol not word
+;;; jump
+(global-evil-jumper-mode)
 
 (when (> emacs-major-version 24)
 	(global-evil-visualstar-mode)
