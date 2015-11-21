@@ -106,6 +106,7 @@
 ;; Lisp
 ;(require 'init-paredit);gross
 (require 'init-lisp);untested
+(require 'init-adjust-parens)
 ;(require 'init-slime);untested
 (when (>= emacs-major-version 24)
   (require 'init-clojure)
@@ -168,6 +169,13 @@
 ;determine emacs version > http://ergoemacs.org/emacs/elisp_determine_OS_version.html
 
 ;;;; Functions
+(lexical-let ((count 1))
+  (defun next-eshell ()
+    (interactive)
+    (eshell)
+    (rename-buffer (concat "*eshell" (number-to-string count) "*"))
+    (setq count (1+ count))))
+
 ;; For some reason, evil-tabs-tabedit doesn't work out-of-the-box, so
 ;; I implement this wrapper function.
 (defun find-file-new-window (filename)
@@ -178,6 +186,13 @@
     (let ((buffer (find-file-noselect filename)))
 	(elscreen-create)
 	(switch-to-buffer buffer)))
+
+(defun yank-tab ()
+  "Copy the current tab buffer to a new tab"
+  (interactive)
+  (let ((buffer-name (current-buffer)))
+    (elscreen-create)
+    (switch-to-buffer buffer-name)))
 
 ;; This doesn't work for some reason
 ;; open eshell in a new tab window
@@ -228,6 +243,11 @@
 ; so that it's easy to get rid of no-evil buffer
 (global-set-key (kbd "C-x C-b") 'buffer-menu)
 
+(global-set-key (kbd "C-S-o") 'previous-buffer)
+(global-set-key (kbd "C-S-i") 'next-buffer)
+(global-set-key (kbd "<mouse-9>") 'next-buffer);forward
+(global-set-key (kbd "<mouse-8>") 'previous-buffer);back
+
 ; maybe someday when tab indents properly
 ;(define-key evil-normal-state-map [tab] 'other-window)
 (setq tab-always-indent nil) ;; allow indenting
@@ -242,27 +262,33 @@
 (evil-leader/set-key "ap" 'ag-project); ag pattern
 (evil-leader/set-key "ap" 'ag-files); ag pattern
 
+(evil-leader/set-key "bd" 'evil-delete-buffer); buffer delete
+(evil-leader/set-key "bfd" 'delete-this-file); buffer delete
+
 (evil-leader/set-key "cl" 'delete-window); ,cl close buffer
 (evil-leader/set-key "cc" 'evilnc-comment-or-uncomment-lines)
 (evil-leader/set-key "SPC" 'evilnc-comment-or-uncomment-lines)
 (evil-leader/set-key "cp" 'evilnc-copy-and-comment-lines); comment & paste
-(evil-leader/set-key "w" 'save-buffer); ,w write
+
 (evil-leader/set-key "ff" 'find-file); ,f
 (evil-leader/set-key "fo" 'helm-multi-occur-all-buffers);
 (evil-leader/set-key "fy" 'helm-show-kill-ring); ,f
+
 (evil-leader/set-key "dd" 'dired-jump); ,d dired
-(evil-leader/set-key "db" 'kill-buffer)
 (evil-leader/set-key "df" 'delete-this-file)
+;eval
 (evil-leader/set-key "eb" 'eval-buffer)
 (evil-leader/set-key "ep" 'eval-defun); ep eval-defun-at-point
 (evil-leader/set-key "ee" 'eval-epression)
 (evil-leader/set-key "er" 'eval-region)
 (evil-leader/set-key "es" 'eval-last-sexp)
+;git
 (evil-leader/set-key "ga" 'git-messenger:popup-message); what is this?
 ; magit. Read this: https://github.com/magit/magit/issues/1968
 (evil-leader/set-key "gc" 'magit-commit)
 (evil-leader/set-key "gl" 'magit-log)
 (evil-leader/set-key "gs" 'magit-status)
+;help
 (evil-leader/set-key "hf" 'describe-function)
 (evil-leader/set-key "hF" 'find-function)
 (evil-leader/set-key "hs" 'find-function) ; as in source it
@@ -272,16 +298,21 @@
 (evil-leader/set-key "hp" 'describe-package)
 (evil-leader/set-key "hv" 'describe-variable)
 (evil-leader/set-key "hz" 'zeal-at-point)
-;(evil-leader/set-key "i" 'ielm)
-;(evil-leader/set-key "pi" 'package-install)
-;(evil-leader/set-key "pl" 'package-list-packages)
+(evil-leader/set-key "ielm" 'ielm)
+;projectile
 (evil-leader/set-key "pf" 'projectile-find-file)
 (evil-leader/set-key "pte" 'projectile-find-file)
 (evil-leader/set-key "pd" 'projectile-dired)
+
+(evil-leader/set-key "nsh" 'next-eshell)
+
 (evil-leader/set-key "rename" 'rename-this-file-and-buffer); ,rename
 (evil-leader/set-key "sh" 'eshell);
 ;(evil-leader/set-key "Sh" 'jcf-eshell-here); what is this?
+
+(evil-leader/set-key "yt" 'yank-tab) ; TODO: yt copy buffer like in chromium. write this yourself.
 (evil-leader/set-key "x" 'execute-extended-command)
+(evil-leader/set-key "w" 'save-buffer); ,w write
 (evil-leader/set-key "zp" 'zeal-at-point)
 
 
@@ -453,7 +484,6 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 ;; Stop disabling commands
 ;;http://trey-jackson.blogspot.com/2007/12/emacs-tip-3-disabling-commands.html
 ;(setq disabled-command-hook nil)
-;(setq-default inhibit-startup-screen t); hide welcome screen in emacs
 
 ;; Display full pathname for files.
 (add-hook 'find-file-hooks
@@ -472,17 +502,17 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 (blink-cursor-mode 0)
 
 ; Maybe add this later
-;(tool-bar-mode -1)
-;(setq inhibit-splash-screen t
-;      inhibit-startup-echo-area-message t
-;      inhibit-startup-message t)
+(tool-bar-mode -1)
+(setq inhibit-splash-screen t)
+;; (setq inhibit-startup-echo-area-message t)
+;; (setq inhibit-startup-message t)
 
 ;; Plugins to thinkabout
 ;https://www.reddit.com/r/emacs/comments/1q99wi/moving_from_paredit_to_smartparens/
 ; paredit vs evil-paredit vs smartparens vs paxedit vs lispy vs parinfer (new)??
 ; jcf likes smartparens
 ; evil cursor colors (to know when I'm in evil mode or not): https://github.com/syl20bnr/spacemacs/blob/master/spacemacs/packages.el#L544
-; bind-key (yes this looks great.) (why in attic?)
+; bind-key (yes this looks great.) (why in attic?
 ; ack
 ; helm || ido
 ; dired-x
