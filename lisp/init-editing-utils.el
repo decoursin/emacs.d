@@ -41,12 +41,11 @@
 
 ;;; Whitespace
 
-;;;; deprecated
-;;;; Nick - now default is no white space
-;;(defun sanityinc/no-trailing-whitespace ()
-;;  "Turn off display of trailing whitespace in this buffer."
-;;  (setq show-trailing-whitespace nil))
-;;
+(defun sanityinc/no-trailing-whitespace ()
+  "Turn off display of trailing whitespace in this buffer."
+  (setq show-trailing-whitespace nil))
+
+;; Nick, do i want this?
 ;;;; But don't show trailing whitespace in SQLi, inf-ruby etc.
 ;;(dolist (hook '(special-mode-hook
 ;;                Info-mode-hook

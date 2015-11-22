@@ -79,14 +79,15 @@
 (require-package 'dash-functional)
 (require-package 's)
 
-;; VCS
+;; vcs
 (require 'init-vc)
 (require 'init-git)
+(require 'init-magit)
 (require 'init-github)
 
 ;; Languages, etc
 ;(require 'init-compile)
-;(require 'init-markdown)
+(require 'init-markdown)
 ;(require 'init-erlang)
 (require 'init-javascript)
 ;(require 'init-php)
@@ -97,7 +98,7 @@
 (require 'init-haml)
 (require 'init-python-mode)
 ;(require 'init-haskell)
-;(require 'init-elm)
+(require 'init-elm)
 ;(require 'init-ruby-mode)
 ;(require 'init-rails)
 (require 'init-sql)
@@ -146,8 +147,6 @@
 ;;----------------------------------------------------------------------------
 (require 'init-locales)
 
-
-
 ;;;;;;;;;;;;;;;;;;;;;;;;nick
 
 ;;; helpful reminders:
@@ -176,6 +175,22 @@
     (rename-buffer (concat "*eshell" (number-to-string count) "*"))
     (setq count (1+ count))))
 
+(defun find-eshell (n)
+  "Find the eshell"
+  (interactive "NSwitch to #: ")
+  (if (equal n 0)
+      (switch-to-buffer "*eshell0*")
+    (switch-to-buffer (concat "*eshell" (number-to-string n) "*"))))
+
+(defun first-eshell ()
+  (interactive)
+  (let ((b (get-buffer "*eshell0*")))
+    (if b
+	(switch-to-buffer b)
+      (progn
+	(eshell)
+	(rename-buffer "*eshell0*")))))
+
 ;; For some reason, evil-tabs-tabedit doesn't work out-of-the-box, so
 ;; I implement this wrapper function.
 (defun find-file-new-window (filename)
@@ -193,6 +208,17 @@
   (let ((buffer-name (current-buffer)))
     (elscreen-create)
     (switch-to-buffer buffer-name)))
+
+(defun load-init.el ()
+  (interactive)
+  (let ((emacs-home (getenv "EMACS_HOME"))
+	(home (getenv "HOME")))
+    (let ((f1 (concat emacs-home "/init.el"))
+	  (f2 (concat home "/.emacs.d/init.el")))
+      (if (file-exists-p f1)
+	  (find-file f1)
+	(when (file-exists-p f2)
+	    (find-file f2))))))
 
 ;; This doesn't work for some reason
 ;; open eshell in a new tab window
@@ -262,26 +288,25 @@
 (evil-leader/set-key "ap" 'ag-project); ag pattern
 (evil-leader/set-key "ap" 'ag-files); ag pattern
 
-(evil-leader/set-key "bd" 'evil-delete-buffer); buffer delete
-(evil-leader/set-key "bfd" 'delete-this-file); buffer delete
-
 (evil-leader/set-key "cl" 'delete-window); ,cl close buffer
 (evil-leader/set-key "cc" 'evilnc-comment-or-uncomment-lines)
 (evil-leader/set-key "SPC" 'evilnc-comment-or-uncomment-lines)
 (evil-leader/set-key "cp" 'evilnc-copy-and-comment-lines); comment & paste
 
-(evil-leader/set-key "ff" 'find-file); ,f
-(evil-leader/set-key "fo" 'helm-multi-occur-all-buffers);
-(evil-leader/set-key "fy" 'helm-show-kill-ring); ,f
-
 (evil-leader/set-key "dd" 'dired-jump); ,d dired
 (evil-leader/set-key "df" 'delete-this-file)
+(evil-leader/set-key "db" 'evil-delete-buffer); buffer delete
 ;eval
 (evil-leader/set-key "eb" 'eval-buffer)
 (evil-leader/set-key "ep" 'eval-defun); ep eval-defun-at-point
 (evil-leader/set-key "ee" 'eval-epression)
 (evil-leader/set-key "er" 'eval-region)
 (evil-leader/set-key "es" 'eval-last-sexp)
+
+(evil-leader/set-key "ff" 'find-file);
+(evil-leader/set-key "fo" 'helm-multi-occur-all-buffers);
+(evil-leader/set-key "fsh" 'find-eshell);
+(evil-leader/set-key "fy" 'helm-show-kill-ring);
 ;git
 (evil-leader/set-key "ga" 'git-messenger:popup-message); what is this?
 ; magit. Read this: https://github.com/magit/magit/issues/1968
@@ -299,6 +324,8 @@
 (evil-leader/set-key "hv" 'describe-variable)
 (evil-leader/set-key "hz" 'zeal-at-point)
 (evil-leader/set-key "ielm" 'ielm)
+
+(evil-leader/set-key "linit" 'load-init.el)
 ;projectile
 (evil-leader/set-key "pf" 'projectile-find-file)
 (evil-leader/set-key "pte" 'projectile-find-file)
@@ -307,7 +334,7 @@
 (evil-leader/set-key "nsh" 'next-eshell)
 
 (evil-leader/set-key "rename" 'rename-this-file-and-buffer); ,rename
-(evil-leader/set-key "sh" 'eshell);
+(evil-leader/set-key "sh" 'first-eshell);
 ;(evil-leader/set-key "Sh" 'jcf-eshell-here); what is this?
 
 (evil-leader/set-key "yt" 'yank-tab) ; TODO: yt copy buffer like in chromium. write this yourself.

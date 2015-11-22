@@ -73,10 +73,11 @@
            (helm-grep-mode . emacs)
            (help-mode . normal)
            (ielm-mode . insert)
-	   (magit-mode . normal)
+	       (magit-mode . normal)
+	       (magit-popup-mode . normal)
            (magit-branch-manager-mode . emacs)
-	   (matlab-mode . normal)
-	   (mag-menu-mode . emacs) ; ack-menu
+	       (matlab-mode . normal)
+	       (mag-menu-mode . emacs) ; ack-menu
            (nrepl-mode . insert)
            (prodigy-mode . normal)
            (rdictcc-buffer-mode . emacs)
@@ -115,7 +116,6 @@
 (evil-set-initial-state 'man-mode 'motion) ;; motion or emacs or normal??
 
 (evil-leader/set-leader ",")
-(evil-mode nil) ;; no idea
 (global-evil-leader-mode) ;; must be before (evil-mode 1)
 ; enable <leader> in Dired, GNUs, Magit, and Notmuch.
 ; doesn't seem to work
@@ -183,6 +183,7 @@
 (add-hook 'help-mode-hook #'evil-visual-state)
 (add-hook 'dired-mode-hook #'evil-visual-state)
 (add-hook 'cider-repl-mode-hook #'evil-visual-state)
+(add-hook 'Ag #'evil-visual-state)
 ;; (add-hook 'magit-mode-hook #'evil-visual-state)
 
 (add-hook 'dired-mode-hook (lambda () (run-at-time ".1 sec" 1 (lambda () (execute-kbd-macro (kbd "<escape>"))))))

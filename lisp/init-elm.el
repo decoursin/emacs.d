@@ -1,5 +1,4 @@
 ;; Copied from Purcell
-;; Untested
 
 (when (maybe-require-package 'elm-mode)
   (when (maybe-require-package 'flycheck-elm)
