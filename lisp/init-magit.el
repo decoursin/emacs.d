@@ -5,7 +5,6 @@
 (require-package 'evil-magit)
 
 (require 'magit)
-
 (require 'evil-magit)
 
 (add-hook 'magit-mode-hook 'evil-local-mode)
