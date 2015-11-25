@@ -60,8 +60,8 @@
 ;; like: (evil-set-initial-state 'ibuffer-mode 'normal)
 (loop for (mode . state)
       in '((bc-menu-mode . emacs)
-	   (ag-mode . normal) ;; doesn't seem to have an effect
-	   (ag . normal) ;; doesn't seem to have an effect
+           (ag-mode . normal) ;; doesn't seem to have an effect
+           (ag . normal) ;; doesn't seem to have an effect
            (bookmark-bmenu-mode . normal) ;; what mode is this?
            (sunrise-mode . normal) ;; what mode is this?
            (dired-mode . normal)
@@ -73,11 +73,11 @@
            (helm-grep-mode . emacs)
            (help-mode . normal)
            (ielm-mode . insert)
-	       (magit-mode . normal)
-	       (magit-popup-mode . normal)
+           (magit-mode . normal)
+           (magit-popup-mode . normal)
            (magit-branch-manager-mode . emacs)
-	       (matlab-mode . normal)
-	       (mag-menu-mode . emacs) ; ack-menu
+           (matlab-mode . normal)
+           (mag-menu-mode . emacs) ; ack-menu
            (nrepl-mode . insert)
            (prodigy-mode . normal)
            (rdictcc-buffer-mode . emacs)
@@ -119,9 +119,11 @@
 (global-evil-leader-mode) ;; must be before (evil-mode 1)
 ; enable <leader> in Dired, GNUs, Magit, and Notmuch.
 ; doesn't seem to work
+
+;; Nick what does this do?
 (setq evil-leader/no-prefix-mode-rx '("dired-mode"
                                       "gnus-.*-mode"
-                                      "magit-.*-mode"
+                                      ;; "magit-.*-mode"
                                       "notmuch-.*-mode"))
 ;;; evil
 (evil-mode 1)

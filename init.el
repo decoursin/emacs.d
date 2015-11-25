@@ -45,6 +45,7 @@
 ;;----------------------------------------------------------------------------
 
 (require-package 'project-local-variables)
+(require-package 'fullframe)
 (require-package 'diminish)
 ;; logs keyboard commands to a buffer named 'command-log'.
 (require-package 'mwe-log-commands) ;is this working?
@@ -220,6 +221,23 @@
 	(when (file-exists-p f2)
 	    (find-file f2))))))
 
+(defun magit-clone-github (repository directory protocol)
+  (interactive
+   (let ((protocol (if current-prefix-arg
+                       (magit-read-string-ns "Protocol")
+                     "git"))
+         (repostory (magit-read-string-ns "Clone repository")))
+     (list repostory
+           (read-directory-name
+            "Clone to: " nil nil nil
+            (and (string-match "\\([^/]+\\)\\'" repostory)
+                 (match-string 1 repostory)))
+           protocol)))
+  (magit-clone (if (string= protocol "ssh")
+                   (format "git@github.com:%s.git" repository)
+                 (format "%s://github.com/%s.git" protocol repository))
+               directory))
+
 ;; This doesn't work for some reason
 ;; open eshell in a new tab window
 ;(defun open-eshell-new-tab
@@ -310,9 +328,19 @@
 ;git
 (evil-leader/set-key "ga" 'git-messenger:popup-message); what is this?
 ; magit. Read this: https://github.com/magit/magit/issues/1968
-(evil-leader/set-key "gc" 'magit-commit)
+(evil-leader/set-key "gcc" 'magit-commit)
+(evil-leader/set-key "gcl" 'magit-clone-github)
+(evil-leader/set-key "gd" 'magit-diff-dwim)
+(evil-leader/set-key "ge" 'ediff)
+(evil-leader/set-key "gf" 'ediff-files)
+(evil-leader/set-key "gb" 'ediff-buffers)
+(evil-leader/set-key "gg" 'magit-dispatch-popup)
 (evil-leader/set-key "gl" 'magit-log)
 (evil-leader/set-key "gs" 'magit-status)
+(evil-leader/set-key "gps" 'magit-stash-popup) ;gp git popup
+(evil-leader/set-key "gpg" 'magit-dispatch-popup) ;gp git popup
+(evil-leader/set-key "gpd" 'magit-diff-popup) ;gp git popup
+(evil-leader/set-key "gpe" 'magit-ediff-popup) ;gp git popup
 ;help
 (evil-leader/set-key "hf" 'describe-function)
 (evil-leader/set-key "hF" 'find-function)
@@ -330,6 +358,7 @@
 (evil-leader/set-key "pf" 'projectile-find-file)
 (evil-leader/set-key "pte" 'projectile-find-file)
 (evil-leader/set-key "pd" 'projectile-dired)
+(evil-leader/set-key "pag" 'ag-project)
 
 (evil-leader/set-key "nsh" 'next-eshell)
 
