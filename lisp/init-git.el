@@ -6,7 +6,7 @@
 (require-package 'git-blame)
 (require-package 'gitignore-mode)
 (require-package 'gitconfig-mode)
-(require-package 'git-messenger) ;; Though see also vc-annotate's "n" & "p" bindings
+;; (require-package 'git-messenger) ;(deprecated) ;; Though see also vc-annotate's "n" & "p" bindings
 (require-package 'git-timemachine)
 
 ;;; git-svn support

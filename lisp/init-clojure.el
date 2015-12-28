@@ -7,26 +7,124 @@
 (require-package 'clojure-mode)
 (require-package 'cljsbuild-mode)
 (require-package 'elein)
+(require-package 'clj-refactor)
+(require-package 'clojure-cheatsheet)
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Slime with Clojure
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defun slime-clojure-repl-setup ()
-  "Some REPL setup additional to that in durendal."
-  (when (string-equal (slime-lisp-implementation-name) "clojure")
-    (when (slime-inferior-process)
-      (message "Setting up repl for clojure")
-      (slime-redirect-inferior-output))
+(require 'clojure-cheatsheet)
+;;;;;;;;;;;;;;;;;;;;
+;;;; NEW try these
+;;;;;;;;;;;;;;;;;;;
 
-    (set-syntax-table clojure-mode-syntax-table)
-    (setq lisp-indent-function 'clojure-indent-function)
-    (let (font-lock-mode)
-      (clojure-mode-font-lock-setup))))
-
-(after-load 'slime-repl
-  (add-hook 'slime-repl-mode-hook 'slime-clojure-repl-setup))
-
+;(require 'yasnippet)
+;
+;(require 'core-async-mode)
+;
+;(add-hook 'clojure-mode-hook
+;          (lambda ()
+;            (clj-refactor-mode 1)
+;            (core-async-mode 1)))
+;
+;(define-key clj-refactor-map
+;  (cljr--key-pairs-with-modifier "C-s-" "xf") 'my-toggle-expect-focused)
+;
+;(define-key clj-refactor-map
+;  (cljr--key-pairs-with-modifier "C-s-" "xr") 'my-remove-all-focused)
+;
+;(require 'symbol-focus)
+;(define-key clojure-mode-map (kbd "M-s-f") 'sf/focus-at-point)
+;
+;(defun clj-duplicate-top-level-form ()
+;  (interactive)
+;  (save-excursion
+;    (cljr--goto-toplevel)
+;    (insert (cljr--extract-sexp) "\n")
+;    (cljr--just-one-blank-line)))
+;
+;(define-key clojure-mode-map (kbd "C->") 'cljr-thread)
+;(define-key clojure-mode-map (kbd "C-<") 'cljr-unwind)
+;
+;(define-key clojure-mode-map (kbd "s-j") 'clj-jump-to-other-file)
+;
+;(define-key clojure-mode-map (kbd "C-.") 'clj-hippie-expand-no-case-fold)
+;
+;(defun clj-hippie-expand-no-case-fold ()
+;  (interactive)
+;  (let ((old-syntax (char-to-string (char-syntax ?/))))
+;    (modify-syntax-entry ?/ " ")
+;    (hippie-expand-no-case-fold)
+;    (modify-syntax-entry ?/ old-syntax)))
+;
+;(require-package 'yesql-ghosts)
+;
+;;; Indent and highlight more commands
+;(put-clojure-indent 'match 'defun)
+;
+;;; try this maybe
+;(defun my-toggle-expect-focused ()
+;  (interactive)
+;  (save-excursion
+;    (search-backward "(expect" (cljr--point-after 'cljr--goto-toplevel))
+;    (forward-word)
+;    (if (looking-at "-focused")
+;        (paredit-forward-kill-word)
+;      (insert "-focused"))))
+;
+;(defun my-remove-all-focused ()
+;  (interactive)
+;  (save-excursion
+;    (goto-char (point-min))
+;    (while (search-forward "(expect-focused" nil t)
+;      (delete-char -8))))
+;
+;(define-key clj-refactor-map
+;  (cljr--key-pairs-with-modifier "C-s-" "xf") 'my-toggle-expect-focused)
+;
+;(define-key clj-refactor-map
+;  (cljr--key-pairs-with-modifier "C-s-" "xr") 'my-remove-all-focused)
+;
+;;; Cycle between () {} []
+;
+;(defun live-delete-and-extract-sexp ()
+;  "Delete the sexp and return it."
+;  (interactive)
+;  (let* ((begin (point)))
+;    (forward-sexp)
+;    (let* ((result (buffer-substring-no-properties begin (point))))
+;      (delete-region begin (point))
+;      result)))
+;
+;(defun live-cycle-clj-coll ()
+;  "convert the coll at (point) from (x) -> {x} -> [x] -> (x) recur"
+;  (interactive)
+;  (let* ((original-point (point)))
+;    (while (and (> (point) 1)
+;                (not (equal "(" (buffer-substring-no-properties (point) (+ 1 (point)))))
+;                (not (equal "{" (buffer-substring-no-properties (point) (+ 1 (point)))))
+;                (not (equal "[" (buffer-substring-no-properties (point) (+ 1 (point))))))
+;      (backward-char))
+;    (cond
+;     ((equal "(" (buffer-substring-no-properties (point) (+ 1 (point))))
+;      (insert "{" (substring (live-delete-and-extract-sexp) 1 -1) "}"))
+;     ((equal "{" (buffer-substring-no-properties (point) (+ 1 (point))))
+;      (insert "[" (substring (live-delete-and-extract-sexp) 1 -1) "]"))
+;     ((equal "[" (buffer-substring-no-properties (point) (+ 1 (point))))
+;      (insert "(" (substring (live-delete-and-extract-sexp) 1 -1) ")"))
+;     ((equal 1 (point))
+;      (message "beginning of file reached, this was probably a mistake.")))
+;    (goto-char original-point)))
+;
+;(define-key clojure-mode-map (kbd "C-`") 'live-cycle-clj-coll)
+;
+;(setq cljr-magic-require-namespaces
+;      '(("io"   . "clojure.java.io")
+;        ("set"  . "clojure.set")
+;        ("str"  . "clojure.string")
+;        ("walk" . "clojure.walk")
+;        ("zip"  . "clojure.zip")
+;        ("time" . "clj-time.core")
+;        ("log"  . "taoensso.timbre")
+;        ("json" . "cheshire.core")))
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -34,8 +132,10 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (after-load 'clojure-mode
-  (add-hook 'clojure-mode-hook 'sanityinc/lisp-setup)
-  (add-hook 'clojure-mode-hook 'subword-mode))
+  (clj-refactor-mode 1)
+  ;; (parinfer-mode) (deprecated)
+  (add-hook 'clojure-mode-hook 'yas-minor-mode-on); for adding require/use/import statements
+  (add-hook 'clojure-mode-hook 'sanityinc/lisp-setup))
 
 
 
@@ -45,4 +145,3 @@
 
 
 (provide 'init-clojure)
-

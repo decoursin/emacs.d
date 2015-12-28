@@ -15,6 +15,15 @@
   (fullframe magit-status
 	     magit-mode-quit-window))
 
+;; unzet \z in magit, so that zz works to recenter text
+(after-load 'magit
+  (add-hook 'magit-mode-hook (lambda () (local-unset-key "z"))))
+
+;; R for reload
+(after-load 'magit
+  (add-hook 'magit-mode-hook (lambda () (local-unset-key "R")))
+  (add-hook 'magit-mode-hook (lambda () (local-set-key "R" 'magit))))
+
 ;;; Nick learn
 ;; (when (maybe-require-package 'magit)
 ;;   (setq-default

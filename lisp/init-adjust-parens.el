@@ -5,10 +5,10 @@
 
 (require 'adjust-parens)
 
-;; (add-hook 'emacs-lisp-mode-hook #'adjust-parens-mode)
-;; (add-hook 'clojure-mode-hook #'adjust-parens-mode)
 (add-hook 'emacs-lisp-mode-hook #'my/list-adjust-parens-mode)
 (add-hook 'clojure-mode-hook #'my/list-adjust-parens-mode)
+(add-hook 'ielm-mode-hook #'my/list-adjust-parens-mode)
+(add-hook 'cider-repl-mode-hook #'my/list-adjust-parens-mode)
 
 (defun my/list-adjust-parens-mode ()
   "Bind <M-left> and <M-right>"

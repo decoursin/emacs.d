@@ -5,4 +5,6 @@
     (after-load 'elm-mode
       (flycheck-elm-setup))))
 
+(add-hook 'elm-mode-hook #'evil-smartparens-mode)
+
 (provide 'init-elm)

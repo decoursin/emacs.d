@@ -44,7 +44,7 @@
 
 
 
-;; Commented out by Nick. Just be careful.
+;; Commented out by Nick. Just be careful instead.
 ;;(defun sanityinc/maybe-set-bundled-elisp-readonly ()
 ;;  "If this elisp appears to be part of Emacs, then disallow editing."
 ;;  (when (and (buffer-file-name)

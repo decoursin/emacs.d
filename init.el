@@ -59,6 +59,7 @@
 (require 'init-ibuffer)
 
 (require 'init-helm)
+(require 'init-avy)
 (require 'init-hippie-expand)
 (require 'init-auto-complete)
 ;(require 'init-spelling)
@@ -73,7 +74,7 @@
 (require 'init-eshell)
 (require 'init-matlab)
 (require 'init-projectile)
-;(require 'init-yasnippet) ;learn
+(require 'init-yasnippet) ;learn
 
 ;; elisp helper libraries
 (require-package 'dash) ; a modern list api for Emacs
@@ -109,6 +110,9 @@
 ;(require 'init-paredit);gross
 (require 'init-lisp);untested
 (require 'init-adjust-parens)
+(require 'init-smartparens)
+;; (require 'parinfer-mode.el) ;; doesn't seem to work well (yet)
+;; (require 'init-lispy)
 ;(require 'init-slime);untested
 (when (>= emacs-major-version 24)
   (require 'init-clojure)
@@ -169,6 +173,17 @@
 ;determine emacs version > http://ergoemacs.org/emacs/elisp_determine_OS_version.html
 
 ;;;; Functions
+(defun close-this-window ()
+  "Intelligently, close this window. First, try to delete-window,
+   then try elscreen-kill."
+  (interactive)
+  (unwind-protect
+      (let (retval)
+	(condition-case ex
+	    (setq retval (delete-window))
+	  ('error
+	   (elscreen-kill))))))
+
 (lexical-let ((count 1))
   (defun next-eshell ()
     (interactive)
@@ -191,6 +206,23 @@
       (progn
 	(eshell)
 	(rename-buffer "*eshell0*")))))
+
+;; TODO: these two functions should be just one function.
+;; Make a macro, or do something to consolidate.
+(defun dired-jump-to-emacs-directory ()
+  (interactive)
+  (dired-jump (getenv "EMACS_HOME")))
+
+;; this doesn't work for some reason
+;; (defun dired-jump-to-lisp-directory ()
+;;   (interactive)
+;;   (dired-jump (concat (getenv "EMACS_HOME") "/lisp/")))
+
+;; deprecatd
+(defun kill-behind-after-find-paren ()
+  (interactive)
+  (avy-goto-paren)
+  (cljr-splice-sexp-killing-backward))
 
 ;; For some reason, evil-tabs-tabedit doesn't work out-of-the-box, so
 ;; I implement this wrapper function.
@@ -280,9 +312,10 @@
 
 ;; Copied from jcf
 (define-key evil-normal-state-map "Y" (kbd "y$")); Untested
+(define-key evil-normal-state-map "x" 'delete-char); "x" no copy
 
 (global-set-key (kbd "C-S-<escape>") 'delete-other-windows)
-(global-set-key (kbd "C-S-x") 'elscreen-kill); ,clt tabclose
+(global-set-key (kbd "C-S-x") 'elscreen-kill); (deprecated)
 ; Map C-x C-b to buffer-menu rather than list-buffers
 ; so that it's easy to get rid of no-evil buffer
 (global-set-key (kbd "C-x C-b") 'buffer-menu)
@@ -299,19 +332,96 @@
 ;; What does this do?
 (setq evil-leader/in-all-states 1)
 
-; evil-leader
-;; TODO: ag prefixes
-(evil-leader/set-key "ag" 'ag); ,cl close buffer
-(evil-leader/set-key "af" 'ag-files); ag pattern
-(evil-leader/set-key "ap" 'ag-project); ag pattern
-(evil-leader/set-key "ap" 'ag-files); ag pattern
+;;;;;;;;;;;;;;;;;; Table of contents
+;; a - ag
+;; b - barf
+;; d - dired, delete
+;; e - eval
+;; f - find, misc
+;; g - magit
+;; k - kill
+;; p - projectile
+;; r - refactor
+;; s - sp
+;; t - tranpose
 
-(evil-leader/set-key "cl" 'delete-window); ,cl close buffer
-(evil-leader/set-key "cc" 'evilnc-comment-or-uncomment-lines)
+;;;;;;;;;;;;;;;;;;;; Misc.
+
+(global-set-key (kbd "M-<up>") 'cljr--move-param-up)
+(global-set-key (kbd "M-<down>") 'cljr--move-param-down)
+
 (evil-leader/set-key "SPC" 'evilnc-comment-or-uncomment-lines)
-(evil-leader/set-key "cp" 'evilnc-copy-and-comment-lines); comment & paste
+
+;; Nick, try this delete if not using.
+(global-unset-key (kbd "C-j"))
+(global-set-key (kbd "C-j") 'avy-goto-char)
+
+(evil-leader/set-key "cl" 'close-this-window); ,cl close buffer
+
+(evil-leader/set-key "fo" 'helm-multi-occur-all-buffers);
+(evil-leader/set-key "fsh" 'find-eshell);
+(evil-leader/set-key "fy" 'helm-show-kill-ring);
+
+(evil-leader/set-key "ielm" 'ielm)
+
+(evil-leader/set-key "linit" 'load-init.el)
+
+(evil-leader/set-key "sh" 'first-eshell);
+
+(evil-leader/set-key "yt" 'yank-tab) ; TODO: yt copy buffer like in chromium. write this yourself.
+(evil-leader/set-key "x" 'execute-extended-command)
+(evil-leader/set-key "w" 'save-buffer); ,w write
+(evil-leader/set-key "zp" 'zeal-at-point)
+
+;; buffers and tabs
+;(evil-leader/set-key "b" 'ibuffer);
+;; (evil-leader/set-key "b" 'helm-buffers-list);
+(evil-leader/set-key "." 'helm-buffers-list);
+(evil-leader/set-key "tn" 'elscreen-create); ,tn tabnew
+(evil-leader/set-key "te" 'find-file-new-window); ,tn tabnew
+(global-set-key (kbd "<f9>") 'elscreen-previous); F9 tabprevious
+(global-set-key (kbd "<f10>") 'elscreen-next)	; F10 tabnext
+(global-set-key (kbd "<f12>") 'evil-window-split)	; F10 tabnext
+(global-set-key (kbd "S-<f12>") 'evil-window-vsplit)	; F10 tabnext
+
+;; link: https://github.com/Fuco1/smartparens/wiki/Working-with-expressions
+(global-unset-key (kbd "M-f"))
+(global-unset-key (kbd "M-b"))
+(global-unset-key (kbd "M-i"))
+(global-unset-key (kbd "M-d"))
+(global-unset-key (kbd "M-o"))
+(global-unset-key (kbd "M-u"))
+(global-unset-key (kbd "M-n"))
+(global-unset-key (kbd "M-p"))
+(global-set-key (kbd "M-f") 'sp-forward-sexp)
+(global-set-key (kbd "M-b") 'sp-backward-sexp)
+(global-set-key (kbd "M-i") 'sp-down-sexp)
+(global-set-key (kbd "M-d") 'sp-backward-down-sexp)
+(global-set-key (kbd "M-o") 'sp-up-sexp)
+(global-set-key (kbd "M-u") 'sp-backward-up-sexp)
+(global-set-key (kbd "M-n") 'sp-next-sexp)
+(global-set-key (kbd "M-p") 'sp-previous-sexp)
+;; corral
+(global-set-key (kbd "M-9") 'corral-parentheses-backward)
+(global-set-key (kbd "M-0") 'corral-parentheses-forward)
+(global-set-key (kbd "M-[") 'corral-brackets-backward)
+(global-set-key (kbd "M-]") 'corral-brackets-forward)
+(global-set-key (kbd "M-{") 'corral-braces-backward)
+(global-set-key (kbd "M-}") 'corral-braces-forward)
+(global-set-key (kbd "M-\"") 'corral-double-quotes-backward)
+(global-set-key (kbd "M-\'") 'corral-single-quotes-backward)
+
+;;;;;;;;;;;;;;;;;;;;; Mappings
+
+;; TODO: ag prefixes
+(evil-leader/set-key "ag" 'ag)
+(evil-leader/set-key "af" 'ag-files); search by filetype like %.el
+
+;; (evil-leader/set-key "cc" 'evilnc-comment-or-uncomment-lines) (deprecated)
 
 (evil-leader/set-key "dd" 'dired-jump); ,d dired
+(evil-leader/set-key "dje" 'dired-jump-to-emacs-directory); ,d dired
+;; (evil-leader/set-key "djl" 'dired-jump-to-lisp-directory); ,d dired
 (evil-leader/set-key "df" 'delete-this-file)
 (evil-leader/set-key "db" 'evil-delete-buffer); buffer delete
 ;eval
@@ -322,26 +432,38 @@
 (evil-leader/set-key "es" 'eval-last-sexp)
 
 (evil-leader/set-key "ff" 'find-file);
-(evil-leader/set-key "fo" 'helm-multi-occur-all-buffers);
-(evil-leader/set-key "fsh" 'find-eshell);
-(evil-leader/set-key "fy" 'helm-show-kill-ring);
+
+;;;; (deprecated) just use C-j instead
+;; (evil-leader/set-key "fc" 'avy-goto-conditional)
+;; (evil-leader/set-key "fp" 'avy-goto-paren)
+;; (evil-leader/set-key "fb" 'avy-goto-bracket)
+;; (evil-leader/set-key "fl" 'avy-goto-char)
+;; (evil-leader/set-key "fw" 'avy-goto-word-or-subword-1)
+;; (evil-leader/set-key "f\"" 'avy-goto-double-quote)
+;; (evil-leader/set-key "f'" 'avy-goto-single-quote)
+
+;; (evil-leader/set-key "fkb" 'kill-behind-after-find-bracket) ;; deprecated
+;; (evil-leader/set-key "fkp" 'kill-behind-after-find-paren) ;; deprecated
 ;git
-(evil-leader/set-key "ga" 'git-messenger:popup-message); what is this?
-; magit. Read this: https://github.com/magit/magit/issues/1968
-(evil-leader/set-key "gcc" 'magit-commit)
-(evil-leader/set-key "gcl" 'magit-clone-github)
-(evil-leader/set-key "gd" 'magit-diff-dwim)
-(evil-leader/set-key "ge" 'ediff)
-(evil-leader/set-key "gf" 'ediff-files)
-(evil-leader/set-key "gb" 'ediff-buffers)
-(evil-leader/set-key "gg" 'magit-dispatch-popup)
-(evil-leader/set-key "gl" 'magit-log)
-(evil-leader/set-key "gs" 'magit-status)
-(evil-leader/set-key "gps" 'magit-stash-popup) ;gp git popup
-(evil-leader/set-key "gpg" 'magit-dispatch-popup) ;gp git popup
-(evil-leader/set-key "gpd" 'magit-diff-popup) ;gp git popup
-(evil-leader/set-key "gpe" 'magit-ediff-popup) ;gp git popup
+
+
+;;;; (deprecated)
+;; (evil-leader/set-key "gf" 'sp-forward-sexp)
+;; (evil-leader/set-key "gb" 'sp-backward-sexp)
+;; (evil-leader/set-key "gi" 'sp-down-sexp) ;gi for in
+;; (evil-leader/set-key "gd" 'sp-backward-down-sexp) ; l for down
+;; (evil-leader/set-key "go" 'sp-up-sexp) ;go for out
+;; (evil-leader/set-key "gu" 'sp-backward-up-sexp) ; h for up
+;; (evil-leader/set-key "gn" 'sp-next-sexp)
+;; (evil-leader/set-key "gp" 'sp-previous-sexp)
+
+;;; Not being used
+;; (evil-leader/set-key "gc" 'sp-beginning-of-sexp) ;; select-sexp
+;; (evil-leader/set-key "gn" 'sp-beginning-of-next-sexp)
+;; (evil-leader/set-key "gp" 'sp-beginning-of-previous-sexp)
+;; (evil-leader/set-key "gb" 'sp-backward-up-sexp)
 ;help
+(evil-leader/set-key "ha" 'command-apropos)
 (evil-leader/set-key "hf" 'describe-function)
 (evil-leader/set-key "hF" 'find-function)
 (evil-leader/set-key "hs" 'find-function) ; as in source it
@@ -351,9 +473,42 @@
 (evil-leader/set-key "hp" 'describe-package)
 (evil-leader/set-key "hv" 'describe-variable)
 (evil-leader/set-key "hz" 'zeal-at-point)
-(evil-leader/set-key "ielm" 'ielm)
+(evil-leader/set-key "hc" 'clojure-cheatsheet); help clojure
 
-(evil-leader/set-key "linit" 'load-init.el)
+;; kill
+(evil-leader/set-key "kf" 'sp-splice-sexp-killing-forward)
+(evil-leader/set-key "kb" 'sp-splice-sexp-killing-backward)
+(evil-leader/set-key "ka" 'sp-splice-sexp-killing-around)
+(evil-leader/set-key "kl" 'cljr-remove-let) ; kill let
+(evil-leader/set-key "ku" 'sp-backward-unwrap-sexp) ; kill unwrap
+(evil-leader/set-key "ks" 'sp-kill-sexp)
+(evil-leader/set-key "kh" 'sp-kill-hybrid-sexp)
+
+;; magit
+(evil-leader/set-key "gaa" 'magit-stage-modified);git add all
+(evil-leader/set-key "gaf" 'magit-stage-file); git add file
+(evil-leader/set-key "gds" 'magit-diff-staged)
+(evil-leader/set-key "gdu" 'magit-diff-unstaged)
+(evil-leader/set-key "ge" 'ediff)
+(evil-leader/set-key "gf" 'ediff-files) ;(deprecatd)
+(evil-leader/set-key "gb" 'ediff-buffers)
+(evil-leader/set-key "gca" 'magit-commit-amend)
+(evil-leader/set-key "gcs" 'magit-show-commit)
+(evil-leader/set-key "gcs" 'magit-show-commit)
+(evil-leader/set-key "gg" 'magit-dispatch-popup)
+(evil-leader/set-key "gl" 'magit-log)
+(evil-leader/set-key "gr" 'magit-file-rename)
+(evil-leader/set-key "gs" 'magit-status)
+(evil-leader/set-key "gpc" 'magit-cherry-pick-popup) ;gp git popup
+(evil-leader/set-key "gps" 'magit-stash-popup) ;gp git popup
+(evil-leader/set-key "gpg" 'magit-dispatch-popup) ;gp git popup
+(evil-leader/set-key "gpd" 'magit-diff-popup) ;gp git popup
+(evil-leader/set-key "gpe" 'magit-ediff-popup) ;gp git popup
+(evil-leader/set-key "gpr" 'magit-rebase-popup) ;gp git popup
+; magit. Read this: https://github.com/magit/magit/issues/1968
+;; (evil-leader/set-key "gcc" 'magit-commit)
+;; (evil-leader/set-key "gcl" 'magit-clone-github)
+
 ;projectile
 (evil-leader/set-key "pf" 'projectile-find-file)
 (evil-leader/set-key "pte" 'projectile-find-file)
@@ -362,26 +517,33 @@
 
 (evil-leader/set-key "nsh" 'next-eshell)
 
+;; r is for refactor
+(evil-leader/set-key "reb" 'sp-extract-before-sexp)
+(evil-leader/set-key "rea" 'sp-extract-after-sexp)
+;; TODO: try git renaming first, otherwise just rename.
 (evil-leader/set-key "rename" 'rename-this-file-and-buffer); ,rename
-(evil-leader/set-key "sh" 'first-eshell);
+
+;; sp
+;; (evil-leader/set-key "sH" 'sp-slurp-hybrid-sexp) ;; collision
+(evil-leader/set-key "sf" 'sp-forward-slurp-sexp)
+(evil-leader/set-key "sb" 'sp-backward-slurp-sexp)
+(evil-leader/set-key "sp" 'sp-select-previous-thing-exchange) ;; select-sexp
+(evil-leader/set-key "sn" 'sp-select-next-thing-exchange) ;; select-sexp
+
+;; barf
+(evil-leader/set-key "bb" 'sp-backward-barf-sexp) ;; select-sexp
+(evil-leader/set-key "bf" 'sp-forward-barf-sexp) ;; select-sexp
 ;(evil-leader/set-key "Sh" 'jcf-eshell-here); what is this?
 
-(evil-leader/set-key "yt" 'yank-tab) ; TODO: yt copy buffer like in chromium. write this yourself.
-(evil-leader/set-key "x" 'execute-extended-command)
-(evil-leader/set-key "w" 'save-buffer); ,w write
-(evil-leader/set-key "zp" 'zeal-at-point)
-
-
-;;; buffers and tabs
-;(evil-leader/set-key "b" 'ibuffer);
-(evil-leader/set-key "b" 'helm-buffers-list);
-(evil-leader/set-key ",fb" 'helm-buffers-list); is this too much??
-(evil-leader/set-key "tn" 'elscreen-create); ,tn tabnew
-(evil-leader/set-key "te" 'find-file-new-window); ,tn tabnew
-(global-set-key (kbd "<f9>") 'elscreen-previous); F9 tabprevious
-(global-set-key (kbd "<f10>") 'elscreen-next)	; F10 tabnext
-(global-set-key (kbd "<f12>") 'evil-window-split)	; F10 tabnext
-(global-set-key (kbd "S-<f12>") 'evil-window-vsplit)	; F10 tabnext
+;; transpose
+;; todo: instead of tl sl, instead of tp swap paragraph (sp).
+(evil-leader/set-key "tl" 'transpose-lines); works the same as sexps?
+(evil-leader/set-key "ts" 'sp-transpose-sexp)
+;; (evil-leader/set-key "tsf" 'transpose-sexps) 
+;; (evil-leader/set-key "tsb" 'transpose-sexps); tranpose current sexp back
+(evil-leader/set-key "tS" 'transpose-sentences)
+(evil-leader/set-key "tp" 'transpose-paragraphs)
+(evil-leader/set-key "tw" 'transpose-words)
 
 ;; Cider & Clojure
 (evil-leader/set-key "ce" 'cider-visit-error-buffer)
@@ -391,13 +553,15 @@
 ;(evil-leader/set-key 'cider-repl-mode "k" 'cider-repl-previous-input)
 ;(evil-leader/set-key 'cider-repl-mode "j" 'cider-repl-next-input)
 
+;; TODO: pull this out into lines
 (evil-leader/set-key-for-mode 'clojure-mode
-  "v" 'cider-test-run-test
-  "V" 'jcf-cider-test-run-tests
+  ;; "v" 'cider-test-run-test
+  ;; "V" 'jcf-cider-test-run-tests
   "cC" 'cider-connect
   "cd" 'cider-debug-defun-at-point
   "cD" 'cider-format-defn
-  "cJ" 'cider-jack-in
+  "cj" 'cider-jack-in
+  "cJ" 'cider-jack-in-clojurescript
   "cq" 'cider-quit
   "cR" 'cider-restart
   "cF" 'cider-format-buffer
@@ -405,18 +569,35 @@
   "eb" 'cider-eval-buffer
   "ep" 'cider-eval-defun-at-point
   "es" 'cider-eval-last-sexp
-  "er" 'cider-eval-region)
+  "er" 'cider-eval-region
+  ;; cljr refactor
+  ;; a: add to...
+  "rar" 'cljr-add-require-to-ns
+  "rai" 'cljr-add-import-to-ns
+  "rad" 'cljr-add-declaration
+  "rap" 'cljr-add-project-dependency
+ 
+  ;; TODO move this for cider-mode too!
+  "rcc" 'cljr-cycle-coll
+  "rci" 'cljr-cycle-if
+  "rli" 'cljr-introduce-let
+  "rlr" 'cljr-remove-let
+  "rle" 'cljr-expand-let
+
+  "ref" 'cljr-extract-function
+  "rr" 'cljr-rename-symbol
+  "ru" 'cljr-remove-unused-requires
+  "rp" 'cljr-promote-function
+  "r <up>" 'cljr--move-param-up ; maybe S-<up> instead?
+  "r <down>" 'cljr--move-param-down)
 
 (evil-leader/set-key-for-mode 'cider-repl-mode
   "cq" 'cider-quit
   "cr" 'cider-refresh
   "cR" 'cider-restart)
 
-;;(evil-leader/set-key "te" 'evil-tabs-tabedit); ,te tabedit
-;; this ^ doesn't work because evil-tabs-tabedit takes a filename as
-;; an argument. Instead, write a function that takes a path and
-;; sends that to evil-tabs-tabedit
 
+;;;;;;;;;;;;;;;; END of mappings
 
 ;; Where did this come from?
 ;; And what does it do?
@@ -565,7 +746,6 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 
 ;; Plugins to thinkabout
 ;https://www.reddit.com/r/emacs/comments/1q99wi/moving_from_paredit_to_smartparens/
-; paredit vs evil-paredit vs smartparens vs paxedit vs lispy vs parinfer (new)??
 ; jcf likes smartparens
 ; evil cursor colors (to know when I'm in evil mode or not): https://github.com/syl20bnr/spacemacs/blob/master/spacemacs/packages.el#L544
 ; bind-key (yes this looks great.) (why in attic?
@@ -586,6 +766,13 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 ; projectile
 ; adaptive-wrap maybe?
 ; more (I've looked until expand-region): https://github.com/syl20bnr/spacemacs/blob/master/spacemacs/packages.el
+
+; evil-smartparens paredit vs evil-paredit vs paxedit vs lispy vs parinfer (new)??
+;; evil-cleverparens - maybe. Combines evil-normal with additional movement.
+;; lispy - idk this one.
+;; parinfer - yes probably. Not available yet.
+; https://www.reddit.com/r/emacs/comments/3hvx2l/as_an_evil_user_should_i_learn_paredit_or_lispy/; evil-lisp-state - probably not. Adds an entirely new state.
+;; 
 
 ;; Test and see if you like this
 ;; (setq evil-cross-lines t

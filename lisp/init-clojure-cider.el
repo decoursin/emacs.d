@@ -11,11 +11,25 @@
 
 (require-package 'cider)
 (require-package 'ac-cider)
+(require-package 'flycheck-clojure)
 ;(require-package 'cider-eval-sexp-fu); Nick added
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; nrepl with Clojure
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
+;; try these
+;(define-key cider-repl-mode-map (kbd "<home>") nil)
+;(define-key cider-repl-mode-map (kbd "<tab>") 'complete-symbol)
+;(define-key cider-mode-map (kbd "<tab>") 'complete-symbol)
+
+;; Pretty print results in repl
+(setq cider-repl-use-pretty-printing t)
+
+;; Nick, what is this?
+;; Don't prompt for symbols
+(setq cider-prompt-for-symbol nil)
 
 (setq nrepl-popup-stacktraces nil)
 
@@ -49,8 +63,18 @@
 ;; is this working?
 (setq cider-history-file "~/.emacs.d/nrepl-history")
 
-(require-package 'flycheck-clojure)
-(after-load 'flycheck
-  (flycheck-clojure-setup))
+;; I probably don't need both of these, is one doing the other?
+(add-hook 'cider-mode-hook 'my-cider-mode-enable-flycheck)
+;; (after-load 'flycheck
+;;   (flycheck-clojure-setup))
+
+(defun my-cider-mode-enable-flycheck ()
+  (when (and (s-ends-with-p ".clj" (buffer-file-name))
+             (not (s-ends-with-p "/dev/user.clj" (buffer-file-name))))
+    (flycheck-mode 1)))
+
+;; What is this?
+;; eastwood is causing problems just fyi
+;; (eval-after-load 'flycheck '(add-to-list 'flycheck-checkers 'clojure-cider-eastwood))
 
 (provide 'init-clojure-cider)

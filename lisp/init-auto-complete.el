@@ -41,9 +41,9 @@
 	     auto-complete-mode)
     #'auto-complete))
 
-;; Nick, looks like this is not being used and don't want it anyways?
-;(defun sanityinc/never-indent ()
-;  (set (make-local-variable 'indent-line-function) (lambda () 'noindent)))
+;; Nick, is this being used?
+(defun sanityinc/never-indent ()
+ (set (make-local-variable 'indent-line-function) (lambda () 'noindent)))
 
 (defun set-auto-complete-as-completion-at-point-function ()
   (setq completion-at-point-functions
