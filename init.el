@@ -174,6 +174,15 @@
 ;determine emacs version > http://ergoemacs.org/emacs/elisp_determine_OS_version.html
 
 ;;;; Functions
+(defun cider-figwheel-repl ()
+  (interactive)
+  (with-current-buffer (cider-current-repl-buffer)
+    (goto-char (point-max))
+    (insert "(require 'figwheel-sidecar.repl-api)
+             (do (figwheel-sidecar.repl-api/start-figwheel!) nil)
+             (figwheel-sidecar.repl-api/cljs-repl)")
+    (cider-repl-return)))
+
 (defun close-this-window ()
   "Intelligently, close this window. First, try to delete-window,
    then try elscreen-kill."
