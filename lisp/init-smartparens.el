@@ -9,6 +9,9 @@
 ;; (smartparens-strict-mode) ;; wanted?
 
 
+(setq sp-navigate-reindent-after-up nil)
+(setq sp-navigate-close-if-unbalanced nil)
+
 ;(add-hook 'lisp-interaction-mode-hook #'evil-smartparens-mode); (deprecated)
 (add-hook 'emacs-lisp-mode-hook #'evil-smartparens-mode)
 (add-hook 'cider-mode-hook #'evil-smartparens-mode)
