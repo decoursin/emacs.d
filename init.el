@@ -330,6 +330,8 @@
 ; so that it's easy to get rid of no-evil buffer
 (global-set-key (kbd "C-x C-b") 'buffer-menu)
 
+(global-set-key (kbd "C-S-f") 'ag-project)
+
 (global-set-key (kbd "C-S-o") 'previous-buffer)
 (global-set-key (kbd "C-S-i") 'next-buffer)
 (global-set-key (kbd "<mouse-9>") 'next-buffer);forward
@@ -362,9 +364,15 @@
 
 (evil-leader/set-key "SPC" 'evilnc-comment-or-uncomment-lines)
 
+(global-set-key (kbd "C-SPC") 'company-complete)
+
 ;; Nick, try this delete if not using.
+(global-unset-key (kbd "C-M-j"))
 (global-unset-key (kbd "C-j"))
 (global-set-key (kbd "C-j") 'avy-goto-char)
+
+(global-unset-key (kbd "C-l"))
+(global-set-key (kbd "C-l") 'projectile-find-file)
 
 (evil-leader/set-key "cl" 'close-this-window); ,cl close buffer
 
@@ -375,8 +383,6 @@
 (evil-leader/set-key "ielm" 'ielm)
 
 (evil-leader/set-key "linit" 'load-init.el)
-
-(global-set-key (kbd "C-SPC") 'company-complete)
 
 (evil-leader/set-key "sh" 'first-eshell);
 
@@ -437,8 +443,9 @@
 (evil-leader/set-key "df" 'delete-this-file)
 (evil-leader/set-key "db" 'evil-delete-buffer); buffer delete
 ;eval
+(evil-leader/set-key "ed" 'eval-defun)
 (evil-leader/set-key "eb" 'eval-buffer)
-(evil-leader/set-key "ep" 'eval-defun); ep eval-defun-at-point
+;; (evil-leader/set-key "ep" 'eval-defun); (deprecated) ep eval-defun-at-point
 (evil-leader/set-key "ee" 'eval-epression)
 (evil-leader/set-key "er" 'eval-region)
 (evil-leader/set-key "es" 'eval-last-sexp)
@@ -571,15 +578,18 @@
   ;; "V" 'jcf-cider-test-run-tests
   "cC" 'cider-connect
   "cd" 'cider-debug-defun-at-point
-  "cD" 'cider-format-defn
   "cj" 'cider-jack-in
   "cJ" 'cider-jack-in-clojurescript
+  "cL" 'cider-load-buffer
+  "ct" 'cider-test-run-test
+  "cT" 'cider-test-run-tests
   "cq" 'cider-quit
   "cR" 'cider-restart
+  "cf" 'cider-format-defn
   "cF" 'cider-format-buffer
-  "ct" 'typed-clojure-check-ns
+  "cn" 'cider-repl-set-ns
   "eb" 'cider-eval-buffer
-  "ep" 'cider-eval-defun-at-point
+  "ed" 'cider-eval-defun-at-point
   "es" 'cider-eval-last-sexp
   "er" 'cider-eval-region
   ;; cljr refactor
@@ -604,9 +614,25 @@
   "r <down>" 'cljr--move-param-down)
 
 (evil-leader/set-key-for-mode 'cider-repl-mode
+  "cd" 'cider-debug-defun-at-point
+  "cj" 'cider-jack-in
+  "cJ" 'cider-jack-in-clojurescript
   "cq" 'cider-quit
   "cr" 'cider-refresh
-  "cR" 'cider-restart)
+  "cR" 'cider-restart
+  "cf" 'cider-format-defn
+  "ed" 'cider-eval-defun-at-point
+
+  "rcc" 'cljr-cycle-coll
+  "rci" 'cljr-cycle-if
+  "rli" 'cljr-introduce-let
+  "rlr" 'cljr-remove-let
+  "rle" 'cljr-expand-let
+
+  "ref" 'cljr-extract-function
+  "rp" 'cljr-promote-function
+  "r <up>" 'cljr--move-param-up ; maybe S-<up> instead?
+  "r <down>" 'cljr--move-param-down)
 
 
 ;;;;;;;;;;;;;;;; END of mappings
