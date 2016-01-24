@@ -4,13 +4,14 @@
 ;; 1) change from TAB to C-SPC and remove global C-SPC for setting marks
 ;; 2) comment out dictionary
 ;; TODO: learn this better
+;; this file is deprecated (used company instead)
 
 (require-package 'auto-complete)
 (require 'auto-complete-config)
-(global-auto-complete-mode t)
+;; (global-auto-complete-mode t)
 
 ; change from TAB to C-SPC
-(global-unset-key (kbd "C-SPC")); Remove 
+;; (global-unset-key (kbd "C-SPC")); Remove 
 (ac-set-trigger-key "C-SPC") ; NOTE: this doesn't remove TAB
 ;(define-key ac-mode-map (kbd "TAB") nil)
 ;(define-key ac-completing-map (kbd "TAB") nil)
@@ -63,7 +64,7 @@
 (dolist (mode '(log-edit-mode org-mode text-mode haml-mode
                 git-commit-mode
                 sass-mode yaml-mode csv-mode espresso-mode haskell-mode
-                html-mode nxml-mode sh-mode smarty-mode clojure-mode
+                html-mode nxml-mode sh-mode smarty-mode
                 lisp-mode textile-mode markdown-mode tuareg-mode
                 js3-mode css-mode less-css-mode sql-mode
                 sql-interactive-mode

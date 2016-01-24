@@ -61,7 +61,8 @@
 (require 'init-helm)
 (require 'init-avy)
 (require 'init-hippie-expand)
-(require 'init-auto-complete)
+(require 'init-company)
+;; (require 'init-auto-complete) (deprecated)
 ;(require 'init-spelling)
 ;(require 'init-sessions.el) ;save desktop? ;testing
 (require 'init-mmm)
@@ -365,6 +366,8 @@
 (evil-leader/set-key "ielm" 'ielm)
 
 (evil-leader/set-key "linit" 'load-init.el)
+
+(global-set-key (kbd "C-SPC") 'company-complete)
 
 (evil-leader/set-key "sh" 'first-eshell);
 

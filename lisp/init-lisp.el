@@ -110,6 +110,7 @@
     (setq he-expand-list nil)
     t))
 
+;; Nick, is this being used?
 (defun set-up-hippie-expand-for-elisp ()
   "Locally set `hippie-expand' completion functions for use with Emacs Lisp."
   (make-local-variable 'hippie-expand-try-functions-list)
@@ -177,7 +178,7 @@
 (defun sanityinc/emacs-lisp-setup ()
   "Enable features useful when working with elisp."
   (set-up-hippie-expand-for-elisp)
-  );(ac-emacs-lisp-mode-setup))
+  )
 
 (defconst sanityinc/elispy-modes
   '(emacs-lisp-mode ielm-mode)

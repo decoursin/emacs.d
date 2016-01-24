@@ -12,7 +12,6 @@
 (fset 'xml-mode 'nxml-mode)
 (add-hook 'nxml-mode-hook (lambda ()
                             (set (make-local-variable 'ido-use-filename-at-point) nil)))
-(setq nxml-slash-auto-complete-flag t)
 
 
 ;; See: http://sinewalker.wordpress.com/2008/06/26/pretty-printing-xml-with-emacs-nxml-mode/
