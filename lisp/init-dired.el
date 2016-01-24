@@ -27,4 +27,7 @@
   (after-load 'dired
     (add-hook 'dired-mode-hook 'diff-hl-dired-mode)))
 
+;; c to create new file
+(define-key dired-mode-map "c" 'find-file)
+
 (provide 'init-dired)
