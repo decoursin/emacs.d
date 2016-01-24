@@ -19,10 +19,6 @@
 (after-load 'magit
   (add-hook 'magit-mode-hook (lambda () (local-unset-key "z"))))
 
-;; R for reload
-(after-load 'magit
-  (add-hook 'magit-mode-hook (lambda () (local-unset-key "R")))
-  (add-hook 'magit-mode-hook (lambda () (local-set-key "R" 'magit))))
 
 ;;; Nick learn
 ;; (when (maybe-require-package 'magit)
@@ -44,6 +40,10 @@
     (add-hook 'magit-mode-hook (lambda () (local-unset-key [(meta h)])))))
 
 ;;;;;; ediff
+;; saner ediff default
+(setq ediff-diff-options "-w")
+(setq ediff-split-window-function 'split-window-horizontally)
+(setq ediff-window-setup-function 'ediff-setup-windows-plain)
 ;; remap -> ediff-copy-A-to-B with diff other
 ;; add mapping of key "!" to ediff-update-diffs
 
