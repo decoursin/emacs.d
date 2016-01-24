@@ -12,6 +12,15 @@
 (require-package 'cider)
 ;; (require-package 'ac-cider) (deprecated) ;; use company-mode instead
 (require-package 'flycheck-clojure)
+
+(require 'cider-interaction)
+(require 'cider-client)
+(require 'cider-test)
+(require 'cider-eldoc)
+(require 'cider-doc)
+(require 'cider-compat)
+(require 'cider-resolve)
+
 ;(require-package 'cider-eval-sexp-fu); Nick added
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -46,6 +55,7 @@
   ;; (add-hook 'cider-mode-hook 'set-auto-complete-as-completion-at-point-function)
   (add-hook 'cider-mode-hook 'cider-turn-on-eldoc-mode)
   (add-hook 'cider-interaction-mode-hook 'cider-turn-on-eldoc-mode);; Nick added this. Untested though. What is cider-interaction-mode-hook lol?
+
   ;(add-hook 'cider-repl-mode-hook 'subword-mode); I'm not use to this. Treats words when separated by - dashes.
   ;(add-hook 'cider-repl-mode-hook 'paredit-mode); Eee I don't like this.
   ;; (define-key cider-mode-map (kbd "C-c C-d") 'ac-cider-popup-doc) (deprecated)
@@ -77,5 +87,10 @@
 ;; What is this?
 ;; eastwood is causing problems just fyi
 ;; (eval-after-load 'flycheck '(add-to-list 'flycheck-checkers 'clojure-cider-eastwood))
+
+
+(defalias 'cider-current-repl-buffer #'cider-current-connection
+  "The current REPL buffer.
+Return the REPL buffer given by `cider-current-connection'.")
 
 (provide 'init-clojure-cider)
