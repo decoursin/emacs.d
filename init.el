@@ -419,7 +419,7 @@ With a prefix ARG invalidates the cache first."
 (evil-leader/set-key "sh" 'first-eshell);
 
 (evil-leader/set-key "yt" 'yank-tab) ; TODO: yt copy buffer like in chromium. write this yourself.
-(evil-leader/set-key "x" 'execute-extended-command)
+(evil-leader/set-key "x" 'helm-M-x)
 (evil-leader/set-key "w" 'save-buffer); ,w write
 (evil-leader/set-key "zp" 'zeal-at-point)
 
