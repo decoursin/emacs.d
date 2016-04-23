@@ -183,7 +183,7 @@
 ;determine emacs version > http://ergoemacs.org/emacs/elisp_determine_OS_version.html
 
 ;;;; Functions
-(defun cider-figwheel-repl ()
+(defun nick-cider-figwheel-repl-clojurescript ()
   (interactive)
   (with-current-buffer (cider-current-repl-buffer)
     (goto-char (point-max))
