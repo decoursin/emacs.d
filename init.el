@@ -134,6 +134,8 @@
 (when *is-linux*
   (require 'init-zeal))
 (require-package 'regex-tool); what is this?
+(global-set-key (kbd "C-+") 'text-scale-increase)
+(global-set-key (kbd "C--") 'text-scale-decrease)
 
 ;; untested
 ;;----------------------------------------------------------------------------
