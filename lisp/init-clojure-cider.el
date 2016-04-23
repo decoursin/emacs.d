@@ -10,7 +10,6 @@
 (require-package 'emacs '(24))
 
 (require-package 'cider)
-;; (require-package 'ac-cider) (deprecated) ;; use company-mode instead
 (require-package 'flycheck-clojure)
 
 (require 'cider-interaction)
@@ -43,17 +42,12 @@
 (setq nrepl-popup-stacktraces nil)
 
 (after-load 'cider
-  ;; disable ac for company-complete instead
-  ;; (add-hook 'cider-repl-mode-hook 'ac-cider-setup)
-  ;; (add-hook 'cider-mode-hook 'ac-cider-setup)
   (setq cider-show-error-buffer 'nil) ; don't show on error
 
-  ;; (after-load 'auto-complete
-  ;;   (add-to-list 'ac-modes 'cider-repl-mode))
-
-  ;; (add-hook 'cider-repl-mode-hook 'set-auto-complete-as-completion-at-point-function)
-  ;; (add-hook 'cider-mode-hook 'set-auto-complete-as-completion-at-point-function)
   (add-hook 'cider-mode-hook 'cider-turn-on-eldoc-mode)
+  (add-hook 'cider-repl-mode-hook 'company-mode)
+  (add-hook 'cider-mode-hook 'company-mode)
+
   (add-hook 'cider-interaction-mode-hook 'cider-turn-on-eldoc-mode);; Nick added this. Untested though. What is cider-interaction-mode-hook lol?
 
   ;(add-hook 'cider-repl-mode-hook 'subword-mode); I'm not use to this. Treats words when separated by - dashes.
