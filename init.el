@@ -323,6 +323,11 @@ With a prefix ARG invalidates the cache first."
 ;(substitute-key-definition 'find-file 'find-file-new-window esc-map)
 ;(substitute-key-definition 'find-file 'find-file-new-window ctl-x-map)
 
+(defun indent-buffer ()
+  (interactive)
+  (save-excursion
+    (indent-region (point-min) (point-max) nil)))
+(global-set-key [f12] 'indent-buffer)
 
 
 
@@ -404,6 +409,8 @@ With a prefix ARG invalidates the cache first."
 (evil-leader/set-key "fo" 'helm-multi-occur-all-buffers);
 (evil-leader/set-key "fsh" 'find-eshell);
 (evil-leader/set-key "fy" 'helm-show-kill-ring);
+(evil-leader/set-key "fr" 'indent-region);
+(evil-leader/set-key "fb" 'indent-buffer);
 
 (evil-leader/set-key "ielm" 'ielm)
 
