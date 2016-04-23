@@ -50,6 +50,9 @@
 ;; logs keyboard commands to a buffer named 'command-log'.
 (require-package 'mwe-log-commands) ;is this working?
 
+;devops
+(require 'init-docker)
+
 (require 'init-frame-hooks)
 (require 'init-themes)
 (require 'init-osx-keys) ;; makes changes to Linux too; TODO: rename or something
@@ -91,6 +94,7 @@
 ;; Languages, etc
 ;(require 'init-compile)
 (require 'init-markdown)
+(require 'init-terraform)
 ;(require 'init-erlang)
 (require 'init-javascript)
 ;(require 'init-php)
@@ -99,6 +103,7 @@
 (require 'init-html)
 (require 'init-css)
 (require 'init-haml)
+(require 'init-yaml)
 (require 'init-python-mode)
 ;(require 'init-haskell)
 (require 'init-elm)
@@ -110,6 +115,7 @@
 ;; Lisp
 ;(require 'init-paredit);gross
 (require 'init-lisp);untested
+(require 'init-corral)
 (require 'init-adjust-parens)
 (require 'init-smartparens)
 ;; (require 'parinfer-mode.el) ;; doesn't seem to work well (yet)
@@ -117,6 +123,7 @@
 ;(require 'init-slime);untested
 (when (>= emacs-major-version 24)
   (require 'init-clojure)
+  (require 'init-squiggly-clojure)
   (require 'init-clojure-cider))
 ;; (require 'init-clojurescript)
 (require 'init-4clojure)
