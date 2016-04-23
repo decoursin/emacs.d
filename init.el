@@ -243,6 +243,7 @@
 
 ;; For some reason, evil-tabs-tabedit doesn't work out-of-the-box, so
 ;; I implement this wrapper function.
+;;; rename this to new-tab ?
 (defun find-file-new-window (filename)
   "Edit a file in a new window."
   (interactive "Fpath: ")
@@ -286,6 +287,20 @@
                    (format "git@github.com:%s.git" repository)
                  (format "%s://github.com/%s.git" protocol repository))
                directory))
+
+;; Just made a small change to project-find-file
+;; to file in a new tab
+(defun projectile-find-file-new-tab (&optional arg)
+  "Jump to a project's file using completion.
+With a prefix ARG invalidates the cache first."
+  (interactive "P")
+  (projectile-maybe-invalidate-cache arg)
+  (let ((file (projectile-completing-read "Find file: "
+                                          (projectile-current-project-files))))
+    (let ((fpath (expand-file-name file (projectile-project-root))))
+      (elscreen-create)
+      (find-file fpath)
+      (run-hooks 'projectile-find-file-hook))))
 
 ;; This doesn't work for some reason
 ;; open eshell in a new tab window
@@ -380,6 +395,7 @@
 
 (global-unset-key (kbd "C-l"))
 (global-set-key (kbd "C-l") 'projectile-find-file)
+(global-set-key (kbd "C-S-l") 'projectile-find-file-new-tab)
 
 (evil-leader/set-key "cl" 'close-this-window); ,cl close buffer
 
