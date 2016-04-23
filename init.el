@@ -427,6 +427,7 @@ With a prefix ARG invalidates the cache first."
 ;(evil-leader/set-key "b" 'ibuffer);
 ;; (evil-leader/set-key "b" 'helm-buffers-list);
 (evil-leader/set-key "." 'helm-buffers-list);
+(evil-leader/set-key ",." 'helm-browse-project);
 (evil-leader/set-key "tn" 'elscreen-create); ,tn tabnew
 (evil-leader/set-key "te" 'find-file-new-window); ,tn tabnew
 (global-set-key (kbd "<f9>") 'elscreen-previous); F9 tabprevious
