@@ -133,8 +133,7 @@
 
 (after-load 'clojure-mode
   (clj-refactor-mode 1)
-  ;; (parinfer-mode) (deprecated)
-  (add-hook 'clojure-mode-hook 'yas-minor-mode-on); for adding require/use/import statements
+  (add-hook 'clojure-mode-hook 'yas-minor-mode-on); for adding require/use/import statements in clj-refactor
   (add-hook 'clojure-mode-hook 'sanityinc/lisp-setup))
 
 

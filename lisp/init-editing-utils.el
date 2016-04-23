@@ -100,19 +100,21 @@
 )
 
 
+;;;; (deprecated)
+;;;; I don't think this is being used. Use visual-star instead
 ;; Am I using this? I think so but IDK.
-(require-package 'highlight-symbol)
-(dolist (hook '(prog-mode-hook html-mode-hook css-mode-hook))
-  (add-hook hook 'highlight-symbol-mode)
-  (add-hook hook 'highlight-symbol-nav-mode))
-(add-hook 'org-mode-hook 'highlight-symbol-nav-mode)
-(after-load 'highlight-symbol
-  (diminish 'highlight-symbol-mode)
-  (defadvice highlight-symbol-temp-highlight (around sanityinc/maybe-suppress activate)
-    "Suppress symbol highlighting while isearching."
-    (unless (or isearch-mode
-                (and (boundp 'multiple-cursors-mode) multiple-cursors-mode))
-      ad-do-it)))
+;; (require-package 'highlight-symbol)
+;; (dolist (hook '(prog-mode-hook html-mode-hook css-mode-hook))
+;;   (add-hook hook 'highlight-symbol-mode)
+;;   (add-hook hook 'highlight-symbol-nav-mode))
+;; (add-hook 'org-mode-hook 'highlight-symbol-nav-mode)
+;; (after-load 'highlight-symbol
+;;   (diminish 'highlight-symbol-mode)
+;;   (defadvice highlight-symbol-temp-highlight (around sanityinc/maybe-suppress activate)
+;;     "Suppress symbol highlighting while isearching."
+;;     (unless (or isearch-mode
+;;                 (and (boundp 'multiple-cursors-mode) multiple-cursors-mode))
+;;       ad-do-it)))
 
 ;; Nick - what does this do?
 (require-package 'browse-kill-ring)
