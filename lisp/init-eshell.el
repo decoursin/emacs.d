@@ -19,6 +19,17 @@
 (require 'em-prompt)
 (require 'em-term)
 
+;;; helm eshell
+(require-package 'pcomplete-extension)
+
+(add-hook 'eshell-mode-hook
+          (lambda ()
+            (eshell-cmpl-initialize)
+            (define-key eshell-mode-map [remap pcomplete] 'helm-esh-pcomplete)
+            (define-key eshell-mode-map (kbd "M-p") 'helm-eshell-history)))
+
+;;; done helm eshell
+
   (setq
    ;; buffer shorthand -> echo foo > #'buffer
    eshell-buffer-shorthand t ; what is this?
