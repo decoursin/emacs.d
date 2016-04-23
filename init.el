@@ -329,8 +329,6 @@ With a prefix ARG invalidates the cache first."
     (indent-region (point-min) (point-max) nil)))
 (global-set-key [f12] 'indent-buffer)
 
-
-
 ;;;Scroll when searching
 ;; Copied from jcf
 (defadvice evil-search-next
@@ -767,6 +765,7 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 
 
 ;; TODO:
+; make a "prepend sudo when in shell" function
 ;set eshell to be starting point
 ;push to git
 ;map ,a or something to ag
@@ -814,9 +813,16 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 ;; no blinking cursor
 (blink-cursor-mode 0)
 
+;; No newline at the end of a file
+(setq mode-require-final-newline nil)
+
 ; Maybe add this later
 (tool-bar-mode -1)
 (setq inhibit-splash-screen t)
+
+;; set tab width
+(setq tab-width 4)
+
 ;; (setq inhibit-startup-echo-area-message t)
 ;; (setq inhibit-startup-message t)
 
