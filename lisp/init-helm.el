@@ -2,6 +2,11 @@
 (require 'helm)
 (require 'helm-config)
 (require 'helm-regexp)
+(require 'helm-command)
+(require 'helm-files)
+
+;; (setq helm-ff-history nil)
+;; (setq helm-mode-reverse-history nil)
 
 ;; What does this do?
 (eval-after-load "helm-regexp"
