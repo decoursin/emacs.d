@@ -1,21 +1,35 @@
+;; Nick, here's a new
+;; guide: https://github.com/xiaohanyu/oh-my-emacs/blob/master/modules/ome-javascript.org
+;; another guide: https://yoo2080.wordpress.com/2012/03/15/js2-mode-setup-recommendation/
 ;; Copied from Purcell
 ;; Untested
 ;; IDK much about this file
 
 (maybe-require-package 'json-mode)
 (maybe-require-package 'js2-mode)
-(maybe-require-package 'ac-js2)
 (maybe-require-package 'coffee-mode)
+(maybe-require-package 'json-reformat-region)
 (require-package 'js-comint)
+(require-package 'react-snippets)
 
 (defcustom preferred-javascript-mode
   (first (remove-if-not #'fboundp '(js2-mode js-mode)))
   "Javascript mode to use for .js files."
   :type 'symbol
   :group 'programming
-  :options '(js2-mode js-mode))
+  :options '(js2-jsx-mode js2-mode js-mode))
 
 (defconst preferred-javascript-indent-level 2)
+(setq json-reformat:indent-width 2)
+(setq js2-basic-offset 2)
+
+;; js2-jsx-mode
+(add-to-list 'auto-mode-alist '("\\.jsx?\\'" . js2-jsx-mode))
+(add-to-list 'interpreter-mode-alist '("node" . js2-jsx-mode))
+
+(defun setup-js2-mode-syntax-checker ()
+  (flycheck-select-checker 'javascript-eslint)
+  (flycheck-mode))
 
 ;; Need to first remove from list if present, since elpa adds entries too, which
 ;; may be in an arbitrary order
@@ -44,6 +58,8 @@
   (add-hook 'js2-mode-hook 'sanityinc/disable-js2-checks-if-flycheck-active)
 
   (add-hook 'js2-mode-hook (lambda () (setq mode-name "JS2")))
+
+  (add-hook 'js2-mode-hook #'setup-js2-mode-syntax-checker)
 
   (after-load 'js2-mode
     (js2-imenu-extras-setup)))
