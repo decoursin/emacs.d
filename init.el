@@ -488,7 +488,7 @@ With a prefix ARG invalidates the cache first."
 (evil-leader/set-key "er" 'eval-region)
 (evil-leader/set-key "es" 'eval-last-sexp)
 
-(evil-leader/set-key "ff" 'find-file);
+(evil-leader/set-key "ff" 'helm-find-files);
 
 ;;;; (deprecated) just use C-j instead
 ;; (evil-leader/set-key "fc" 'avy-goto-conditional)
