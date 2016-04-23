@@ -530,7 +530,8 @@ With a prefix ARG invalidates the cache first."
 (evil-leader/set-key "hp" 'describe-package)
 (evil-leader/set-key "hv" 'describe-variable)
 (evil-leader/set-key "hz" 'zeal-at-point)
-(evil-leader/set-key "hc" 'clojure-cheatsheet); help clojure
+(evil-leader/set-key "hc" 'cider-grimoire); help clojure
+(evil-leader/set-key "hC" 'clojure-cheatsheet); help clojure
 
 ;; kill
 (evil-leader/set-key "kf" 'sp-splice-sexp-killing-forward)
@@ -604,7 +605,7 @@ With a prefix ARG invalidates the cache first."
 
 ;; Cider & Clojure
 (evil-leader/set-key "ce" 'cider-visit-error-buffer)
-(evil-leader/set-key "cr" 'cider-switch-to-relevant-repl-buffer)
+(evil-leader/set-key "cr" 'cider-switch-to-repl-buffer)
 (evil-leader/set-key "cb" 'cider-switch-to-last-clojure-buffer)
 ; doesn't work
 ;(evil-leader/set-key 'cider-repl-mode "k" 'cider-repl-previous-input)
@@ -623,7 +624,7 @@ With a prefix ARG invalidates the cache first."
   "cT" 'cider-test-run-tests
   "cq" 'cider-quit
   "cR" 'cider-restart
-  "cf" 'cider-format-defn
+  "cf" 'cider-format-defun
   "cF" 'cider-format-buffer
   "cn" 'cider-repl-set-ns
   "eb" 'cider-eval-buffer
@@ -658,7 +659,6 @@ With a prefix ARG invalidates the cache first."
   "cq" 'cider-quit
   "cr" 'cider-refresh
   "cR" 'cider-restart
-  "cf" 'cider-format-defn
   "ed" 'cider-eval-defun-at-point
 
   "rcc" 'cljr-cycle-coll
