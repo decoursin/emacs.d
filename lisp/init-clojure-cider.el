@@ -35,9 +35,15 @@
 ;; Pretty print results in repl
 (setq cider-repl-use-pretty-printing t)
 
+;; idk
+(setq cider-stacktrace-default-filters '(tooling dup))
+
+(setq cider-repl-history-size 1000)
+
 ;; Nick, what is this?
 ;; Don't prompt for symbols
 (setq cider-prompt-for-symbol nil)
+
 
 (setq nrepl-popup-stacktraces nil)
 
@@ -50,12 +56,22 @@
 
   (add-hook 'cider-interaction-mode-hook 'cider-turn-on-eldoc-mode);; Nick added this. Untested though. What is cider-interaction-mode-hook lol?
 
-  ;(add-hook 'cider-repl-mode-hook 'subword-mode); I'm not use to this. Treats words when separated by - dashes.
-  ;(add-hook 'cider-repl-mode-hook 'paredit-mode); Eee I don't like this.
-  ;; (define-key cider-mode-map (kbd "C-c C-d") 'ac-cider-popup-doc) (deprecated)
+  (add-hook 'cider-repl-mode-hook
+	    (lambda () (local-set-key (kbd "S-<return>") 'cider-repl-newline-and-indent)))
+
+  ;; TODO: move to last point automatically. eshell does this.
+  ;; TODO: when "end-history" delete. Tried this. Doesn't work. Can only submit a bug in cider.
+  (add-hook 'cider-repl-mode-hook
+	    (lambda () (local-set-key (kbd "<up>") 'cider-repl-previous-input)))
+  (add-hook 'cider-repl-mode-hook
+	    (lambda () (local-set-key (kbd "<down>") 'cider-repl-next-input)))
+  (add-hook 'cider-repl-mode-hook
+	    (lambda () (local-set-key (kbd "S-<up>") 'cider-repl-next-matching-input)))
+  (add-hook 'cider-repl-mode-hook
+	    (lambda () (local-set-key (kbd "S-<down>") 'cider-repl-previous-matching-input)))
 
   ;; none of these work. Error is: wrong type argument: keymapp ...
-  ;(define-key cider-repl-mode-hook (kbd "<up>") 'cider-repl-previous-input);untested
+  ;; (define-key 'cider-repl-mode-hook (kbd "<up>") 'cider-repl-previous-input);untested
   ; what does no-prefix-mode-rx do?
   ;(define-key cider-repl-mode-hook (kbd "C-p") 'cider-repl-previous-input);untested
  ;(define-key cider-repl-mode-hook (kbd "<down>") 'cider-repl-next-input);untested
@@ -70,8 +86,8 @@
 
 ;; I probably don't need both of these, is one doing the other?
 (add-hook 'cider-mode-hook 'my-cider-mode-enable-flycheck)
-;; (after-load 'flycheck
-;;   (flycheck-clojure-setup))
+(after-load 'flycheck
+  (flycheck-clojure-setup))
 
 (defun my-cider-mode-enable-flycheck ()
   (when (and (s-ends-with-p ".clj" (buffer-file-name))
@@ -80,7 +96,7 @@
 
 ;; What is this?
 ;; eastwood is causing problems just fyi
-;; (eval-after-load 'flycheck '(add-to-list 'flycheck-checkers 'clojure-cider-eastwood))
+(eval-after-load 'flycheck '(add-to-list 'flycheck-checkers 'clojure-cider-eastwood))
 
 
 (defalias 'cider-current-repl-buffer #'cider-current-connection
