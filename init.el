@@ -452,6 +452,11 @@ With a prefix ARG invalidates the cache first."
 (global-set-key (kbd "M-u") 'sp-backward-up-sexp)
 (global-set-key (kbd "M-n") 'sp-next-sexp)
 (global-set-key (kbd "M-p") 'sp-previous-sexp)
+;; recently added
+(global-set-key (kbd "M-e") 'sp-end-of-sexp)
+(global-set-key (kbd "M-s") 'sp-beginning-of-sexp)
+(global-set-key (kbd "M-h") 'sp-beginning-of-previous-sexp)
+(global-set-key (kbd "M-j") 'sp-beginning-of-next-sexp)
 ;; corral
 (global-set-key (kbd "M-9") 'corral-parentheses-backward)
 (global-set-key (kbd "M-0") 'corral-parentheses-forward)
