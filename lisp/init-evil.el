@@ -11,7 +11,7 @@
 ;;;;;;; Evil
 (require-package 'evil)
 (require-package 'evil-leader)
-(require-package 'evil-jumper); Evil-jumper (vim style C-o and C-i jump between buffers)
+;(require-package 'evil-jumper); Evil-jumper (vim style C-o and C-i jump between buffers)
 (require-package 'evil-tabs)
 (require-package 'evil-visualstar)
 (require-package 'evil-surround)
@@ -37,13 +37,13 @@
 (global-evil-visualstar-mode)
 (setq-default evil-symbol-word-search t);# search for symbol not word
 ;;; jump
-(global-evil-jumper-mode)
+;(global-evil-jumper-mode)
 
 (when (> emacs-major-version 24)
 	(global-evil-visualstar-mode)
 	(setq-default evil-symbol-word-search t);# search for symbol not word ; idk exactly
 	;;; jump
-	(global-evil-jumper-mode)
+	;(global-evil-jumper-mode)
 )
 ;;; leader
 ; Must enable global-evil-leader-mode before evil-mode
