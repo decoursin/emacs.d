@@ -54,7 +54,7 @@
 (setq evil-leader/in-all-states t); this could pose problems, then resort to this:
 
 ;;In insert mode, Evil uses linear undo. If you want fine grain undo:
-(setq evil-want-fine-undo t)
+;; (setq evil-want-fine-undo t)
 
 ;; sets initial states
 ;; like: (evil-set-initial-state 'ibuffer-mode 'normal)
@@ -70,6 +70,7 @@
            (eshell-mode . insert)
            (git-rebase-mode . emacs)
            (grep-mode . emacs)
+           (sql-mode . normal)
            (helm-grep-mode . emacs)
            (help-mode . normal)
            (ielm-mode . insert)

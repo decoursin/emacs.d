@@ -98,7 +98,8 @@
 ;(require 'init-erlang)
 (require 'init-javascript)
 (require 'init-typescript)
-;(require 'init-php)
+(require 'init-angularjs)
+(require 'init-php)
 ;(require 'init-org)
 (require 'init-nxml)
 (require 'init-html)
@@ -111,6 +112,7 @@
 ;(require 'init-ruby-mode)
 ;(require 'init-rails)
 (require 'init-sql)
+(require 'init-edbi)
 
 
 ;; Lisp
@@ -434,6 +436,11 @@ With a prefix ARG invalidates the cache first."
 (global-set-key (kbd "<f12>") 'evil-window-split)	; F10 tabnext
 (global-set-key (kbd "S-<f12>") 'evil-window-vsplit)	; F10 tabnext
 
+;TODO:setSPCto_evil_scroll_down
+;; (global-set-key (kbd "SPC") 'evil-scroll-page-down); ,c-h jump backward
+; evil jumping
+(global-set-key (kbd "C-h") 'evil-jump-backward); ,c-h jump backward
+
 ;; link: https://github.com/Fuco1/smartparens/wiki/Working-with-expressions
 (global-unset-key (kbd "M-f"))
 (global-unset-key (kbd "M-b"))
@@ -470,6 +477,7 @@ With a prefix ARG invalidates the cache first."
 
 ;; TODO: ag prefixes
 (evil-leader/set-key "ag" 'ag)
+(evil-leader/set-key "ap" 'ag-project)
 (evil-leader/set-key "af" 'ag-files); search by filetype like %.el
 
 ;; (evil-leader/set-key "cc" 'evilnc-comment-or-uncomment-lines) (deprecated)
@@ -570,9 +578,14 @@ With a prefix ARG invalidates the cache first."
 (evil-leader/set-key "pf" 'projectile-find-file)
 (evil-leader/set-key "pte" 'projectile-find-file)
 (evil-leader/set-key "pd" 'projectile-dired)
-(evil-leader/set-key "pag" 'ag-project)
+(evil-leader/set-key "pa" 'ag-project)
 
 (evil-leader/set-key "nsh" 'next-eshell)
+
+;; open
+(evil-leader/set-key "osl" 'sql-local-nick)
+(evil-leader/set-key "osp" 'sql-prod-nick)
+(evil-leader/set-key "osc" 'sql-cis-nick)
 
 ;; r is for refactor
 (evil-leader/set-key "reb" 'sp-extract-before-sexp)
@@ -602,19 +615,24 @@ With a prefix ARG invalidates the cache first."
 (evil-leader/set-key "tp" 'transpose-paragraphs)
 (evil-leader/set-key "tw" 'transpose-words)
 
-;; Cider & Clojure
-(evil-leader/set-key "ce" 'cider-visit-error-buffer)
-(evil-leader/set-key "cr" 'cider-switch-to-repl-buffer)
-(evil-leader/set-key "cb" 'cider-switch-to-last-clojure-buffer)
-; doesn't work
-;(evil-leader/set-key 'cider-repl-mode "k" 'cider-repl-previous-input)
-;(evil-leader/set-key 'cider-repl-mode "j" 'cider-repl-next-input)
+;;;;;;;;; sql
+
+;; not working
+(evil-leader/set-key-for-mode 'sql-mode
+  "er" 'sql-send-region
+  "eb" 'sql-send-buffer
+  "sr" 'sql-send-region)
+
+;;;;;;;;; Cider & Clojure
+;; (evil-leader/set-key "ce" 'cider-visit-error-buffer)
+;; (evil-leader/set-key "cr" 'cider-switch-to-repl-buffer)
+;; (evil-leader/set-key "cb" 'cider-switch-to-last-clojure-buffer)
 
 ;; TODO: pull this out into lines
 (evil-leader/set-key-for-mode 'clojure-mode
-  ;; "v" 'cider-test-run-test
-  ;; "V" 'jcf-cider-test-run-tests
   "cC" 'cider-connect
+  "cb" 'cider-switch-to-last-clojure-buffer
+  "ce" 'cider-visit-error-buffer
   "cd" 'cider-debug-defun-at-point
   "cj" 'cider-jack-in
   "cJ" 'cider-jack-in-clojurescript
@@ -626,6 +644,7 @@ With a prefix ARG invalidates the cache first."
   "cf" 'cider-format-defun
   "cF" 'cider-format-buffer
   "cn" 'cider-repl-set-ns
+  "cr" 'cider-switch-to-repl-buffer
   "eb" 'cider-eval-buffer
   "ed" 'cider-eval-defun-at-point
   "es" 'cider-eval-last-sexp
@@ -652,6 +671,8 @@ With a prefix ARG invalidates the cache first."
   "r <down>" 'cljr--move-param-down)
 
 (evil-leader/set-key-for-mode 'cider-repl-mode
+  "cb" 'cider-switch-to-last-clojure-buffer
+  "ce" 'cider-visit-error-buffer
   "cd" 'cider-debug-defun-at-point
   "cj" 'cider-jack-in
   "cJ" 'cider-jack-in-clojurescript
@@ -823,6 +844,12 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 
 ;; set tab width
 (setq tab-width 4)
+
+;; disable backup
+(setq backup-inhibitied t)
+
+;; disable auto save
+(setq auto-save-default nil)
 
 ;; (setq inhibit-startup-echo-area-message t)
 ;; (setq inhibit-startup-message t)

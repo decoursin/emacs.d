@@ -19,9 +19,10 @@
   :group 'programming
   :options '(js2-jsx-mode js2-mode js-mode))
 
-(defconst preferred-javascript-indent-level 2)
-(setq json-reformat:indent-width 2)
-(setq js2-basic-offset 2)
+; indent
+(defconst preferred-javascript-indent-level 4)
+(setq json-reformat:indent-width 4)
+(setq js2-basic-offset 4)
 
 ;; js2-jsx-mode
 (add-to-list 'auto-mode-alist '("\\.jsx?\\'" . js2-jsx-mode))
@@ -43,19 +44,19 @@
 ;; js2-mode
 
 ;; Change some defaults: customize them to override
-(setq-default js2-basic-offset 2
-              js2-bounce-indent-p nil)
+(setq-default js2-bounce-indent-p nil)
 (after-load 'js2-mode
-  ;; Disable js2 mode's syntax error highlighting by default...
-  (setq-default js2-mode-show-parse-errors nil
-                js2-mode-show-strict-warnings nil)
+  ;; js2 mode's syntax error highlighting defaults
+  (setq-default js2-mode-show-parse-errors t
+                js2-mode-show-strict-warnings t)
   ;; ... but enable it if flycheck can't handle javascript
   (autoload 'flycheck-get-checker-for-buffer "flycheck")
-  (defun sanityinc/disable-js2-checks-if-flycheck-active ()
-    (unless (flycheck-get-checker-for-buffer)
-      (set (make-local-variable 'js2-mode-show-parse-errors) t)
-      (set (make-local-variable 'js2-mode-show-strict-warnings) t)))
-  (add-hook 'js2-mode-hook 'sanityinc/disable-js2-checks-if-flycheck-active)
+  ;;;; deprecate by Nick
+  ;; (defun sanityinc/disable-js2-checks-if-flycheck-active ()
+  ;;   (unless (flycheck-get-checker-for-buffer)
+  ;;     (set (make-local-variable 'js2-mode-show-parse-errors) t)
+  ;;     (set (make-local-variable 'js2-mode-show-strict-warnings) t)))
+  ;; (add-hook 'js2-mode-hook 'sanityinc/disable-js2-checks-if-flycheck-active)
 
   (add-hook 'js2-mode-hook (lambda () (setq mode-name "JS2")))
 
