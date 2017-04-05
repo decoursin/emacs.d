@@ -407,6 +407,8 @@ With a prefix ARG invalidates the cache first."
 (global-unset-key (kbd "C-M-j"))
 (global-unset-key (kbd "C-j"))
 (global-set-key (kbd "C-j") 'avy-goto-char)
+(global-unset-key (kbd "M-j"))
+(global-set-key (kbd "M-j") 'avy-goto-char)
 
 (global-unset-key (kbd "C-l"))
 (global-set-key (kbd "C-l") 'projectile-find-file)
@@ -569,6 +571,8 @@ With a prefix ARG invalidates the cache first."
 (evil-leader/set-key "gcs" 'magit-show-commit)
 (evil-leader/set-key "gcs" 'magit-show-commit)
 (evil-leader/set-key "gg" 'magit-dispatch-popup)
+(evil-leader/set-key "gh" 'vc-annotate) ; git history file
+(evil-leader/set-key "gH" 'magit-log-buffer-file) ; git history file
 (evil-leader/set-key "gl" 'magit-log)
 (evil-leader/set-key "gr" 'magit-file-rename)
 (evil-leader/set-key "gs" 'magit-status)
