@@ -121,12 +121,13 @@
 (require 'init-corral)
 (require 'init-adjust-parens)
 (require 'init-smartparens)
+(require 'init-flycheck)
 ;; (require 'parinfer-mode.el) ;; doesn't seem to work well (yet)
 ;; (require 'init-lispy)
 ;(require 'init-slime);untested
 (when (>= emacs-major-version 24)
   (require 'init-clojure)
-  (require 'init-squiggly-clojure)
+  ;; (require 'init-squiggly-clojure)
   (require 'init-clojure-cider))
 ;; (require 'init-clojurescript)
 (require 'init-4clojure)
@@ -537,6 +538,7 @@ With a prefix ARG invalidates the cache first."
 (evil-leader/set-key "hf" 'describe-function)
 (evil-leader/set-key "hF" 'find-function)
 (evil-leader/set-key "hs" 'find-function) ; as in source it
+(evil-leader/set-key "hd" 'cider-doc) ; doc
 (evil-leader/set-key "hk" 'describe-key)
 (evil-leader/set-key "hK" 'find-function-on-key); quickly find source by keymap
 (evil-leader/set-key "hm" 'describe-mode)
@@ -623,16 +625,20 @@ With a prefix ARG invalidates the cache first."
 
 ;;;;;;;;; sql
 
-;; not working
 (evil-leader/set-key-for-mode 'sql-mode
   "er" 'sql-send-region
   "eb" 'sql-send-buffer
   "sr" 'sql-send-region)
 
 ;;;;;;;;; Cider & Clojure
-;; (evil-leader/set-key "ce" 'cider-visit-error-buffer)
-;; (evil-leader/set-key "cr" 'cider-switch-to-repl-buffer)
-;; (evil-leader/set-key "cb" 'cider-switch-to-last-clojure-buffer)
+(evil-leader/set-key "ce" 'cider-visit-error-buffer)
+(evil-leader/set-key "cr" 'cider-switch-to-repl-buffer)
+(evil-leader/set-key "cb" 'cider-switch-to-last-clojure-buffer)
+(evil-leader/set-key "cD" 'cider-doc)
+(evil-leader/set-key "cg" 'cider-grimoire)
+; doesn't work
+;(evil-leader/set-key 'cider-repl-mode "k" 'cider-repl-previous-input)
+;(evil-leader/set-key 'cider-repl-mode "j" 'cider-repl-next-input)
 
 ;; TODO: pull this out into lines
 (evil-leader/set-key-for-mode 'clojure-mode
@@ -670,7 +676,7 @@ With a prefix ARG invalidates the cache first."
   "rle" 'cljr-expand-let
 
   "ref" 'cljr-extract-function
-  "rr" 'cljr-rename-symbol
+  "rn" 'hydra-cljr-code-menu/cljr-rename-symbol
   "ru" 'cljr-remove-unused-requires
   "rp" 'cljr-promote-function
   "r <up>" 'cljr--move-param-up ; maybe S-<up> instead?
@@ -680,6 +686,7 @@ With a prefix ARG invalidates the cache first."
   "cb" 'cider-switch-to-last-clojure-buffer
   "ce" 'cider-visit-error-buffer
   "cd" 'cider-debug-defun-at-point
+  "co" 'cider-repl-clear-output
   "cj" 'cider-jack-in
   "cJ" 'cider-jack-in-clojurescript
   "cq" 'cider-quit

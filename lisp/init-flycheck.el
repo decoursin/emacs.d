@@ -1,14 +1,26 @@
 ;; Copied from PUrcell
 ;; Not being used
 ;; Untested
-(when (maybe-require-package 'flycheck)
-  (add-hook 'after-init-hook 'global-flycheck-mode)
 
+;; (deprecate)
+;; (when (maybe-require-package 'flycheck)
+;;   (add-hook 'after-init-hook 'global-flycheck-mode)
+
+(require-package 'flycheck)
+(require-package 'flycheck-pos-tip)
+
+(eval-after-load 'flycheck (flycheck-clojure-setup))
+
+(eval-after-load 'flycheck
+  '(setq flycheck-display-errors-function #'flycheck-pos-tip-error-messages))
+
+  ;; Nick, do I want this?
   ;; Override default flycheck triggers
-  (setq flycheck-check-syntax-automatically '(save idle-change mode-enabled)
-        flycheck-idle-change-delay 0.8)
+  ;; (setq flycheck-check-syntax-automatically '(save idle-change mode-enabled)
+  ;;       flycheck-idle-change-delay 0.8)
 
-  (setq flycheck-display-errors-function #'flycheck-display-error-messages-unless-error-list))
+  ;; Nick, do I want this?
+  ;; (setq flycheck-display-errors-function #'flycheck-display-error-messages-unless-error-list))
 
 
 (provide 'init-flycheck)

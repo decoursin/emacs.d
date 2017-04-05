@@ -7,7 +7,7 @@
 ;; 3) See comments for changes
 
 (require 'init-clojure)
-(require-package 'emacs '(24))
+;(require-package 'emacs '(24))
 
 (require-package 'cider)
 (require-package 'flycheck-clojure)
@@ -63,25 +63,31 @@
 (after-load 'cider
   (setq cider-show-error-buffer 'nil) ; don't show on error
 
-  (add-hook 'cider-mode-hook 'cider-turn-on-eldoc-mode)
+  (add-hook 'cider-mode-hook 'eldoc-mode)
   (add-hook 'cider-repl-mode-hook 'company-mode)
   (add-hook 'cider-mode-hook 'company-mode)
 
-  (add-hook 'cider-interaction-mode-hook 'cider-turn-on-eldoc-mode);; Nick added this. Untested though. What is cider-interaction-mode-hook lol?
+  (add-hook 'cider-interaction-mode-hook 'eldoc-mode);; Nick added this. Untested though. What is cider-interaction-mode-hook lol?
 
   (add-hook 'cider-repl-mode-hook
 	    (lambda () (local-set-key (kbd "S-<return>") 'cider-repl-newline-and-indent)))
 
   ;; TODO: move to last point automatically. eshell does this.
   ;; TODO: when "end-history" delete. Tried this. Doesn't work. Can only submit a bug in cider.
-  (add-hook 'cider-repl-mode-hook
-	    (lambda () (local-set-key (kbd "<up>") 'cider-repl-previous-input)))
-  (add-hook 'cider-repl-mode-hook
-	    (lambda () (local-set-key (kbd "<down>") 'cider-repl-next-input)))
-  (add-hook 'cider-repl-mode-hook
-	    (lambda () (local-set-key (kbd "S-<up>") 'cider-repl-next-matching-input)))
-  (add-hook 'cider-repl-mode-hook
-	    (lambda () (local-set-key (kbd "S-<down>") 'cider-repl-previous-matching-input)))
+  ;; history
+  (add-hook 'cider-repl-mode-hook (lambda () (local-set-key (kbd "<up>") 'cider-repl-backward-input)))
+  (add-hook 'cider-repl-mode-hook (lambda () (local-set-key (kbd "<down>") 'cider-repl-forward-input)))
+  (add-hook 'cider-repl-mode-hook (lambda () (local-set-key (kbd "S-<up>") 'cider-repl-next-matching-input)))
+  (add-hook 'cider-repl-mode-hook (lambda () (local-set-key (kbd "S-<down>") 'cider-repl-previous-matching-input)))
+  (add-hook 'cider-repl-mode-hook (lambda () (local-set-key (kbd "M-p") 'cider-repl-backward-input)))
+  (add-hook 'cider-repl-mode-hook (lambda () (local-set-key (kbd "M-n") 'cider-repl-forward-input)))
+  (add-hook 'cider-repl-mode-hook (lambda () (local-set-key (kbd "S-M-p") 'cider-repl-previous-matching-input)))
+  (add-hook 'cider-repl-mode-hook (lambda () (local-set-key (kbd "S-M-n") 'cider-repl-next-matching-input)))
+  (add-hook 'cider-repl-mode-hook (lambda () (local-set-key (kbd "C-M-p") 'cider-repl-previous-input)))
+  (add-hook 'cider-repl-mode-hook (lambda () (local-set-key (kbd "C-M-n") 'cider-repl-next-input)))
+
+
+  (add-hook 'cider-repl-mode-hook (lambda () (local-unset-key (kbd "C-j"))))
 
   ;; none of these work. Error is: wrong type argument: keymapp ...
   ;; (define-key 'cider-repl-mode-hook (kbd "<up>") 'cider-repl-previous-input);untested
@@ -97,19 +103,16 @@
 ;; is this working?
 (setq cider-history-file "~/.emacs.d/nrepl-history")
 
-;; I probably don't need both of these, is one doing the other?
-(add-hook 'cider-mode-hook 'my-cider-mode-enable-flycheck)
-(after-load 'flycheck
-  (flycheck-clojure-setup))
-
-(defun my-cider-mode-enable-flycheck ()
-  (when (and (s-ends-with-p ".clj" (buffer-file-name))
-             (not (s-ends-with-p "/dev/user.clj" (buffer-file-name))))
-    (flycheck-mode 1)))
+;; (deprecated)
+;; (add-hook 'cider-mode-hook 'my-cider-mode-enable-flycheck)
+;; (defun my-cider-mode-enable-flycheck ()
+;;   (when (and (s-ends-with-p ".clj" (buffer-file-name))
+;;              (not (s-ends-with-p "/dev/user.clj" (buffer-file-name))))
+;;     (flycheck-mode 1)))
 
 ;; What is this?
 ;; eastwood is causing problems just fyi
-(eval-after-load 'flycheck '(add-to-list 'flycheck-checkers 'clojure-cider-eastwood))
+;; (eval-after-load 'flycheck '(add-to-list 'flycheck-checkers 'clojure-cider-eastwood))
 
 
 (defalias 'cider-current-repl-buffer #'cider-current-connection
