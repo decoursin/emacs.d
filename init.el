@@ -136,7 +136,10 @@
   (require 'init-dash-documentation))
 (when *is-linux*
   (require 'init-zeal))
+;other packages
+(require-package 'graphviz-dot-mode)
 (require-package 'regex-tool); what is this?
+
 (global-set-key (kbd "C-+") 'text-scale-increase)
 (global-set-key (kbd "C--") 'text-scale-decrease)
 
@@ -186,6 +189,9 @@
 ;determine emacs version > http://ergoemacs.org/emacs/elisp_determine_OS_version.html
 
 ;;;; Functions
+;; This is to be called from with a clojure repl not CLJS repl.
+;; Also, there are some dependendies in your project.clj which you
+;; can find here: https://github.com/bhauman/lein-figwheel/wiki/Using-the-Figwheel-REPL-within-NRepl
 (defun nick-cider-figwheel-repl-clojurescript ()
   (interactive)
   (with-current-buffer (cider-current-repl-buffer)
