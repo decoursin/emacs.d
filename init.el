@@ -98,7 +98,6 @@
 ;(require 'init-erlang)
 (require 'init-javascript)
 (require 'init-typescript)
-(require 'init-angularjs)
 (require 'init-php)
 ;(require 'init-org)
 (require 'init-nxml)
@@ -112,7 +111,6 @@
 ;(require 'init-ruby-mode)
 ;(require 'init-rails)
 (require 'init-sql)
-(require 'init-edbi)
 
 
 ;; Lisp
