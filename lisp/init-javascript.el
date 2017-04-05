@@ -28,6 +28,26 @@
 (add-to-list 'auto-mode-alist '("\\.jsx?\\'" . js2-jsx-mode))
 (add-to-list 'interpreter-mode-alist '("node" . js2-jsx-mode))
 
+;;; TODO: try this Nick
+;;; Link: https://github.com/syl20bnr/spacemacs/blob/a298a5a311dfe8b449b5f538740303f1ab3d5695/layers/%2Bframeworks/react/packages.el
+;; (defun spacemacs//setup-react-mode ()
+;;   "Adjust web-mode to accommodate react-mode"
+;;   (emmet-mode 0)
+;;   ;; See https://github.com/CestDiego/emmet-mode/commit/3f2904196e856d31b9c95794d2682c4c7365db23
+;;   (setq-local emmet-expand-jsx-className? t)
+;;   ;; Enable js-mode snippets
+;;   (yas-activate-extra-mode 'js-mode)
+;;   ;; Force jsx content type
+;;   (web-mode-set-content-type "jsx")
+;;   ;; Don't auto-quote attribute values
+;;   (setq-local web-mode-enable-auto-quoting nil)
+;;   ;; Why do we do this ?
+;;   (defadvice web-mode-highlight-part (around tweak-jsx activate)
+;;     (let ((web-mode-enable-part-face nil))
+;;       ad-do-it)))
+;; 
+;; (add-hook 'js2-jsx-mode-hook 'spacemacs//setup-react-mode)
+
 (defun setup-js2-mode-syntax-checker ()
   (flycheck-select-checker 'javascript-eslint)
   (flycheck-mode))
