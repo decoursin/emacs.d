@@ -1,5 +1,6 @@
-;; Copied from Purcell
-;; Untested
+;; Originally from Purcell, modified by me.
+
+;; The SQL buffer must have product "postgres", for example. So, (sql-set-product)
 
 ;; TODO: Add auto complete
 ;; TODO: http://emacs.stackexchange.com/questions/26365/is-there-a-company-backend-for-completion-in-sql-interactive-mode
@@ -89,7 +90,33 @@
 (after-load 'page-break-lines
   (push 'sql-mode page-break-lines-modes))
 
-;;;; Connect
+
+;; directions from: https://truongtx.me/2014/08/23/setup-emacs-as-an-sql-database-client
+(setq sql-connection-alist
+      '((server1 (sql-product 'postgres)
+                   (sql-port 5432)
+                   (sql-server "localhost")
+                   (sql-user "postgres")
+                   (sql-password "postgres")
+                   (sql-database "postgres"))
+        ))
+
+(defun sql-yourfoods ()
+  (interactive)
+  (my-sql-connect 'postgres 'server1))
+
+(defun my-sql-connect (product connection)
+  ;; remember to set the sql-product, otherwise, it will fail for the first time
+  ;; you call the function
+  (setq sql-product product)
+  (sql-connect connection)
+  ;; automatically generate sql buffer
+  (let ((buffer (find-file-noselect "/tmp/nick.sql")))
+    (select-window (previous-window))
+    (switch-to-buffer buffer)
+    (sql-set-product "postgres")
+    (sql-set-sqli-buffer "*SQL*"))
+  )
 
 
 (provide 'init-sql)
