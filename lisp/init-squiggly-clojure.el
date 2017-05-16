@@ -1,8 +1,6 @@
 (require-package 'flycheck-clojure)
 (require-package 'flycheck-tip)
 
-(eval-after-load 'flycheck '(flycheck-clojure-setup))
-
 (require 'flycheck-tip)
 (flycheck-tip-use-timer 'verbose)
 

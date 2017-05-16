@@ -3,7 +3,7 @@
 ;; TODO: link commits from vc-log to magit-show-commit
 ;; TODO: smerge-mode
 ;; Nick learn
-(require-package 'git-blame)
+;(require-package 'git-blame)
 (require-package 'gitignore-mode)
 (require-package 'gitconfig-mode)
 ;; (require-package 'git-messenger) ;(deprecated) ;; Though see also vc-annotate's "n" & "p" bindings
@@ -41,7 +41,7 @@
          (compilation-buffer-name-function (lambda (major-mode-name) "*git-svn*")))
     (compile (concat "git svn " command))))
 
-
+
 (require-package 'git-messenger)
 (global-set-key (kbd "C-x v p") #'git-messenger:popup-message)
 
