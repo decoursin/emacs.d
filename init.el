@@ -69,6 +69,8 @@
 ;(require 'init-spelling)
 ;(require 'init-sessions.el) ;save desktop? ;testing
 (require 'init-mmm)
+;; you'll first need to install ess; on ubuntu, `apt-get install ess` twice (it fails the first time.)
+(require 'init-ess)
 
 (require 'init-editing-utils);; haven't learned this yet
 
