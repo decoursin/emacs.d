@@ -524,7 +524,7 @@ With a prefix ARG invalidates the cache first."
 ;; (evil-leader/set-key "gi" 'sp-down-sexp) ;gi for in
 ;; (evil-leader/set-key "gd" 'sp-backward-down-sexp) ; l for down
 ;; (evil-leader/set-key "go" 'sp-up-sexp) ;go for out
-;; (evil-leader/set-key "gu" 'sp-backward-up-sexp) ; h for up
+;; (evil-leader/set-key "sfasfaf" 'sp-backward-up-sexp) ; h for up
 ;; (evil-leader/set-key "gn" 'sp-next-sexp)
 ;; (evil-leader/set-key "gp" 'sp-previous-sexp)
 
@@ -558,6 +558,8 @@ With a prefix ARG invalidates the cache first."
 (evil-leader/set-key "kh" 'sp-kill-hybrid-sexp)
 
 ;; magit
+(evil-leader/set-key "gu" 'evil-downcase)
+(evil-leader/set-key "gU" 'evil-upcase)
 (evil-leader/set-key "gaa" 'magit-stage-modified);git add all
 (evil-leader/set-key "gaf" 'magit-stage-file); git add file
 (evil-leader/set-key "gds" 'magit-diff-staged)
