@@ -81,6 +81,7 @@
 (require 'init-matlab)
 (require 'init-projectile)
 (require 'init-yasnippet) ;learn
+(require 'init-dumb-jump)
 
 ;; elisp helper libraries
 (require-package 'dash) ; a modern list api for Emacs
@@ -349,6 +350,15 @@ With a prefix ARG invalidates the cache first."
     (after advice-for-evil-search-previous activate)
   (evil-scroll-line-to-center (line-number-at-pos)))
 
+(defun dumb-jump-go-click--nick (@click)
+  "Mouse click to jump to definition
+URL `http://ergoemacs.org/emacs/emacs_mouse_wheel_config.html'
+this doesn't work yet Nick"
+  (interactive "e")
+  (let ((p1 (posn-point (event-start @click))))
+    (goto-char p1)
+    (dumb-jump-go)))
+
 ;; Add this to dired? Doesn't seem to work.
 ;; Copied from jcf
 ;(evil-add-hjkl-bindings dired-mode-map 'emacs)
@@ -413,6 +423,15 @@ With a prefix ARG invalidates the cache first."
 (global-unset-key (kbd "C-l"))
 (global-set-key (kbd "C-l") 'projectile-find-file)
 (global-set-key (kbd "C-S-l") 'projectile-find-file-new-tab)
+
+(global-unset-key (kbd "C-l"))
+(global-set-key (kbd "C-k") 'dumb-jump-go)
+(global-set-key (kbd "C-S-k") 'dumb-jump-go-other-window)
+
+;;;; doesn't work yet
+(global-unset-key (kbd "<C-down-mouse-1>"))
+(global-set-key (kbd "<C-down-mouse-1>") 'dumb-jump-go-click--nick)
+(global-set-key (kbd "<C-mouse-1>") 'dumb-jump-go-click--nick)
 
 (evil-leader/set-key "cl" 'close-this-window); ,cl close buffer
 
