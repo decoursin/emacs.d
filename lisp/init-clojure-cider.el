@@ -103,6 +103,9 @@
 ;; is this working?
 (setq cider-history-file "~/.emacs.d/nrepl-history")
 
+;; better spacing)
+(setq clojure-indent-style :align-arguments)
+
 ;; (deprecated)
 ;; (add-hook 'cider-mode-hook 'my-cider-mode-enable-flycheck)
 ;; (defun my-cider-mode-enable-flycheck ()
