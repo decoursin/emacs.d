@@ -93,17 +93,17 @@
 
 ;; directions from: https://truongtx.me/2014/08/23/setup-emacs-as-an-sql-database-client
 (setq sql-connection-alist
-      '((server1 (sql-product 'postgres)
-                   (sql-port 5432)
-                   (sql-server "localhost")
-                   (sql-user "postgres")
-                   (sql-password "postgres")
-                   (sql-database "postgres"))
+      '((postgres-default (sql-product 'postgres)
+                          (sql-port 5432)
+                          (sql-server "localhost")
+                          (sql-user "postgres")
+                          (sql-password "postgres")
+                          (sql-database "postgres"))
         ))
 
-(defun sql-yourfoods ()
+(defun sql-postgres-default-nick ()
   (interactive)
-  (my-sql-connect 'postgres 'server1))
+  (my-sql-connect 'postgres 'postgres-default))
 
 (defun my-sql-connect (product connection)
   ;; remember to set the sql-product, otherwise, it will fail for the first time
