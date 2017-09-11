@@ -674,8 +674,8 @@ this doesn't work yet Nick"
   "cj" 'cider-jack-in
   "cJ" 'cider-jack-in-clojurescript
   "cL" 'cider-load-buffer
-  "ct" 'cider-test-run-test
-  "cT" 'cider-test-run-tests
+  "ct" 'cider-test-run-project-tests
+  "cT" 'cider-test-run-test
   "cq" 'cider-quit
   "cR" 'cider-restart
   "cf" 'cider-format-defun
