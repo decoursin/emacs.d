@@ -108,6 +108,7 @@
 (require 'init-css)
 (require 'init-haml)
 (require 'init-yaml)
+(require 'init-graphql)
 (require 'init-python-mode)
 ;(require 'init-haskell)
 (require 'init-elm)
