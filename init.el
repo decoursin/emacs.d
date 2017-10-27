@@ -421,11 +421,9 @@ this doesn't work yet Nick"
 (global-unset-key (kbd "M-j"))
 (global-set-key (kbd "M-j") 'avy-goto-char)
 
-(global-unset-key (kbd "C-l"))
 (global-set-key (kbd "C-l") 'projectile-find-file)
 (global-set-key (kbd "C-S-l") 'projectile-find-file-new-tab)
 
-(global-unset-key (kbd "C-l"))
 (global-set-key (kbd "C-k") 'dumb-jump-go)
 (global-set-key (kbd "C-S-k") 'dumb-jump-go-other-window)
 
