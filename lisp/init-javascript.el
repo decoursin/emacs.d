@@ -10,21 +10,23 @@
 (maybe-require-package 'json-reformat-region)
 (require-package 'js-comint)
 (require-package 'react-snippets)
+(require-package 'rjsx-mode)
 
 (defcustom preferred-javascript-mode
-  (first (remove-if-not #'fboundp '(js2-mode js-mode)))
+  (first (remove-if-not #'fboundp '(rjsx-mode js2-mode js-mode)))
   "Javascript mode to use for .js files."
   :type 'symbol
   :group 'programming
-  :options '(js2-jsx-mode js2-mode js-mode))
+  :options '(rjsx-mode js2-jsx-mode js2-mode js-mode))
 
-; indent
+;; indent
 (defconst preferred-javascript-indent-level 4)
 (setq json-reformat:indent-width 4)
 (setq js2-basic-offset 4)
 
 ;; js2-jsx-mode
-(add-to-list 'auto-mode-alist '("\\.jsx?\\'" . js2-jsx-mode))
+;; (add-to-list 'auto-mode-alist '("components\\/.*\\.js\\'" . rjsx-mode))
+;; (add-to-list 'auto-mode-alist '("\\.jsx?\\'" . js2-jsx-mode))
 (add-to-list 'interpreter-mode-alist '("node" . js2-jsx-mode))
 
 ;;; TODO: try this Nick
