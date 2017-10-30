@@ -7,6 +7,8 @@
 (setq projectile-completion-system 'helm)
 (helm-projectile-on)
 
+(add-to-list 'projectile-globally-ignored-directories "*node_modules")
+
 ;; workaround for a bug after upgrading projectile version
 ;; bug here: https://github.com/bbatsov/projectile/issues/1183
 (setq projectile-mode-line
