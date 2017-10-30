@@ -68,6 +68,7 @@
   ;; js2 mode's syntax error highlighting defaults
   (setq-default js2-mode-show-parse-errors t
                 js2-mode-show-strict-warnings t)
+  (setq-default js2-strict-trailing-comma-warning nil)
   ;; ... but enable it if flycheck can't handle javascript
   (autoload 'flycheck-get-checker-for-buffer "flycheck")
   ;;;; deprecate by Nick
