@@ -672,6 +672,7 @@ this doesn't work yet Nick"
   "cd" 'cider-debug-defun-at-point
   "cj" 'cider-jack-in
   "cJ" 'cider-jack-in-clojurescript
+  "cl" 'cider-test-rerun-test ;; last test
   "cL" 'cider-load-buffer
   "ct" 'cider-test-run-project-tests
   "cT" 'cider-test-run-test
