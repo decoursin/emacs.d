@@ -117,6 +117,13 @@
 ;; eastwood is causing problems just fyi
 ;; (eval-after-load 'flycheck '(add-to-list 'flycheck-checkers 'clojure-cider-eastwood))
 
+;; For figwheel
+;;
+;; You'll also need to add this to your project.clj
+;; :profiles {:dev {:dependencies [[com.cemerick/piggieback "0.2.2"]]
+;;                  :repl-options {:nrepl-middleware [cemerick.piggieback/wrap-cljs-repl]}}})
+;;
+(setq cider-cljs-lein-repl "(do (use 'figwheel-sidecar.repl-api) (start-figwheel!) (cljs-repl))")
 
 (defalias 'cider-current-repl-buffer #'cider-current-connection
   "The current REPL buffer.

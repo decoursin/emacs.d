@@ -193,17 +193,6 @@
 ;determine emacs version > http://ergoemacs.org/emacs/elisp_determine_OS_version.html
 
 ;;;; Functions
-;; This is to be called from with a clojure repl not CLJS repl.
-;; Also, there are some dependendies in your project.clj which you
-;; can find here: https://github.com/bhauman/lein-figwheel/wiki/Using-the-Figwheel-REPL-within-NRepl
-(defun nick-cider-figwheel-repl-clojurescript ()
-  (interactive)
-  (with-current-buffer (cider-current-repl-buffer)
-    (goto-char (point-max))
-    (insert "(require 'figwheel-sidecar.repl-api)
-             (do (figwheel-sidecar.repl-api/start-figwheel!) nil)
-             (figwheel-sidecar.repl-api/cljs-repl)")
-    (cider-repl-return)))
 
 (defun close-this-window ()
   "Intelligently, close this window. First, try to delete-window,
