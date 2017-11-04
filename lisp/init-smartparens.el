@@ -4,6 +4,7 @@
 (require-package 'evil-smartparens)
 
 (require 'evil-smartparens)
+(require 'smartparens-html)
 
 (sp-pair "'" nil :actions :rem)
 ;; (smartparens-strict-mode) ;; wanted?
