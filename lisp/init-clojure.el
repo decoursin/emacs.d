@@ -136,11 +136,6 @@
   (add-hook 'clojure-mode-hook 'yas-minor-mode-on); for adding require/use/import statements in clj-refactor
   (add-hook 'clojure-mode-hook 'sanityinc/lisp-setup))
 
-
-
-;; Use clojure-mode for clojurescript, since clojurescript-mode
-;; pulls in Slime
-(add-auto-mode 'clojure-mode "\\.cljs\\'")
-
+;; (add-auto-mode 'clojurescript-mode "\\.cljs\\'")
 
 (provide 'init-clojure)
