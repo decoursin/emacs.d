@@ -29,6 +29,9 @@
 (add-to-list 'package-archives
              '("melpa" . "https://melpa.org/packages/"))
 
+(add-to-list 'package-archives
+             '("melpa-stable" . "https://stable.melpa.org/packages/") t)
+
 
 
 ;; If gpg cannot be found, signature checking will fail, so we
