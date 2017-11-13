@@ -478,7 +478,7 @@ this doesn't work yet Nick"
 ;; recently added
 (global-set-key (kbd "M-e") 'sp-end-of-sexp)
 (global-set-key (kbd "M-s") 'sp-beginning-of-sexp)
-(global-set-key (kbd "M-h") 'sp-beginning-of-previous-sexp)
+(global-set-key (kbd "M-h") 'sp-html-previous-tag)
 (global-set-key (kbd "M-j") 'sp-beginning-of-next-sexp)
 ;; corral
 (global-set-key (kbd "M-9") 'corral-parentheses-backward)
