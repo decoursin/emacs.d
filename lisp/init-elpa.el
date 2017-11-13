@@ -33,6 +33,11 @@
              '("melpa-stable" . "https://stable.melpa.org/packages/") t)
 
 
+(setq package-pinned-packages
+      '((use-package . "melpa-stable")
+        (cider . "melpa-stable")
+        (clojure-mode . "melpa-stable")))
+
 
 ;; If gpg cannot be found, signature checking will fail, so we
 ;; conditionally enable it according to whether gpg is available. We
