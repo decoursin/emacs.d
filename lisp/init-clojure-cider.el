@@ -8,7 +8,8 @@
 
 (require 'init-clojure)
 
-(require-package 'cider)
+(use-package cider)
+
 (require-package 'flycheck-clojure)
 
 (require 'cider-interaction)
