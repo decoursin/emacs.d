@@ -654,47 +654,49 @@ this doesn't work yet Nick"
 ;(evil-leader/set-key 'cider-repl-mode "k" 'cider-repl-previous-input)
 ;(evil-leader/set-key 'cider-repl-mode "j" 'cider-repl-next-input)
 
-;; TODO: pull this out into lines
-(evil-leader/set-key-for-mode 'clojure-mode
-  "cC" 'cider-connect
-  "cb" 'cider-switch-to-last-clojure-buffer
-  "ce" 'cider-visit-error-buffer
-  "cd" 'cider-debug-defun-at-point
-  "cj" 'cider-jack-in
-  "cJ" 'cider-jack-in-clojurescript
-  "cL" 'cider-test-rerun-test ;; last test
-  "ct" 'cider-test-run-project-tests
-  "cT" 'cider-test-run-test
-  "cq" 'cider-quit
-  "cR" 'cider-restart
-  "cf" 'cider-format-defun
-  "cF" 'cider-format-buffer
-  "cn" 'cider-repl-set-ns
-  "cr" 'cider-switch-to-repl-buffer
-  "eb" 'cider-eval-buffer
-  "ed" 'cider-eval-defun-at-point
-  "es" 'cider-eval-last-sexp
-  "er" 'cider-eval-region
-  ;; cljr refactor
-  ;; a: add to...
-  "rar" 'cljr-add-require-to-ns
-  "rai" 'cljr-add-import-to-ns
-  "rad" 'cljr-add-declaration
-  "rap" 'cljr-add-project-dependency
- 
-  ;; TODO move this for cider-mode too!
-  "rcc" 'cljr-cycle-coll
-  "rci" 'cljr-cycle-if
-  "rli" 'cljr-introduce-let
-  "rlr" 'cljr-remove-let
-  "rle" 'cljr-expand-let
+(setq evil-leader/clj-and-cljs-mode-keys
+      '("cC" cider-connect
+        "cb" cider-switch-to-last-clojure-buffer
+        "ce" cider-visit-error-buffer
+        "cd" cider-debug-defun-at-point
+        "cj" cider-jack-in
+        "cJ" cider-jack-in-clojurescript
+        "cL" cider-test-rerun-test ;; last test
+        "ct" cider-test-run-project-tests
+        "cT" cider-test-run-test
+        "cq" cider-quit
+        "cR" cider-restart
+        "cf" cider-format-defun
+        "cF" cider-format-buffer
+        "cn" cider-repl-set-ns
+        "cr" cider-switch-to-repl-buffer
+        "eb" cider-eval-buffer
+        "ed" cider-eval-defun-at-point
+        "es" cider-eval-last-sexp
+        "er" cider-eval-region
+        ;; cljr refactor
+        ;; a: add to...
+        "rar" cljr-add-require-to-ns
+        "rai" cljr-add-import-to-ns
+        "rad" cljr-add-declaration
+        "rap" cljr-add-project-dependency
+        
+        ;; TODO move this for cider-mode too!
+        "rcc" cljr-cycle-coll
+        "rci" cljr-cycle-if
+        "rli" cljr-introduce-let
+        "rlr" cljr-remove-let
+        "rle" cljr-expand-let
 
-  "ref" 'cljr-extract-function
-  "rn" 'hydra-cljr-code-menu/cljr-rename-symbol
-  "ru" 'cljr-remove-unused-requires
-  "rp" 'cljr-promote-function
-  "r <up>" 'cljr--move-param-up ; maybe S-<up> instead?
-  "r <down>" 'cljr--move-param-down)
+        "ref" cljr-extract-function
+        "rn" hydra-cljr-code-menu/cljr-rename-symbol
+        "ru" cljr-remove-unused-requires
+        "rp" cljr-promote-function
+        "r <up>" cljr--move-param-up ; maybe S-<up> instead?
+        "r <down>" cljr--move-param-down))
+
+(apply 'evil-leader/set-key-for-mode 'clojurescript-mode evil-leader/clj-and-cljs-mode-keys)
+(apply 'evil-leader/set-key-for-mode 'clojure-mode evil-leader/clj-and-cljs-mode-keys)
 
 (evil-leader/set-key-for-mode 'cider-repl-mode
   "cb" 'cider-switch-to-last-clojure-buffer
