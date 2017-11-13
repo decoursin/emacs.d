@@ -7,7 +7,6 @@
 ;; 3) See comments for changes
 
 (require 'init-clojure)
-;(require-package 'emacs '(24))
 
 (require-package 'cider)
 (require-package 'flycheck-clojure)
