@@ -39,6 +39,14 @@
         (clojure-mode . "melpa-stable")))
 
 
+;; Automatically :ensure each use-package.
+(setq use-package-always-ensure t)
+
+;; Default value for :pin in each use-package.
+;; *doesn't work actually*
+;; (setq use-package-always-pin "melpa")
+
+
 ;; If gpg cannot be found, signature checking will fail, so we
 ;; conditionally enable it according to whether gpg is available. We
 ;; re-run this check once $PATH has been configured
@@ -83,6 +91,17 @@ locate PACKAGE."
 
 (setq package-enable-at-startup nil)
 (package-initialize)
+
+
+;;; use-package
+(unless (package-installed-p 'use-package)
+  (package-refresh-contents)
+  (package-install 'use-package))
+
+(eval-when-compile
+  (require 'use-package))
+(require 'diminish)
+(require 'bind-key)
 
 
 
