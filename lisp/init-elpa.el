@@ -36,7 +36,9 @@
 (setq package-pinned-packages
       '((use-package . "melpa-stable")
         (cider . "melpa-stable")
-        (clojure-mode . "melpa-stable")))
+        (clojure-mode . "melpa-stable")
+        (smartparens . "melpa-stable")
+        (evil-smartparens . "melpa-stable")))
 
 
 ;; Automatically :ensure each use-package.
