@@ -1,11 +1,8 @@
 ;; Created by Nick DeCoursin
 
 
-(require-package 'smartparens)
-(require-package 'evil-smartparens)
-
-(require 'evil-smartparens)
-(require 'smartparens-html)
+(use-package smartparens)
+(use-package evil-smartparens)
 
 (sp-pair "'" nil :actions :rem)
 ;; (smartparens-strict-mode) ;; wanted?
