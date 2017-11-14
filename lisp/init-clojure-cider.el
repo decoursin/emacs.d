@@ -34,10 +34,10 @@
 
 (defalias 'nick-cider-namespace-refresh 'cider-namespace-refresh)
 
-(add-hook 'cider-mode-hook
+(add-hook 'clojure-mode-hook
    '(lambda () (add-hook 'after-save-hook
     '(lambda ()
-       (if (and (boundp 'cider-mode) cider-mode)
+       (if (and (boundp 'clojure-mode) clojure-mode)
 	   (cider-namespace-refresh))))))
 
 ;; try these
