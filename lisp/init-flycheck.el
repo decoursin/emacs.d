@@ -2,15 +2,17 @@
 ;; Not being used
 ;; Untested
 
-;; (deprecate)
-;; (when (maybe-require-package 'flycheck)
-;;   (add-hook 'after-init-hook 'global-flycheck-mode)
-
 (require-package 'flycheck)
 (require-package 'flycheck-pos-tip)
+;; (require-package 'flycheck-tip)
 
-(eval-after-load 'flycheck
-  '(setq flycheck-display-errors-function #'flycheck-pos-tip-error-messages))
+(eval-after-load 'flycheck '(flycheck-clojure-setup))
+(add-hook 'after-init-hook #'global-flycheck-mode)
+
+(eval-after-load 'flycheck '(setq flycheck-display-errors-function #'flycheck-pos-tip-error-messages))
+
+;; alternatively, you could use this instead of flycheck-pos-tip
+;; (flycheck-tip-use-timer 'verbose)
 
   ;; Nick, do I want this?
   ;; Override default flycheck triggers
