@@ -654,7 +654,7 @@ this doesn't work yet Nick"
 ;(evil-leader/set-key 'cider-repl-mode "k" 'cider-repl-previous-input)
 ;(evil-leader/set-key 'cider-repl-mode "j" 'cider-repl-next-input)
 
-(setq evil-leader/clj-and-cljs-mode-keys
+(setq-local evil-leader/clj-and-cljs-mode-keys
       '("cC" cider-connect
         "cb" cider-switch-to-last-clojure-buffer
         "ce" cider-visit-error-buffer
