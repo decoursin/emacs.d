@@ -38,7 +38,9 @@
         (cider . "melpa-stable")
         (clojure-mode . "melpa-stable")
         (smartparens . "melpa-stable")
-        (evil-smartparens . "melpa-stable")))
+        (evil-smartparens . "melpa-stable")
+        (flycheck . "melpa-stable")
+        (flycheck-clojure . "melpa-stable")))
 
 
 ;; Automatically :ensure each use-package.
