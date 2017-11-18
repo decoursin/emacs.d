@@ -130,7 +130,6 @@
 ;(require 'init-slime);untested
 (when (>= emacs-major-version 24)
   (require 'init-clojure)
-  ;; (require 'init-squiggly-clojure)
   (require 'init-clojure-cider))
 ;; (require 'init-clojurescript)
 (require 'init-4clojure)
