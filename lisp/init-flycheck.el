@@ -9,9 +9,9 @@
 (use-package flycheck-tip)
 
 ;;; enable clojure cider checkers
-(after-load 'cider
-  (after-load 'flycheck
-    (flycheck-clojure-setup)))
+;; (after-load 'cider
+;;   (after-load 'flycheck
+;;     (flycheck-clojure-setup)))
 
 (add-hook 'after-init-hook #'global-flycheck-mode)
 
@@ -28,9 +28,9 @@
 ;;; disable checkers
 (with-eval-after-load 'flycheck
   (setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc
-                                             clojure-cider-kibit
-                                             clojure-cider-eastwood
-                                             clojure-cider-typed
+                                             ;; clojure-cider-kibit
+                                             ;; clojure-cider-eastwood
+                                             ;; clojure-cider-typed
                                              )))
 
 ;; Make flycheck recognize packages in loadpath
