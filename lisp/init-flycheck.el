@@ -15,8 +15,6 @@
 
 (add-hook 'after-init-hook #'global-flycheck-mode)
 
-(setq flycheck-check-syntax-automatically '(mode-enabled save idle-change))
-
 ;; warnings only
 (set-face-attribute 'flycheck-warning nil :underline nil)
 (set-face-attribute 'flycheck-fringe-warning nil :foreground (face-attribute 'fringe :background))

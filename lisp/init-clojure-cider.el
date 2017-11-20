@@ -10,8 +10,6 @@
 
 (use-package cider)
 
-(require-package 'flycheck-clojure)
-
 (require 'cider-interaction)
 (require 'cider-client)
 (require 'cider-test)
@@ -20,7 +18,7 @@
 (require 'cider-compat)
 (require 'cider-resolve)
 
-;(require-package 'cider-eval-sexp-fu); Nick added
+;; (require-package 'cider-eval-sexp-fu); Nick added
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; nrepl with Clojure
@@ -41,32 +39,22 @@
 	   (cider-namespace-refresh))))))
 
 ;; try these
-;(define-key cider-repl-mode-map (kbd "<home>") nil)
-;(define-key cider-repl-mode-map (kbd "<tab>") 'complete-symbol)
-;(define-key cider-mode-map (kbd "<tab>") 'complete-symbol)
+;; (define-key cider-repl-mode-map (kbd "<home>") nil)
+;; (define-key cider-repl-mode-map (kbd "<tab>") 'complete-symbol)
+;; (define-key cider-mode-map (kbd "<tab>") 'complete-symbol)
 
-;; Pretty print results in repl
 (setq cider-repl-use-pretty-printing t)
-
-;; idk
 (setq cider-stacktrace-default-filters '(tooling dup))
-
 (setq cider-repl-history-size 1000)
-
-;; Nick, what is this?
-;; Don't prompt for symbols
 (setq cider-prompt-for-symbol nil)
-
-
 (setq nrepl-popup-stacktraces nil)
 
 (after-load 'cider
-  (setq cider-show-error-buffer 'nil) ; don't show on error
+  (setq cider-show-error-buffer 'nil)
 
   (add-hook 'cider-mode-hook 'eldoc-mode)
   (add-hook 'cider-repl-mode-hook 'company-mode)
   (add-hook 'cider-mode-hook 'company-mode)
-
   (add-hook 'cider-interaction-mode-hook 'eldoc-mode);; Nick added this. Untested though. What is cider-interaction-mode-hook lol?
 
   (add-hook 'cider-repl-mode-hook
@@ -85,15 +73,13 @@
   (add-hook 'cider-repl-mode-hook (lambda () (local-set-key (kbd "S-M-n") 'cider-repl-next-matching-input)))
   (add-hook 'cider-repl-mode-hook (lambda () (local-set-key (kbd "C-M-p") 'cider-repl-previous-input)))
   (add-hook 'cider-repl-mode-hook (lambda () (local-set-key (kbd "C-M-n") 'cider-repl-next-input)))
-
-
   (add-hook 'cider-repl-mode-hook (lambda () (local-unset-key (kbd "C-j"))))
 
   ;; none of these work. Error is: wrong type argument: keymapp ...
   ;; (define-key 'cider-repl-mode-hook (kbd "<up>") 'cider-repl-previous-input);untested
-  ; what does no-prefix-mode-rx do?
-  ;(define-key cider-repl-mode-hook (kbd "C-p") 'cider-repl-previous-input);untested
- ;(define-key cider-repl-mode-hook (kbd "<down>") 'cider-repl-next-input);untested
+                                        ; what does no-prefix-mode-rx do?
+                                        ;(define-key cider-repl-mode-hook (kbd "C-p") 'cider-repl-previous-input);untested
+                                        ;(define-key cider-repl-mode-hook (kbd "<down>") 'cider-repl-next-input);untested
 
   ;; nrepl isn't based on comint
   (add-hook 'cider-repl-mode-hook
