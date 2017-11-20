@@ -6,6 +6,7 @@
 
 (setq company-idle-delay nil) ; never start completions automatically
 
+(add-to-list 'company-backends 'company-edbi)
 
 (after-load 'company
   (define-key company-active-map (kbd "j") 'company-select-next)

@@ -7,6 +7,7 @@
 ;; TODO: learn other tricks: http://postgres.cz/wiki/PostgreSQL_SQL_Tricks_III
 
 (require-package 'sql-indent)
+(require-package 'company-edbi)
 (after-load 'sql
   (require 'sql-indent))
 
@@ -65,11 +66,6 @@
     (defun sanityinc/maybe-set-dash-db-docset ()
       (when (eq sql-product 'postgres)
         (set (make-local-variable 'dash-at-point-docset) "psql")))
-
-    ;; Nick, this doesn't seem to do anything?
-    (add-hook 'sql-interactive-mode-hook (lambda () (auto-complete-mode t)))
-    (add-hook 'sql-mode-hook (lambda () (auto-complete-mode)))
-
 
     ;; (setq sql-postgres-options (list "--port 5432"))
     (add-hook 'sql-mode-hook 'sanityinc/maybe-set-dash-db-docset)
