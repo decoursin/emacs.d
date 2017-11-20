@@ -32,11 +32,14 @@
 
 (defalias 'nick-cider-namespace-refresh 'cider-namespace-refresh)
 
-(add-hook 'clojure-mode-hook
-   '(lambda () (add-hook 'after-save-hook
-    '(lambda ()
-       (if (and (boundp 'clojure-mode) clojure-mode)
-	   (cider-namespace-refresh))))))
+(add-hook 'cider-mode-hook
+          '(lambda ()
+             (add-hook 'after-save-hook
+                       '(lambda ()
+                          (if (and (boundp 'cider-mode)
+                                   (eq 'clojure-mode major-mode)
+                                   cider-mode)
+                              (cider-namespace-refresh))))))
 
 ;; try these
 ;; (define-key cider-repl-mode-map (kbd "<home>") nil)
