@@ -105,6 +105,19 @@
   (interactive)
   (my-sql-connect 'postgres 'postgres-default))
 
+
+(defun sql-set-sqli-buffer-nick ()
+  "This is a copy of *sql-set-sqli-buffer* but not interactive."
+  (let ((default-buffer (sql-find-sqli-buffer)))
+    (if (null default-buffer)
+        (sql-product-interactive)
+      (let ((new-buffer (read-buffer "New SQLi buffer: " default-buffer t)))
+        (if (null (sql-buffer-live-p new-buffer))
+            (user-error "Buffer %s is not a working SQLi buffer" new-buffer)
+          (when new-buffer
+            (setq sql-buffer new-buffer)
+            (run-hooks 'sql-set-sqli-hook)))))))
+
 (defun my-sql-connect (product connection)
   ;; remember to set the sql-product, otherwise, it will fail for the first time
   ;; you call the function
@@ -115,7 +128,7 @@
     (select-window (previous-window))
     (switch-to-buffer buffer)
     (sql-set-product "postgres")
-    (sql-set-sqli-buffer "*SQL*"))
+    (sql-set-sqli-buffer-nick))
   )
 
 
