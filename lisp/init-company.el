@@ -2,6 +2,10 @@
 
 (require-package 'company)
 
+;; what does these two do??
+(setq tab-always-indent 'complete)
+(add-to-list 'completion-styles 'initials t)
+
 (global-company-mode)
 
 (setq company-idle-delay nil) ; never start completions automatically
