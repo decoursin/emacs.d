@@ -418,7 +418,9 @@ this doesn't work yet Nick"
 
 (evil-leader/set-key "cl" 'close-this-window); ,cl close buffer
 
-(evil-leader/set-key "fo" 'helm-multi-occur-all-buffers);
+;; (evil-leader/set-key "fo" 'helm-multi-occur-all-buffers);
+(evil-leader/set-key "fo" 'projectile-multi-occur);
+(global-set-key (kbd "C-s") 'projectile-multi-occur);
 (evil-leader/set-key "fsh" 'find-eshell);
 (evil-leader/set-key "fy" 'helm-show-kill-ring);
 (evil-leader/set-key "fr" 'indent-region);
