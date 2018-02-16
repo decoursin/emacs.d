@@ -120,7 +120,9 @@
   (setq sql-product product)
   (sql-connect connection)
   ;; automatically generate sql buffer
-  (let ((buffer (find-file-noselect "/tmp/nick.sql")))
+  (let ((buffer (find-file-noselect (concat "/tmp/nick"
+                                            (number-to-string (random))
+                                            ".sql"))))
     (select-window (previous-window))
     (switch-to-buffer buffer)
     (sql-set-product "postgres")
