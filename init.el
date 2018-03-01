@@ -92,6 +92,7 @@
 ;; Languages, etc
 ;(require 'init-compile)
 (require 'init-markdown)
+(require-package 'handlebars-mode)
 (require 'init-terraform)
 ;(require 'init-erlang)
 (require 'init-javascript)
