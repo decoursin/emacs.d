@@ -73,6 +73,8 @@
 (require 'init-ag)
 (require 'init-eval-sexp)
 (require 'init-eshell)
+(require 'essh)
+(require 'init-shell)
 (require 'init-matlab)
 (require 'init-projectile)
 (require 'init-yasnippet) ;learn
@@ -641,6 +643,19 @@ this doesn't work yet Nick"
   "eb" 'sql-send-buffer
   "sr" 'sql-send-region)
 
+;;;;;;;;; bash
+
+;; I couldn't figure out how to override the ",er" command
+(evil-leader/set-key "br" 'pipe-region-to-shell)
+(evil-leader/set-key "bl" 'pipe-line-to-shell)
+
+;; doesn't work, I tried other modes like: "shell-mode".
+;; (evil-leader/set-key-for-mode 'sh-mode
+;;   "er" 'pipe-region-to-shell
+;;   ;; "el" 'shell-eval-line
+;;   "el" 'pipe-line-to-shell
+
+;;   )
 ;;;;;;;;; Cider & Clojure
 (evil-leader/set-key "ce" 'cider-visit-error-buffer)
 (evil-leader/set-key "cr" 'cider-switch-to-repl-buffer)
