@@ -10,10 +10,10 @@
 (add-to-list 'auto-mode-alist '("\\.babelrc$" . json-mode))
 
 ;; indent
-(defconst preferred-javascript-indent-level 4)
-(setq json-reformat:indent-width 4)
-(setq js2-basic-offset 4)
-(setq js-indent-level 4)
+(defconst preferred-javascript-indent-level 2)
+(setq json-reformat:indent-width 2)
+(setq js2-basic-offset 2)
+(setq js-indent-level 2)
 
 (eval-after-load "sgml-mode"
   '(progn
