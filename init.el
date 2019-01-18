@@ -38,11 +38,9 @@
 ;; Load configs for specific features and modes
 ;;----------------------------------------------------------------------------
 
-(require-package 'project-local-variables)
 (require-package 'fullframe)
 (require-package 'diminish)
 ;; logs keyboard commands to a buffer named 'command-log'.
-(require-package 'mwe-log-commands) ;is this working?
 
 ;devops
 (require 'init-docker)
@@ -97,12 +95,12 @@
 (require-package 'handlebars-mode)
 (require 'init-terraform)
 ;(require 'init-erlang)
+(require 'init-html)
 (require 'init-javascript)
 (require 'init-typescript)
 (require 'init-php)
 ;(require 'init-org)
 (require 'init-nxml)
-(require 'init-html)
 (require 'init-css)
 (require 'init-haml)
 (require 'init-yaml)

@@ -135,13 +135,14 @@
 ;; Highlight current sexp
 ;; ----------------------------------------------------------------------------
 
-(require-package 'hl-sexp)
+;; not loading for some reason -nick
+;(require-package 'hl-sexp)
 
 ;; Prevent flickery behaviour due to hl-sexp-mode unhighlighting before each command
-(after-load 'hl-sexp
-  (defadvice hl-sexp-mode (after unflicker (&optional turn-on) activate)
-    (when turn-on
-      (remove-hook 'pre-command-hook #'hl-sexp-unhighlight))))
+;(after-load 'hl-sexp
+;  (defadvice hl-sexp-mode (after unflicker (&optional turn-on) activate)
+;    (when turn-on
+;      (remove-hook 'pre-command-hook #'hl-sexp-unhighlight))))
 
 
 

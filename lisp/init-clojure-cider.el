@@ -10,7 +10,7 @@
 
 (use-package cider)
 
-(require 'cider-interaction)
+;(require 'cider-interaction) ;; wasn't loading
 (require 'cider-client)
 (require 'cider-test)
 (require 'cider-eldoc)

@@ -8,10 +8,8 @@
 (require-package 'cljsbuild-mode)
 (require-package 'elein)
 (require-package 'clj-refactor)
-(require-package 'clojure-cheatsheet)
 
 
-(require 'clojure-cheatsheet)
 ;;;;;;;;;;;;;;;;;;;;
 ;;;; NEW try these
 ;;;;;;;;;;;;;;;;;;;

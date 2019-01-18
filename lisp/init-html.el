@@ -1,8 +1,8 @@
 ;; Copied from Purcell
 ;; IDK this file
 
-(require-package 'tidy)
-(add-hook 'html-mode-hook (lambda () (tidy-build-menu html-mode-map)))
+;(require-package 'tidy) ;; wasn't loading
+;(add-hook 'html-mode-hook (lambda () (tidy-build-menu html-mode-map)))
 
 (require-package 'tagedit)
 (after-load 'sgml-mode

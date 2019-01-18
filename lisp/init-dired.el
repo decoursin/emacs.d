@@ -3,8 +3,8 @@
 ;; Read this about dired (with evil): http://nathantypanski.com/blog/2014-08-03-a-vim-like-emacs-config.html
 ;; more dired learning material: http://sachachua.com/blog/2014/04/emacs-drawings-dired-moving-around/
 
-(require-package 'dired+)
-(require-package 'dired-sort)
+;(require-package 'dired+) ;; can't find dired+ :(
+;(require-package 'dired-sort) ;; can't find dired-sort
 
 (setq-default diredp-hide-details-initially-flag nil
               dired-dwim-target t)
@@ -14,8 +14,8 @@
   (when gls (setq insert-directory-program gls)))
 
 (after-load 'dired
-  (require 'dired+)
-  (require 'dired-sort)
+  ;(require 'dired+)
+  ;(require 'dired-sort)
   (when (fboundp 'global-dired-hide-details-mode)
     (global-dired-hide-details-mode -1))
   (setq dired-recursive-deletes 'top)
