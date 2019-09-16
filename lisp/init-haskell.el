@@ -5,7 +5,7 @@
 
 ;; Use intero for completion and flycheck
 
-(when (maybe-require-package 'intero)
+(when (require-package 'intero)
   (after-load 'haskell-mode
     (intero-global-mode)
     (add-hook 'haskell-mode-hook 'eldoc-mode))

@@ -1,5 +1,9 @@
 ;; Mostly, by Nick DeCoursin :)
 
+;; useful links:
+;; evaluating expressions: https://www.emacswiki.org/emacs/EvaluatingExpressions
+;; 'eval-last-sexp' and 'eval-expression'
+;; ,ee - eval expression
 
 ;; Added by Package.el.  This must come before configurations of
 ;; installed packages.  Don't delete this line.  If you don't want it,
@@ -505,8 +509,9 @@ this doesn't work yet Nick"
 (evil-leader/set-key "ed" 'eval-defun)
 (evil-leader/set-key "eb" 'eval-buffer)
 ;; (evil-leader/set-key "ep" 'eval-defun); (deprecated) ep eval-defun-at-point
-(evil-leader/set-key "ee" 'eval-epression)
+(evil-leader/set-key "ee" 'pp-eval-expression)
 (evil-leader/set-key "er" 'eval-region)
+(evil-leader/set-key "eR" 'ielm)
 (evil-leader/set-key "es" 'eval-last-sexp)
 
 (evil-leader/set-key "ff" 'helm-find-files);
@@ -549,6 +554,8 @@ this doesn't work yet Nick"
 (evil-leader/set-key "hk" 'describe-key)
 (evil-leader/set-key "hK" 'find-function-on-key); quickly find source by keymap
 (evil-leader/set-key "hm" 'describe-mode)
+;; there's also (current-local-map) that can be userful
+(evil-leader/set-key "hM" 'describe-keymap)
 (evil-leader/set-key "hp" 'describe-package)
 (evil-leader/set-key "hv" 'describe-variable)
 (evil-leader/set-key "hz" 'zeal-at-point)
@@ -734,8 +741,9 @@ this doesn't work yet Nick"
 
 ;;;;;;;;;;;;;;;; END of mappings
 
-;; Where did this come from?
-;; And what does it do?
+;; taken from here: https://stackoverflow.com/questions/8483182/evil-mode-best-practice/8590258.
+;; But I can't seem to get it to work according to how I understand it's suppose to work.
+
 ;(defun evil-emacs-key-binding (key)
 ;  (evil-execute-in-emacs-state)
 ;  (key-binding key))

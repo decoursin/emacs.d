@@ -19,20 +19,6 @@
 (require-package 'evil-anzu)
 (require-package 'evil-nerd-commenter); jcf used comment-dwim he says instead of nc
 
-
-;; TODO: copied from jcf
-;; think about adding this stuff instead of that other thing:
-;Use escape to quit everywhere
-;;; Use escape to quit, and not as a meta-key.
-;(define-key evil-normal-state-map [escape] 'keyboard-quit)
-;(define-key evil-visual-state-map [escape] 'keyboard-quit)
-;(define-key minibuffer-local-map [escape] 'minibuffer-keyboard-quit)
-;(define-key minibuffer-local-ns-map [escape] 'minibuffer-keyboard-quit)
-;(define-key minibuffer-local-completion-map [escape] 'minibuffer-keyboard-quit)
-;(define-key minibuffer-local-must-match-map [escape] 'minibuffer-keyboard-quit)
-;(define-key minibuffer-local-isearch-map [escape] 'minibuffer-keyboard-quit)
-
-
 ;;;visual-star
 (global-evil-visualstar-mode)
 (setq-default evil-symbol-word-search t);# search for symbol not word

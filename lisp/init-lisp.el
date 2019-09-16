@@ -25,6 +25,7 @@
       (eval-region (min (point) (mark)) (max (point) (mark)))
     (pp-eval-last-sexp prefix)))
 
+;; pp-eval-expression to make 'eval-expression pretty-print.
 (global-set-key (kbd "M-:") 'pp-eval-expression)
 
 ;(after-load 'lisp-mode
