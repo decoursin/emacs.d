@@ -121,6 +121,7 @@
 ;; Lisp
 ;(require 'init-paredit);gross
 (require 'init-lisp);untested
+(require 'init-racket)
 (require 'init-corral)
 (require 'init-adjust-parens)
 (require 'init-smartparens)
@@ -554,7 +555,6 @@ this doesn't work yet Nick"
 (evil-leader/set-key "hk" 'describe-key)
 (evil-leader/set-key "hK" 'find-function-on-key); quickly find source by keymap
 (evil-leader/set-key "hm" 'describe-mode)
-;; there's also (current-local-map) that can be userful
 (evil-leader/set-key "hM" 'describe-keymap)
 (evil-leader/set-key "hp" 'describe-package)
 (evil-leader/set-key "hv" 'describe-variable)
