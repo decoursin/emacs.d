@@ -98,9 +98,18 @@
         ))
 
 (defun sql-postgres-default-nick ()
+;; hmmm...
+;; https://stackoverflow.com/questions/26677909/emacs-sql-mode-postgresql-and-inputing-password
+;; http://emacsredux.com/blog/2013/06/13/using-emacs-as-a-database-client/
+;; https://blog.rackspace.com/an-introduction-to-emacs-sqli-mode
+;; http://ergoemacs.org/emacs/emacs_env_var_paths.html
   (interactive)
   (my-sql-connect 'postgres 'postgres-default))
 
+(defun sql-postgres-panono-api-panotech-nick ()
+  (interactive)
+  (setenv "PGPASSWORD" "rse2eFP7Z8Xk8gu")
+  (my-sql-connect 'postgres 'panotech))
 
 (defun sql-set-sqli-buffer-nick ()
   "This is a copy of *sql-set-sqli-buffer* but not interactive."
