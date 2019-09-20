@@ -141,6 +141,7 @@
 (when *is-linux*
   (require 'init-zeal))
 ;other packages
+(require 'help-fns+)
 (require-package 'graphviz-dot-mode)
 (require-package 'regex-tool); what is this?
 
@@ -738,6 +739,12 @@ this doesn't work yet Nick"
   "r <up>" 'cljr--move-param-up ; maybe S-<up> instead?
   "r <down>" 'cljr--move-param-down)
 
+
+(evil-leader/set-key-for-mode 'racket-mode
+  "er" 'racket-send-region
+  "ed" 'racket-send-definition
+  "eb" 'racket-run
+  )
 
 ;;;;;;;;;;;;;;;; END of mappings
 
