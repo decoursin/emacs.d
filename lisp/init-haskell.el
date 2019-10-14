@@ -1,22 +1,29 @@
 ;; Copied from Purcell
 
 (require-package 'haskell-mode)
+(require-package 'company-ghci)
+(require-package 'company-ghc)
+(require-package 'hindent)
+
+(add-hook 'haskell-mode-hook #'hindent-mode)
+
+;; (setq haskell-enable-hindent-style "fundamental")
 
 
 ;; Use intero for completion and flycheck
 
-(when (require-package 'intero)
-  (after-load 'haskell-mode
-    (intero-global-mode)
-    (add-hook 'haskell-mode-hook 'eldoc-mode))
-  (after-load 'haskell-cabal
-    (define-key haskell-cabal-mode-map (kbd "C-c C-l") 'intero-restart))
-  (after-load 'intero
-    ;; Don't clobber sanityinc/counsel-search-project binding
-    (define-key intero-mode-map (kbd "M-?") nil)
-    (after-load 'flycheck
-      (flycheck-add-next-checker 'intero
-                                 '(warning . haskell-hlint)))))
+;; (when (require-package 'intero)
+;;   (after-load 'haskell-mode
+;;     (intero-global-mode)
+;;     (add-hook 'haskell-mode-hook 'eldoc-mode))
+;;   (after-load 'haskell-cabal
+;;     (define-key haskell-cabal-mode-map (kbd "C-c C-l") 'intero-restart))
+;;   (after-load 'intero
+;;     ;; Don't clobber sanityinc/counsel-search-project binding
+;;     (define-key intero-mode-map (kbd "M-?") nil)
+;;     (after-load 'flycheck
+;;       (flycheck-add-next-checker 'intero
+;;                                  '(warning . haskell-hlint)))))
 
 
 (add-auto-mode 'haskell-mode "\\.ghci\\'")

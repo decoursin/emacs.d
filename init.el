@@ -743,7 +743,11 @@ this doesn't work yet Nick"
 (evil-leader/set-key-for-mode 'racket-mode
   "er" 'racket-send-region
   "ed" 'racket-send-definition
-  "eb" 'racket-run
+  "eb" 'racket-run)
+
+(evil-leader/set-key-for-mode 'haskell-mode
+  "fr" 'hindent-reformat-region
+  "fb" 'hindent-reformat-buffer
   )
 
 (evil-leader/set-key-for-mode 'ess-r-mode "er" 'ess-eval-region-or-function-or-paragraph)

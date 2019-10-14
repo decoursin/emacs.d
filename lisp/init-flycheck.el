@@ -5,6 +5,7 @@
 (use-package flycheck :ensure t)
 (use-package flycheck-joker :ensure t)
 (use-package flycheck-clojure)
+;; (use-package flycheck-haskell)
 (use-package flycheck-pos-tip)
 (use-package flycheck-tip)
 (use-package flycheck-flow)
