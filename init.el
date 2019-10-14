@@ -746,6 +746,8 @@ this doesn't work yet Nick"
   "eb" 'racket-run
   )
 
+(evil-leader/set-key-for-mode 'ess-r-mode "er" 'ess-eval-region-or-function-or-paragraph)
+
 ;;;;;;;;;;;;;;;; END of mappings
 
 ;; taken from here: https://stackoverflow.com/questions/8483182/evil-mode-best-practice/8590258.

@@ -2,6 +2,19 @@
 
 (require 'ess-site)
 (require 'ess-help)
+;;; ess-view doesn't work correctly for some reason.
+;; (require-package 'ess-view)
+
+
+;;; To connect to Postgres: https://www.datacareer.de/blog/connect-to-postgresql-with-r-a-step-by-step-example/
+;; install.packages('RPostgres')
+;; library(DBI)
+;; db <- 'api'  #provide the name of your db
+;; host_db <- '' #i.e. # i.e. 'ec2-54-83-201-96.compute-1.amazonaws.com'
+;; db_port <- '5432'  # or any other port specified by the DBA
+;; db_user <- ''
+;; db_password <- ''
+;; con <- dbConnect(RPostgres::Postgres(), dbname = db, host=host_db, port=db_port, user=db_user, password=db_password)
 
 ;; (require 'ess-smart-underscore)
 
@@ -27,7 +40,14 @@
 ;; No more _ to <-
 (ess-toggle-underscore nil)
 
+;; Oh, and if you haven't already, go ahead and set ess-eval-visibly to 'nowait. That way ESS/R doesn't hog Emacs while it's thinking. That really should be the default behavior, I've no idea why it's not. https://www.reddit.com/r/emacs/comments/8gr6jt/looking_for_tips_from_r_coders_who_use_ess/
+(setq ess-eval-visibly 'nowait)
+
 ;; no more fancy comments
 (setq ess-fancy-comments nil)
+
+(add-hook 'inferior-ess-mode-hook
+          '(lambda ()
+             (local-set-key (kbd "C-w") 'evil-window-map)))
 
 (provide 'init-ess)
