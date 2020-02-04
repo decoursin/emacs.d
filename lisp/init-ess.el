@@ -1,10 +1,15 @@
 ;; nick - WIP
 
-(require 'ess-site)
-(require 'ess-help)
+(require-package 'ess)
+;; (require-package 'ess-smart-underscore)
+;; (require-package 'ess-site)
+;; (require-package 'ess-help)
 ;;; ess-view doesn't work correctly for some reason.
-;; (require-package 'ess-view)
+(require-package 'ess-view)
 
+;;;;; Directions
+;; 1) Install 'ess`: `apt-get insatll ess'
+;; 2) uncomment `(require 'init-ess)` from init.el
 
 ;;; To connect to Postgres: https://www.datacareer.de/blog/connect-to-postgresql-with-r-a-step-by-step-example/
 ;; install.packages('RPostgres')
