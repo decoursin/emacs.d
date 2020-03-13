@@ -116,6 +116,7 @@
 ;(require 'init-rails)
 (require 'init-sql)
 (require 'init-go)
+(require 'init-c++)
 
 
 ;; Lisp
