@@ -8,9 +8,22 @@
 ;; (require 'cc-mode)
 (require-package 'cc-mode)
 
+;;
 ;; you'll have to install gtags for this to work
 ;; which is under the *global* package for some reason.
 ;; sudo apt install global
+;;
+;; Then, 1) open up a c++ file anywhere in the source directory.
+;; 2) M-x ggtags-mode
+;; 3) M-x ggtags-create-tags (choose directory to index)
+;; 4) optionally choose ctags as backend (I believe it's faster for large projects)
+;;
+;; Installing ctags:
+;; 1) clone https://github.com/universal-ctags/ctags
+;; 2) follow directions here: https://github.com/universal-ctags/ctags/blob/master/docs/autotools.rst
+;;    - NOTE: before running `./autogen.sh` you'll need to sudo apt install autotools-dev automake
+;;
+
 (require-package 'ggtags)
 (require-package 'helm-cscope)
 (require-package 'helm-gtags)
