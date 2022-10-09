@@ -7,7 +7,7 @@
 ;; TODO: learn other tricks: http://postgres.cz/wiki/PostgreSQL_SQL_Tricks_III
 
 (require-package 'sql-indent)
-(require-package 'company-edbi)
+(require-package 'edbi)
 (after-load 'sql
   (require 'sql-indent))
 
