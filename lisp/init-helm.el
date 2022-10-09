@@ -9,9 +9,10 @@
 ;; (setq helm-mode-reverse-history nil)
 
 ;; What does this do?
-(eval-after-load "helm-regexp"
-  '(setq helm-source-moccur
-    (helm-make-source "Moccur" 'helm-source-multi-occur :follow 1)))
+;; I had to comment this out because it was causing an error in 28.1
+;;(eval-after-load "helm-regexp"
+;;  '(setq helm-source-moccur
+;;    (helm-make-source "Moccur" 'helm-source-multi-occur :follow 1)))
 
 ;; (source: http://stackoverflow.com/q/14726601)
 (defun helm-multi-occur-all-buffers ()

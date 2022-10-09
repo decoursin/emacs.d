@@ -15,7 +15,7 @@
 (require 'cider-test)
 (require 'cider-eldoc)
 (require 'cider-doc)
-(require 'cider-compat)
+;;(require 'cider-compat) ;; wasn't loading
 (require 'cider-resolve)
 
 ;; (require-package 'cider-eval-sexp-fu); Nick added
