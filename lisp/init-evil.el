@@ -19,6 +19,14 @@
 (require-package 'evil-anzu)
 (require-package 'evil-nerd-commenter); jcf used comment-dwim he says instead of nc
 
+;;;;; evil-collection stuff
+(require-package 'evil-collection)
+(setq evil-want-keybinding nil)
+
+(setq evil-collection-mode-list '(magit))
+(when (require 'evil-collection nil t)
+  (evil-collection-init))
+
 ;;;visual-star
 (global-evil-visualstar-mode)
 (setq-default evil-symbol-word-search t);# search for symbol not word
@@ -31,6 +39,9 @@
 	;;; jump
 	;(global-evil-jumper-mode)
 )
+(require 'evil)
+(require 'evil-collection)
+
 ;;; leader
 ; Must enable global-evil-leader-mode before evil-mode
 (require 'evil-leader) ;; shouldn't need this but do.

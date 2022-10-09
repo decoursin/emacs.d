@@ -2,14 +2,16 @@
 ; https://melpa.org/#/evil-magit
 
 (require-package 'magit)
-(require-package 'evil-magit)
 
 (require 'magit)
-(require 'evil-magit)
+(require 'evil-collection-magit)
 (require 'fullframe)
 
 (add-hook 'magit-mode-hook 'evil-local-mode)
 (add-hook 'git-rebase-mode-hook 'evil-local-mode)
+
+(setq evil-collection-magit-state 'normal)
+(evil-collection-init)
 
 (after-load 'magit
   (fullframe magit-status
