@@ -144,6 +144,8 @@
 (setq evil-insert-state-cursor '("green" bar)); ⎸
 (setq evil-emacs-state-cursor '("blue" hbar)); _
 
+(evil-set-undo-system 'undo-tree)
+
 ;; deprecated
 ;(defun copy-to-clipboard ()
 ;  (interactive)
