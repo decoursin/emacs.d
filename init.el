@@ -448,6 +448,7 @@ this doesn't work yet Nick"
 ;; buffers and tabs
 ;(evil-leader/set-key "b" 'ibuffer);
 ;; (evil-leader/set-key "b" 'helm-buffers-list);
+(evil-leader/set-key "sql" 'decoursin/pop-to-sqli-buffer)
 (evil-leader/set-key "." 'helm-buffers-list);
 (evil-leader/set-key ",." 'helm-browse-project);
 (evil-leader/set-key "tn" 'elscreen-create); ,tn tabnew

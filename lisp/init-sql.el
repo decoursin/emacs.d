@@ -11,16 +11,49 @@
 (after-load 'sql
   (require 'sql-indent))
 
-(defun sanityinc/pop-to-sqli-buffer ()
-  "Switch to the corresponding sqli buffer."
+(defun decoursin/pop-to-sqli-buffer-and-back ()
+  "Switch to the corresponding sqli buffer, go to the end, then return back."
   (interactive)
-  (if sql-buffer
-      (progn
-        (pop-to-buffer sql-buffer)
-        (goto-char (point-max)))
-    (sql-set-sqli-buffer)
-    (when sql-buffer
-      (sanityinc/pop-to-sqli-buffer))))
+  (let ((current-buffer (window-buffer)))
+    (if sql-buffer
+        (progn
+          (pop-to-buffer sql-buffer)
+          (goto-char (point-max))
+          (pop-to-buffer current-buffer))
+      (sql-set-sqli-buffer)
+      (when sql-buffer
+        (decoursin/pop-to-sqli-buffer-and-back)))))
+
+(defun decoursin/pop-to-sqli-buffer ()
+  "Switch to the corresponding sqli buffer, go to the end."
+  (interactive)
+    (if sql-buffer
+        (progn
+          (pop-to-buffer sql-buffer)
+          (goto-char (point-max)))
+      (sql-set-sqli-buffer)
+      (when sql-buffer
+        (decoursin/pop-to-sqli-buffer))))
+
+(defun decoursin/sql-send-paragraph ()
+  "Send the current paragraph to the SQL process."
+  (interactive)
+  (let ((start (save-excursion
+		 (backward-paragraph)
+		 (point)))
+	(end (save-excursion
+	       (forward-paragraph)
+	       (point))))
+    (progn
+      (decoursin/pop-to-sqli-buffer-and-back)
+      (sql-send-region start end))))
+
+(defun decoursin/sql-send-region (start end)
+  "Send a region to the SQL process."
+  (interactive "r")
+  (progn
+    (decoursin/pop-to-sqli-buffer-and-back)
+    (sql-send-string (buffer-substring-no-properties start end))))
 
 (setq sql-port 5432)
 
@@ -58,8 +91,10 @@
             (setq-local ac-ignore-case t)))
 
 (after-load 'sql
-  (define-key sql-mode-map (kbd "C-c C-z") 'sanityinc/pop-to-sqli-buffer)
-  ;; (define-key sql-mode-map (kbd "C-c C-z") 'sanityinc/pop-to-sqli-buffer)
+  ;; also see init.el for a mapping of ",sql" to decoursin/sql-
+  (define-key sql-mode-map (kbd "C-c C-r") 'decoursin/sql-send-region) ;; this one doesn't work!
+  (define-key sql-mode-map (kbd "C-c C-c") 'decoursin/sql-send-paragraph)
+  ;; (define-key sql-mode-map (kbd "C-c C-z") 'decoursin/pop-to-sqli-buffer)
 ;;; Nick, do I want this `sanityinc/never-indent?
   ;;  (add-hook 'sql-interactive-mode-hook 'sanityinc/never-indent)
   (when (package-installed-p 'dash-at-point)
@@ -134,9 +169,17 @@
                                             ".sql"))))
     (select-window (previous-window))
     (switch-to-buffer buffer)
+    (set (make-local-variable 'window-point-insertion-type) t)
     (sql-set-product "postgres")
     (sql-set-sqli-buffer-nick))
   )
 
+
+;; PostgreSQL databases with underscores in their names trip up the prompt specified in sql.el. I work around this with the following. Warning, this sets the prompt globally, which is fine by me since I only ever use Postgres.
+(add-hook 'sql-interactive-mode-hook
+          (lambda ()
+            (set (make-local-variable 'window-point-insertion-type) t)
+            (setq sql-prompt-regexp "^.*[=][#>] ")
+             (setq sql-prompt-cont-regexp "^[_[:alpha:]]*[-][#>] ")))
 
 (provide 'init-sql)
