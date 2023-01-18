@@ -8,7 +8,7 @@
 (require 'fullframe)
 
 (add-hook 'magit-mode-hook 'evil-local-mode)
-(add-hook 'git-rebase-mode-hook 'evil-local-mode)
+;(add-hook 'git-rebase-mode-hook 'evil-local-mode)
 
 (setq evil-collection-magit-state 'normal)
 (evil-collection-init)

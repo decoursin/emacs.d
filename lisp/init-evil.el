@@ -129,12 +129,12 @@
 (global-evil-tabs-mode t)
 (elscreen-start)
 ;;; surround
-(global-evil-surround-mode 1)
+;(global-evil-surround-mode 1)
 ; `s' for surround instead of `substitute'
-(evil-define-key 'visual evil-surround-mode-map "s" 'evil-surround-region)
-(evil-define-key 'normal evil-surround-mode-map "s" 'evil-surround-region)
-(evil-define-key 'visual evil-surround-mode-map "S" 'evil-substitute)
-(evil-define-key 'normal evil-surround-mode-map "S" 'evil-substitute)
+;(evil-define-key 'visual evil-surround-mode-map "s" 'evil-surround-region)
+;(evil-define-key 'normal evil-surround-mode-map "s" 'evil-surround-region)
+;(evil-define-key 'visual evil-surround-mode-map "S" 'evil-substitute)
+;s(evil-define-key 'normal evil-surround-mode-map "S" 'evil-substitute)
 ;;; anzu
 (after-load 'evil
   (require 'evil-anzu))
